@@ -16,7 +16,7 @@ A 2D tile-based role-playing game built with `pygame` and powered by AI-controll
 
 ```bash
 # Install dependencies
-poetry install
+make install
 
 # Run the game
 poetry run python flatland/main.py
