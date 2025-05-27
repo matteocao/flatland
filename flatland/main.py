@@ -1,5 +1,7 @@
 import pygame
+
 from .world.world import GameWorld
+
 
 def main():
     pygame.init()
@@ -23,6 +25,7 @@ def main():
         clock.tick(10)
 
     pygame.quit()
+
 
 if __name__ == "__main__":
     main()

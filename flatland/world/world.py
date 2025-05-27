@@ -1,13 +1,20 @@
+from typing import TYPE_CHECKING
+
 import pygame
-from ..registry import registry
-from ..objects.objects import Player, Stone, Animal, NPC
+
 from ..moderator import InteractionModerator
+from ..objects.objects import NPC, Animal, Player, Stone
+from ..registry import registry
 from ..tilemap import TileMap
+
+if TYPE_CHECKING:
+    from ..objects.objects import GameObject
+
 
 class GameWorld:
     def __init__(self, screen: pygame.Surface):
         self.screen = screen
-        self.objects = []
+        self.objects: list["GameObject"] = []
         self.width = screen.get_width() // 32
         self.height = screen.get_height() // 32
         self.interactions = InteractionModerator()

@@ -1,5 +1,7 @@
 from typing import List
-from .objects.objects import GameObject, Stone, Animal
+
+from .objects.objects import Animal, GameObject, Stone
+
 
 class InteractionModerator:
     def resolve(self, objects: List[GameObject], world):
@@ -14,6 +16,8 @@ class InteractionModerator:
                 for other in objects:
                     if other is not obj and obj.x == other.x and obj.y == other.y:
                         if isinstance(other, Animal):
-                            print(f"{type(obj).__name__} hit {type(other).__name__}, causing damage!")
+                            print(
+                                f"{type(obj).__name__} hit {type(other).__name__}, causing damage!"
+                            )
                             other.health -= 1
                         obj.moving = False

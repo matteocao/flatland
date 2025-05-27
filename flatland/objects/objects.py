@@ -1,9 +1,12 @@
-import pygame
 import random
 from abc import ABC, abstractmethod
+
+import pygame
+
 from ..registry import registry
 
 TILE_SIZE = 32
+
 
 class GameObject(ABC):
     def __init__(self, x: int, y: int):
@@ -21,6 +24,7 @@ class GameObject(ABC):
     def interact(self, other, world):
         pass
 
+
 @registry.auto_register("characters")
 class Player(GameObject):
     def __init__(self, x: int, y: int):
@@ -29,10 +33,14 @@ class Player(GameObject):
 
     def handle_input(self, keys, max_x, max_y, objects):
         dx = dy = 0
-        if keys[pygame.K_UP]: dy = -1
-        elif keys[pygame.K_DOWN]: dy = 1
-        elif keys[pygame.K_LEFT]: dx = -1
-        elif keys[pygame.K_RIGHT]: dx = 1
+        if keys[pygame.K_UP]:
+            dy = -1
+        elif keys[pygame.K_DOWN]:
+            dy = 1
+        elif keys[pygame.K_LEFT]:
+            dx = -1
+        elif keys[pygame.K_RIGHT]:
+            dx = 1
 
         new_x = (self.x + dx) % max_x
         new_y = (self.y + dy) % max_y
@@ -55,12 +63,15 @@ class Player(GameObject):
         pass
 
     def render(self, screen):
-        pygame.draw.rect(screen, self.color, pygame.Rect(
-            self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE
-        ))
+        pygame.draw.rect(
+            screen,
+            self.color,
+            pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE),
+        )
 
     def interact(self, other, world):
         print(f"Player interacts with {type(other).__name__}")
+
 
 @registry.auto_register("inanimate")
 class Stone(GameObject):
@@ -73,9 +84,12 @@ class Stone(GameObject):
         pass
 
     def render(self, screen):
-        pygame.draw.rect(screen, self.color, pygame.Rect(
-            self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE
-        ))
+        pygame.draw.rect(
+            screen,
+            self.color,
+            pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE),
+        )
+
 
 @registry.auto_register("animals")
 class Animal(GameObject):
@@ -102,24 +116,30 @@ class Animal(GameObject):
             self._random_move(world)
 
     def render(self, screen):
-        pygame.draw.rect(screen, self.color, pygame.Rect(
-            self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE
-        ))
+        pygame.draw.rect(
+            screen,
+            self.color,
+            pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE),
+        )
 
     def _see_player(self, world):
         for obj in world.objects:
             if isinstance(obj, Player):
-                if abs(obj.x - self.x) <= self.vision_range and abs(obj.y - self.y) <= self.vision_range:
+                if (
+                    abs(obj.x - self.x) <= self.vision_range
+                    and abs(obj.y - self.y) <= self.vision_range
+                ):
                     return obj
         return None
 
     def _random_move(self, world):
-        direction = random.choice([(1,0), (-1,0), (0,1), (0,-1), (0,0)])
+        direction = random.choice([(1, 0), (-1, 0), (0, 1), (0, -1), (0, 0)])
         self.x = (self.x + direction[0]) % world.width
         self.y = (self.y + direction[1]) % world.height
 
     def interact(self, other, world):
         print(f"Animal interacts with {type(other).__name__}")
+
 
 @registry.auto_register("npcs")
 class NPC(GameObject):
@@ -133,9 +153,11 @@ class NPC(GameObject):
             self.y = (self.y + random.choice([-1, 0, 1])) % world.height
 
     def render(self, screen):
-        pygame.draw.rect(screen, self.color, pygame.Rect(
-            self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE
-        ))
+        pygame.draw.rect(
+            screen,
+            self.color,
+            pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE),
+        )
 
     def interact(self, other, world):
         print(f"NPC interacts with {type(other).__name__}")

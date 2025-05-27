@@ -2,7 +2,7 @@ class LLMNPCBrain:
     def __init__(self, name: str, personality: str):
         self.name = name
         self.personality = personality
-        self.memory = []
+        self.memory: list[str] = []
 
     def observe(self, event: str):
         self.memory.append(event)
