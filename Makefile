@@ -1,3 +1,6 @@
+install:
+	poetry install --with dev
+
 test:
 	poetry run black .
 	poetry run isort .
