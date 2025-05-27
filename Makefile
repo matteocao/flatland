@@ -6,3 +6,6 @@ test:
 	poetry run isort .
 	poetry run mypy .
 	poetry run pytest .
+
+run:
+	poetry run python3 -m flatland.main

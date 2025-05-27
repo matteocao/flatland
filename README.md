@@ -19,7 +19,7 @@ A 2D tile-based role-playing game built with `pygame` and powered by AI-controll
 make install
 
 # Run the game
-python3 -m flatland.main
+make run
 
 # Run tests
 make test
