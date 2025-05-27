@@ -1,8 +1,8 @@
 import pygame
-from registry import registry
-from objects import Player, Stone, Animal, NPC
-from moderator import InteractionModerator
-from tilemap import TileMap
+from ..registry import registry
+from ..objects.objects import Player, Stone, Animal, NPC
+from ..moderator import InteractionModerator
+from ..tilemap import TileMap
 
 class GameWorld:
     def __init__(self, screen: pygame.Surface):

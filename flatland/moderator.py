@@ -1,5 +1,5 @@
 from typing import List
-from objects import GameObject, Stone, Animal
+from .objects.objects import GameObject, Stone, Animal
 
 class InteractionModerator:
     def resolve(self, objects: List[GameObject], world):

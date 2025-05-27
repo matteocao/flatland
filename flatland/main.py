@@ -1,5 +1,5 @@
 import pygame
-from world import GameWorld
+from .world.world import GameWorld
 
 def main():
     pygame.init()

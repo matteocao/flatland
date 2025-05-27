@@ -1,7 +1,7 @@
 import pygame
 import random
 from abc import ABC, abstractmethod
-from registry import registry
+from ..registry import registry
 
 TILE_SIZE = 32
 
