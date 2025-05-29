@@ -24,3 +24,7 @@ make run
 # Run tests
 make test
 ```
+
+## Documentation
+
+You can find the online documentation [here](https://matteocao.github.io/flatland/flatland.html).
