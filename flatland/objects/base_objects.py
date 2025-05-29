@@ -18,8 +18,13 @@ class GameObject(ABC):
         self.name = name
         self.health = health
 
+    @abstractmethod
     def update(self, event: Any):
-        print(f"{self.name} received event: {event}")
+        pass
+
+    @abstractmethod
+    def prepare(self, event: Any):
+        pass
 
     @abstractmethod
     def render(self, screen: pygame.Surface):
@@ -48,7 +53,10 @@ class BaseAnimal(GameObject):
             pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE),
         )
 
-    def update(self):
+    def prepare(self, event: Any):
+        pass
+
+    def update(self, event: Any):
         pass
 
 
@@ -65,12 +73,15 @@ class BaseNPC(BaseAnimal):
         super().__init__(x, y, name, health, vision_range, hearing_range)
         self.color = (0, 0, 255)
 
-    def update(self):
-        pass
-
     def render(self, screen):
         pygame.draw.rect(
             screen,
             self.color,
             pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE),
         )
+
+    def prepare(self, event: Any):
+        pass
+
+    def update(self, event: Any):
+        pass

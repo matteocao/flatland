@@ -24,7 +24,7 @@ class World:
 
     def __init__(self):
         if not hasattr(self, "_observers"):
-            self._observers = []
+            self._observers: list["GameObject"] = []
 
     def register(self, obj: "GameObject"):
         if obj not in self._observers:
@@ -34,13 +34,17 @@ class World:
         if obj in self._observers:
             self._observers.remove(obj)
 
-    def prepare(self) -> None:
+    def update(self, event) -> None:
         for observer in self._observers:
-            observer.prepare()
+            observer.update(event)
 
-    def update(self) -> None:
-        for observer in self._observers:
-            observer.update()
+    def prepare(self, keys) -> None:
+        for obj in self._observers:
+            obj.prepare(keys)
+
+    def render(self, screen) -> None:
+        for obj in self._observers:
+            obj.render(screen)
 
 
 world = World()

@@ -1,1 +1,3 @@
 TILE_SIZE = 32
+MAX_X = 800
+MAX_Y = 600

@@ -3,7 +3,7 @@ from typing import Any
 import pygame
 
 from ..actions.actions import MovementMixin, SpeechMixin
-from ..consts import TILE_SIZE
+from ..consts import MAX_X, MAX_Y, TILE_SIZE
 from ..interactions.interactions import ContactInteractionMixin
 from ..internal_representation.internal_state import InternalState
 from .base_objects import BaseAnimal, BaseNPC, GameObject
@@ -22,7 +22,10 @@ class Stone(ContactInteractionMixin, GameObject):
             self.health -= 2
             print(f"{self.name} chips! Durability: {self.health}")
 
-    def update(self):
+    def update(self, event):
+        pass
+
+    def prepare(self, event):
         pass
 
     def render(self, screen):
@@ -45,7 +48,10 @@ class Sword(ContactInteractionMixin, GameObject):
             self.health -= 3
             print(f"{self.name} dulls! Sharpness: {self.health}")
 
-    def update(self):
+    def update(self, event):
+        pass
+
+    def prepare(self, event):
         pass
 
     def render(self, screen):
@@ -57,9 +63,18 @@ class Sword(ContactInteractionMixin, GameObject):
 
 
 @registry.register
-class Man(ContactInteractionMixin, GameObject, MovementMixin, SpeechMixin):
-    def __init__(self, x: int, y: int, name: str, health: int, **kwargs: Any):
-        super().__init__(x, y, name, health)
+class Man(ContactInteractionMixin, BaseNPC, MovementMixin, SpeechMixin):
+    def __init__(
+        self,
+        x: int,
+        y: int,
+        name: str,
+        health: int,
+        vision_range: int,
+        hearing_range: int,
+        **kwargs: Any,
+    ):
+        super().__init__(x, y, name, health, vision_range, hearing_range)
         self.color = (128, 0, 0)
         self.moving = False
 
@@ -68,7 +83,10 @@ class Man(ContactInteractionMixin, GameObject, MovementMixin, SpeechMixin):
             self.health -= 3
             print(f"{self.name} dulls! Sharpness: {self.health}")
 
-    def update(self):
+    def update(self, event):
+        pass
+
+    def prepare(self, event):
         pass
 
     def render(self, screen):
@@ -96,12 +114,11 @@ class Cow(ContactInteractionMixin, BaseAnimal, MovementMixin, SpeechMixin):
         self.moving = False
         self.internal_state = InternalState(owner=self)
 
-    def update(self):
-        self.internal_state.update(world.objects)
-        for r in self.internal_state.latest_perception():
-            print(
-                f"Animal perceives {r.source_object.__class__.__name__} at dx={r.dx}, dy={r.dy}"
-            )
+    def update(self, event):
+        pass
+
+    def prepare(self, event):
+        pass
 
     def contact_effect(self, other):
         if isinstance(other, Stone):
@@ -122,7 +139,8 @@ class Player(GameObject):
         super().__init__(x, y, name, health)
         self.color = (0, 255, 0)
 
-    def handle_input(self, keys, max_x, max_y, objects):
+    def prepare(self, event: Any):
+        keys = event
         dx = dy = 0
         if keys[pygame.K_UP]:
             dy = -1
@@ -133,24 +151,10 @@ class Player(GameObject):
         elif keys[pygame.K_RIGHT]:
             dx = 1
 
-        new_x = (self.x + dx) % max_x
-        new_y = (self.y + dy) % max_y
+        self.new_x = (self.x + dx) % MAX_X
+        self.new_y = (self.y + dy) % MAX_Y
 
-        blocked = False
-        for obj in objects:
-            if obj.x == new_x and obj.y == new_y:
-                if isinstance(obj, Stone):
-                    obj.x = (obj.x + dx) % max_x
-                    obj.y = (obj.y + dy) % max_y
-                    obj.moving = True
-                else:
-                    blocked = True
-
-        if not blocked:
-            self.x = new_x
-            self.y = new_y
-
-    def update(self):
+    def update(self, event):
         pass
 
     def render(self, screen):

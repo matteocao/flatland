@@ -5,7 +5,11 @@ from ..objects.items_registry import registry
 from .world import world
 
 # Register objects
-for cls_name in registry.list_all():
+for (
+    cls_name
+) in (
+    registry.list_all()
+):  # TODO: this will create one instance per object, but this is not general
     rnd_name = "".join(
         random.choice(string.ascii_uppercase + string.digits) for _ in range(6)
     )
