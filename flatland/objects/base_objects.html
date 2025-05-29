@@ -52,6 +52,9 @@
                                 <a class="function" href="#GameObject.update">update</a>
                         </li>
                         <li>
+                                <a class="function" href="#GameObject.prepare">prepare</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#GameObject.render">render</a>
                         </li>
                 </ul>
@@ -76,6 +79,9 @@
                                 <a class="function" href="#BaseAnimal.render">render</a>
                         </li>
                         <li>
+                                <a class="function" href="#BaseAnimal.prepare">prepare</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#BaseAnimal.update">update</a>
                         </li>
                 </ul>
@@ -91,10 +97,13 @@
                                 <a class="variable" href="#BaseNPC.color">color</a>
                         </li>
                         <li>
-                                <a class="function" href="#BaseNPC.update">update</a>
+                                <a class="function" href="#BaseNPC.render">render</a>
                         </li>
                         <li>
-                                <a class="function" href="#BaseNPC.render">render</a>
+                                <a class="function" href="#BaseNPC.prepare">prepare</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#BaseNPC.update">update</a>
                         </li>
                 </ul>
 
@@ -140,62 +149,73 @@
 </span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 </span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">health</span> <span class="o">=</span> <span class="n">health</span>
 </span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> received event: </span><span class="si">{</span><span class="n">event</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>    <span class="nd">@abstractmethod</span>
-</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">):</span>
-</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>        <span class="k">pass</span>
-</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>
+</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>    <span class="nd">@abstractmethod</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>        <span class="k">pass</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>
+</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>    <span class="nd">@abstractmethod</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>        <span class="k">pass</span>
 </span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>
-</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a><span class="k">class</span><span class="w"> </span><span class="nc">BaseAnimal</span><span class="p">(</span><span class="n">GameObject</span><span class="p">):</span>
-</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>        <span class="bp">self</span><span class="p">,</span>
-</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>        <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>        <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>        <span class="n">health</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>        <span class="n">vision_range</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>        <span class="n">hearing_range</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>    <span class="p">):</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">)</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">vision_range</span> <span class="o">=</span> <span class="n">vision_range</span>
-</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">hearing_range</span> <span class="o">=</span> <span class="n">hearing_range</span>
-</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>
-</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
-</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>            <span class="n">screen</span><span class="p">,</span>
-</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>            <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">),</span>
-</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>        <span class="p">)</span>
-</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a>
-</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a>        <span class="k">pass</span>
-</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a>
-</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a>
-</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a><span class="k">class</span><span class="w"> </span><span class="nc">BaseNPC</span><span class="p">(</span><span class="n">BaseAnimal</span><span class="p">):</span>
-</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a>        <span class="bp">self</span><span class="p">,</span>
-</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>        <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a>        <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a>        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a>        <span class="n">health</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a>        <span class="n">vision_range</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a>        <span class="n">hearing_range</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a>    <span class="p">):</span>
-</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">,</span> <span class="n">vision_range</span><span class="p">,</span> <span class="n">hearing_range</span><span class="p">)</span>
-</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
-</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a>
-</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a>        <span class="k">pass</span>
-</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a>
-</span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
-</span><span id="L-72"><a href="#L-72"><span class="linenos">72</span></a>        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span>
-</span><span id="L-73"><a href="#L-73"><span class="linenos">73</span></a>            <span class="n">screen</span><span class="p">,</span>
-</span><span id="L-74"><a href="#L-74"><span class="linenos">74</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
-</span><span id="L-75"><a href="#L-75"><span class="linenos">75</span></a>            <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">),</span>
-</span><span id="L-76"><a href="#L-76"><span class="linenos">76</span></a>        <span class="p">)</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>    <span class="nd">@abstractmethod</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">):</span>
+</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>        <span class="k">pass</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a><span class="k">class</span><span class="w"> </span><span class="nc">BaseAnimal</span><span class="p">(</span><span class="n">GameObject</span><span class="p">):</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>        <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>        <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>        <span class="n">health</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>        <span class="n">vision_range</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>        <span class="n">hearing_range</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>    <span class="p">):</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">)</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">vision_range</span> <span class="o">=</span> <span class="n">vision_range</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">hearing_range</span> <span class="o">=</span> <span class="n">hearing_range</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>
+</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a>        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a>            <span class="n">screen</span><span class="p">,</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a>            <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">),</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a>        <span class="p">)</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a>
+</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a>        <span class="k">pass</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>
+</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a>        <span class="k">pass</span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a>
+</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a>
+</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a><span class="k">class</span><span class="w"> </span><span class="nc">BaseNPC</span><span class="p">(</span><span class="n">BaseAnimal</span><span class="p">):</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a>        <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a>        <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a>        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a>        <span class="n">health</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a>        <span class="n">vision_range</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a>        <span class="n">hearing_range</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="L-72"><a href="#L-72"><span class="linenos">72</span></a>    <span class="p">):</span>
+</span><span id="L-73"><a href="#L-73"><span class="linenos">73</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">,</span> <span class="n">vision_range</span><span class="p">,</span> <span class="n">hearing_range</span><span class="p">)</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos">74</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos">75</span></a>
+</span><span id="L-76"><a href="#L-76"><span class="linenos">76</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos">77</span></a>        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span>
+</span><span id="L-78"><a href="#L-78"><span class="linenos">78</span></a>            <span class="n">screen</span><span class="p">,</span>
+</span><span id="L-79"><a href="#L-79"><span class="linenos">79</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
+</span><span id="L-80"><a href="#L-80"><span class="linenos">80</span></a>            <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">),</span>
+</span><span id="L-81"><a href="#L-81"><span class="linenos">81</span></a>        <span class="p">)</span>
+</span><span id="L-82"><a href="#L-82"><span class="linenos">82</span></a>
+</span><span id="L-83"><a href="#L-83"><span class="linenos">83</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="L-84"><a href="#L-84"><span class="linenos">84</span></a>        <span class="k">pass</span>
+</span><span id="L-85"><a href="#L-85"><span class="linenos">85</span></a>
+</span><span id="L-86"><a href="#L-86"><span class="linenos">86</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="L-87"><a href="#L-87"><span class="linenos">87</span></a>        <span class="k">pass</span>
 </span></pre></div>
 
 
@@ -221,12 +241,17 @@
 </span><span id="GameObject-19"><a href="#GameObject-19"><span class="linenos">19</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 </span><span id="GameObject-20"><a href="#GameObject-20"><span class="linenos">20</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">health</span> <span class="o">=</span> <span class="n">health</span>
 </span><span id="GameObject-21"><a href="#GameObject-21"><span class="linenos">21</span></a>
-</span><span id="GameObject-22"><a href="#GameObject-22"><span class="linenos">22</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
-</span><span id="GameObject-23"><a href="#GameObject-23"><span class="linenos">23</span></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> received event: </span><span class="si">{</span><span class="n">event</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="GameObject-24"><a href="#GameObject-24"><span class="linenos">24</span></a>
-</span><span id="GameObject-25"><a href="#GameObject-25"><span class="linenos">25</span></a>    <span class="nd">@abstractmethod</span>
-</span><span id="GameObject-26"><a href="#GameObject-26"><span class="linenos">26</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">):</span>
-</span><span id="GameObject-27"><a href="#GameObject-27"><span class="linenos">27</span></a>        <span class="k">pass</span>
+</span><span id="GameObject-22"><a href="#GameObject-22"><span class="linenos">22</span></a>    <span class="nd">@abstractmethod</span>
+</span><span id="GameObject-23"><a href="#GameObject-23"><span class="linenos">23</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="GameObject-24"><a href="#GameObject-24"><span class="linenos">24</span></a>        <span class="k">pass</span>
+</span><span id="GameObject-25"><a href="#GameObject-25"><span class="linenos">25</span></a>
+</span><span id="GameObject-26"><a href="#GameObject-26"><span class="linenos">26</span></a>    <span class="nd">@abstractmethod</span>
+</span><span id="GameObject-27"><a href="#GameObject-27"><span class="linenos">27</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="GameObject-28"><a href="#GameObject-28"><span class="linenos">28</span></a>        <span class="k">pass</span>
+</span><span id="GameObject-29"><a href="#GameObject-29"><span class="linenos">29</span></a>
+</span><span id="GameObject-30"><a href="#GameObject-30"><span class="linenos">30</span></a>    <span class="nd">@abstractmethod</span>
+</span><span id="GameObject-31"><a href="#GameObject-31"><span class="linenos">31</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">):</span>
+</span><span id="GameObject-32"><a href="#GameObject-32"><span class="linenos">32</span></a>        <span class="k">pass</span>
 </span></pre></div>
 
 
@@ -308,7 +333,8 @@ inheritance.</p>
                             <div id="GameObject.update" class="classattr">
                                         <input id="GameObject.update-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
-            
+                    <div class="decorator decorator-abstractmethod">@abstractmethod</div>
+
         <span class="def">def</span>
         <span class="name">update</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">event</span><span class="p">:</span> <span class="n">Any</span></span><span class="return-annotation">):</span></span>
 
@@ -316,8 +342,30 @@ inheritance.</p>
 
     </div>
     <a class="headerlink" href="#GameObject.update"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="GameObject.update-22"><a href="#GameObject.update-22"><span class="linenos">22</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
-</span><span id="GameObject.update-23"><a href="#GameObject.update-23"><span class="linenos">23</span></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> received event: </span><span class="si">{</span><span class="n">event</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="GameObject.update-22"><a href="#GameObject.update-22"><span class="linenos">22</span></a>    <span class="nd">@abstractmethod</span>
+</span><span id="GameObject.update-23"><a href="#GameObject.update-23"><span class="linenos">23</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="GameObject.update-24"><a href="#GameObject.update-24"><span class="linenos">24</span></a>        <span class="k">pass</span>
+</span></pre></div>
+
+
+    
+
+                            </div>
+                            <div id="GameObject.prepare" class="classattr">
+                                        <input id="GameObject.prepare-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+                    <div class="decorator decorator-abstractmethod">@abstractmethod</div>
+
+        <span class="def">def</span>
+        <span class="name">prepare</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">event</span><span class="p">:</span> <span class="n">Any</span></span><span class="return-annotation">):</span></span>
+
+                <label class="view-source-button" for="GameObject.prepare-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#GameObject.prepare"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="GameObject.prepare-26"><a href="#GameObject.prepare-26"><span class="linenos">26</span></a>    <span class="nd">@abstractmethod</span>
+</span><span id="GameObject.prepare-27"><a href="#GameObject.prepare-27"><span class="linenos">27</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="GameObject.prepare-28"><a href="#GameObject.prepare-28"><span class="linenos">28</span></a>        <span class="k">pass</span>
 </span></pre></div>
 
 
@@ -336,9 +384,9 @@ inheritance.</p>
 
     </div>
     <a class="headerlink" href="#GameObject.render"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="GameObject.render-25"><a href="#GameObject.render-25"><span class="linenos">25</span></a>    <span class="nd">@abstractmethod</span>
-</span><span id="GameObject.render-26"><a href="#GameObject.render-26"><span class="linenos">26</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">):</span>
-</span><span id="GameObject.render-27"><a href="#GameObject.render-27"><span class="linenos">27</span></a>        <span class="k">pass</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="GameObject.render-30"><a href="#GameObject.render-30"><span class="linenos">30</span></a>    <span class="nd">@abstractmethod</span>
+</span><span id="GameObject.render-31"><a href="#GameObject.render-31"><span class="linenos">31</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">):</span>
+</span><span id="GameObject.render-32"><a href="#GameObject.render-32"><span class="linenos">32</span></a>        <span class="k">pass</span>
 </span></pre></div>
 
 
@@ -357,30 +405,33 @@ inheritance.</p>
 
     </div>
     <a class="headerlink" href="#BaseAnimal"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="BaseAnimal-30"><a href="#BaseAnimal-30"><span class="linenos">30</span></a><span class="k">class</span><span class="w"> </span><span class="nc">BaseAnimal</span><span class="p">(</span><span class="n">GameObject</span><span class="p">):</span>
-</span><span id="BaseAnimal-31"><a href="#BaseAnimal-31"><span class="linenos">31</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="BaseAnimal-32"><a href="#BaseAnimal-32"><span class="linenos">32</span></a>        <span class="bp">self</span><span class="p">,</span>
-</span><span id="BaseAnimal-33"><a href="#BaseAnimal-33"><span class="linenos">33</span></a>        <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="BaseAnimal-34"><a href="#BaseAnimal-34"><span class="linenos">34</span></a>        <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="BaseAnimal-35"><a href="#BaseAnimal-35"><span class="linenos">35</span></a>        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-</span><span id="BaseAnimal-36"><a href="#BaseAnimal-36"><span class="linenos">36</span></a>        <span class="n">health</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="BaseAnimal-37"><a href="#BaseAnimal-37"><span class="linenos">37</span></a>        <span class="n">vision_range</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="BaseAnimal-38"><a href="#BaseAnimal-38"><span class="linenos">38</span></a>        <span class="n">hearing_range</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="BaseAnimal-39"><a href="#BaseAnimal-39"><span class="linenos">39</span></a>    <span class="p">):</span>
-</span><span id="BaseAnimal-40"><a href="#BaseAnimal-40"><span class="linenos">40</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">)</span>
-</span><span id="BaseAnimal-41"><a href="#BaseAnimal-41"><span class="linenos">41</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</span><span id="BaseAnimal-42"><a href="#BaseAnimal-42"><span class="linenos">42</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">vision_range</span> <span class="o">=</span> <span class="n">vision_range</span>
-</span><span id="BaseAnimal-43"><a href="#BaseAnimal-43"><span class="linenos">43</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">hearing_range</span> <span class="o">=</span> <span class="n">hearing_range</span>
-</span><span id="BaseAnimal-44"><a href="#BaseAnimal-44"><span class="linenos">44</span></a>
-</span><span id="BaseAnimal-45"><a href="#BaseAnimal-45"><span class="linenos">45</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
-</span><span id="BaseAnimal-46"><a href="#BaseAnimal-46"><span class="linenos">46</span></a>        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span>
-</span><span id="BaseAnimal-47"><a href="#BaseAnimal-47"><span class="linenos">47</span></a>            <span class="n">screen</span><span class="p">,</span>
-</span><span id="BaseAnimal-48"><a href="#BaseAnimal-48"><span class="linenos">48</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
-</span><span id="BaseAnimal-49"><a href="#BaseAnimal-49"><span class="linenos">49</span></a>            <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">),</span>
-</span><span id="BaseAnimal-50"><a href="#BaseAnimal-50"><span class="linenos">50</span></a>        <span class="p">)</span>
-</span><span id="BaseAnimal-51"><a href="#BaseAnimal-51"><span class="linenos">51</span></a>
-</span><span id="BaseAnimal-52"><a href="#BaseAnimal-52"><span class="linenos">52</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="BaseAnimal-53"><a href="#BaseAnimal-53"><span class="linenos">53</span></a>        <span class="k">pass</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="BaseAnimal-35"><a href="#BaseAnimal-35"><span class="linenos">35</span></a><span class="k">class</span><span class="w"> </span><span class="nc">BaseAnimal</span><span class="p">(</span><span class="n">GameObject</span><span class="p">):</span>
+</span><span id="BaseAnimal-36"><a href="#BaseAnimal-36"><span class="linenos">36</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span id="BaseAnimal-37"><a href="#BaseAnimal-37"><span class="linenos">37</span></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="BaseAnimal-38"><a href="#BaseAnimal-38"><span class="linenos">38</span></a>        <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="BaseAnimal-39"><a href="#BaseAnimal-39"><span class="linenos">39</span></a>        <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="BaseAnimal-40"><a href="#BaseAnimal-40"><span class="linenos">40</span></a>        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="BaseAnimal-41"><a href="#BaseAnimal-41"><span class="linenos">41</span></a>        <span class="n">health</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="BaseAnimal-42"><a href="#BaseAnimal-42"><span class="linenos">42</span></a>        <span class="n">vision_range</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="BaseAnimal-43"><a href="#BaseAnimal-43"><span class="linenos">43</span></a>        <span class="n">hearing_range</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="BaseAnimal-44"><a href="#BaseAnimal-44"><span class="linenos">44</span></a>    <span class="p">):</span>
+</span><span id="BaseAnimal-45"><a href="#BaseAnimal-45"><span class="linenos">45</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">)</span>
+</span><span id="BaseAnimal-46"><a href="#BaseAnimal-46"><span class="linenos">46</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span id="BaseAnimal-47"><a href="#BaseAnimal-47"><span class="linenos">47</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">vision_range</span> <span class="o">=</span> <span class="n">vision_range</span>
+</span><span id="BaseAnimal-48"><a href="#BaseAnimal-48"><span class="linenos">48</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">hearing_range</span> <span class="o">=</span> <span class="n">hearing_range</span>
+</span><span id="BaseAnimal-49"><a href="#BaseAnimal-49"><span class="linenos">49</span></a>
+</span><span id="BaseAnimal-50"><a href="#BaseAnimal-50"><span class="linenos">50</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+</span><span id="BaseAnimal-51"><a href="#BaseAnimal-51"><span class="linenos">51</span></a>        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span>
+</span><span id="BaseAnimal-52"><a href="#BaseAnimal-52"><span class="linenos">52</span></a>            <span class="n">screen</span><span class="p">,</span>
+</span><span id="BaseAnimal-53"><a href="#BaseAnimal-53"><span class="linenos">53</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
+</span><span id="BaseAnimal-54"><a href="#BaseAnimal-54"><span class="linenos">54</span></a>            <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">),</span>
+</span><span id="BaseAnimal-55"><a href="#BaseAnimal-55"><span class="linenos">55</span></a>        <span class="p">)</span>
+</span><span id="BaseAnimal-56"><a href="#BaseAnimal-56"><span class="linenos">56</span></a>
+</span><span id="BaseAnimal-57"><a href="#BaseAnimal-57"><span class="linenos">57</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="BaseAnimal-58"><a href="#BaseAnimal-58"><span class="linenos">58</span></a>        <span class="k">pass</span>
+</span><span id="BaseAnimal-59"><a href="#BaseAnimal-59"><span class="linenos">59</span></a>
+</span><span id="BaseAnimal-60"><a href="#BaseAnimal-60"><span class="linenos">60</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="BaseAnimal-61"><a href="#BaseAnimal-61"><span class="linenos">61</span></a>        <span class="k">pass</span>
 </span></pre></div>
 
 
@@ -399,19 +450,19 @@ inheritance.</p>
 
     </div>
     <a class="headerlink" href="#BaseAnimal.__init__"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="BaseAnimal.__init__-31"><a href="#BaseAnimal.__init__-31"><span class="linenos">31</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="BaseAnimal.__init__-32"><a href="#BaseAnimal.__init__-32"><span class="linenos">32</span></a>        <span class="bp">self</span><span class="p">,</span>
-</span><span id="BaseAnimal.__init__-33"><a href="#BaseAnimal.__init__-33"><span class="linenos">33</span></a>        <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="BaseAnimal.__init__-34"><a href="#BaseAnimal.__init__-34"><span class="linenos">34</span></a>        <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="BaseAnimal.__init__-35"><a href="#BaseAnimal.__init__-35"><span class="linenos">35</span></a>        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-</span><span id="BaseAnimal.__init__-36"><a href="#BaseAnimal.__init__-36"><span class="linenos">36</span></a>        <span class="n">health</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="BaseAnimal.__init__-37"><a href="#BaseAnimal.__init__-37"><span class="linenos">37</span></a>        <span class="n">vision_range</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="BaseAnimal.__init__-38"><a href="#BaseAnimal.__init__-38"><span class="linenos">38</span></a>        <span class="n">hearing_range</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="BaseAnimal.__init__-39"><a href="#BaseAnimal.__init__-39"><span class="linenos">39</span></a>    <span class="p">):</span>
-</span><span id="BaseAnimal.__init__-40"><a href="#BaseAnimal.__init__-40"><span class="linenos">40</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">)</span>
-</span><span id="BaseAnimal.__init__-41"><a href="#BaseAnimal.__init__-41"><span class="linenos">41</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</span><span id="BaseAnimal.__init__-42"><a href="#BaseAnimal.__init__-42"><span class="linenos">42</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">vision_range</span> <span class="o">=</span> <span class="n">vision_range</span>
-</span><span id="BaseAnimal.__init__-43"><a href="#BaseAnimal.__init__-43"><span class="linenos">43</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">hearing_range</span> <span class="o">=</span> <span class="n">hearing_range</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="BaseAnimal.__init__-36"><a href="#BaseAnimal.__init__-36"><span class="linenos">36</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span id="BaseAnimal.__init__-37"><a href="#BaseAnimal.__init__-37"><span class="linenos">37</span></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="BaseAnimal.__init__-38"><a href="#BaseAnimal.__init__-38"><span class="linenos">38</span></a>        <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="BaseAnimal.__init__-39"><a href="#BaseAnimal.__init__-39"><span class="linenos">39</span></a>        <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="BaseAnimal.__init__-40"><a href="#BaseAnimal.__init__-40"><span class="linenos">40</span></a>        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="BaseAnimal.__init__-41"><a href="#BaseAnimal.__init__-41"><span class="linenos">41</span></a>        <span class="n">health</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="BaseAnimal.__init__-42"><a href="#BaseAnimal.__init__-42"><span class="linenos">42</span></a>        <span class="n">vision_range</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="BaseAnimal.__init__-43"><a href="#BaseAnimal.__init__-43"><span class="linenos">43</span></a>        <span class="n">hearing_range</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="BaseAnimal.__init__-44"><a href="#BaseAnimal.__init__-44"><span class="linenos">44</span></a>    <span class="p">):</span>
+</span><span id="BaseAnimal.__init__-45"><a href="#BaseAnimal.__init__-45"><span class="linenos">45</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">)</span>
+</span><span id="BaseAnimal.__init__-46"><a href="#BaseAnimal.__init__-46"><span class="linenos">46</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span id="BaseAnimal.__init__-47"><a href="#BaseAnimal.__init__-47"><span class="linenos">47</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">vision_range</span> <span class="o">=</span> <span class="n">vision_range</span>
+</span><span id="BaseAnimal.__init__-48"><a href="#BaseAnimal.__init__-48"><span class="linenos">48</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">hearing_range</span> <span class="o">=</span> <span class="n">hearing_range</span>
 </span></pre></div>
 
 
@@ -464,12 +515,31 @@ inheritance.</p>
 
     </div>
     <a class="headerlink" href="#BaseAnimal.render"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="BaseAnimal.render-45"><a href="#BaseAnimal.render-45"><span class="linenos">45</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
-</span><span id="BaseAnimal.render-46"><a href="#BaseAnimal.render-46"><span class="linenos">46</span></a>        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span>
-</span><span id="BaseAnimal.render-47"><a href="#BaseAnimal.render-47"><span class="linenos">47</span></a>            <span class="n">screen</span><span class="p">,</span>
-</span><span id="BaseAnimal.render-48"><a href="#BaseAnimal.render-48"><span class="linenos">48</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
-</span><span id="BaseAnimal.render-49"><a href="#BaseAnimal.render-49"><span class="linenos">49</span></a>            <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">),</span>
-</span><span id="BaseAnimal.render-50"><a href="#BaseAnimal.render-50"><span class="linenos">50</span></a>        <span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="BaseAnimal.render-50"><a href="#BaseAnimal.render-50"><span class="linenos">50</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+</span><span id="BaseAnimal.render-51"><a href="#BaseAnimal.render-51"><span class="linenos">51</span></a>        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span>
+</span><span id="BaseAnimal.render-52"><a href="#BaseAnimal.render-52"><span class="linenos">52</span></a>            <span class="n">screen</span><span class="p">,</span>
+</span><span id="BaseAnimal.render-53"><a href="#BaseAnimal.render-53"><span class="linenos">53</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
+</span><span id="BaseAnimal.render-54"><a href="#BaseAnimal.render-54"><span class="linenos">54</span></a>            <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">),</span>
+</span><span id="BaseAnimal.render-55"><a href="#BaseAnimal.render-55"><span class="linenos">55</span></a>        <span class="p">)</span>
+</span></pre></div>
+
+
+    
+
+                            </div>
+                            <div id="BaseAnimal.prepare" class="classattr">
+                                        <input id="BaseAnimal.prepare-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">prepare</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">event</span><span class="p">:</span> <span class="n">Any</span></span><span class="return-annotation">):</span></span>
+
+                <label class="view-source-button" for="BaseAnimal.prepare-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#BaseAnimal.prepare"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="BaseAnimal.prepare-57"><a href="#BaseAnimal.prepare-57"><span class="linenos">57</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="BaseAnimal.prepare-58"><a href="#BaseAnimal.prepare-58"><span class="linenos">58</span></a>        <span class="k">pass</span>
 </span></pre></div>
 
 
@@ -481,14 +551,14 @@ inheritance.</p>
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">update</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">):</span></span>
+        <span class="name">update</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">event</span><span class="p">:</span> <span class="n">Any</span></span><span class="return-annotation">):</span></span>
 
                 <label class="view-source-button" for="BaseAnimal.update-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#BaseAnimal.update"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="BaseAnimal.update-52"><a href="#BaseAnimal.update-52"><span class="linenos">52</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="BaseAnimal.update-53"><a href="#BaseAnimal.update-53"><span class="linenos">53</span></a>        <span class="k">pass</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="BaseAnimal.update-60"><a href="#BaseAnimal.update-60"><span class="linenos">60</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="BaseAnimal.update-61"><a href="#BaseAnimal.update-61"><span class="linenos">61</span></a>        <span class="k">pass</span>
 </span></pre></div>
 
 
@@ -519,28 +589,31 @@ inheritance.</p>
 
     </div>
     <a class="headerlink" href="#BaseNPC"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="BaseNPC-56"><a href="#BaseNPC-56"><span class="linenos">56</span></a><span class="k">class</span><span class="w"> </span><span class="nc">BaseNPC</span><span class="p">(</span><span class="n">BaseAnimal</span><span class="p">):</span>
-</span><span id="BaseNPC-57"><a href="#BaseNPC-57"><span class="linenos">57</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="BaseNPC-58"><a href="#BaseNPC-58"><span class="linenos">58</span></a>        <span class="bp">self</span><span class="p">,</span>
-</span><span id="BaseNPC-59"><a href="#BaseNPC-59"><span class="linenos">59</span></a>        <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="BaseNPC-60"><a href="#BaseNPC-60"><span class="linenos">60</span></a>        <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="BaseNPC-61"><a href="#BaseNPC-61"><span class="linenos">61</span></a>        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-</span><span id="BaseNPC-62"><a href="#BaseNPC-62"><span class="linenos">62</span></a>        <span class="n">health</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="BaseNPC-63"><a href="#BaseNPC-63"><span class="linenos">63</span></a>        <span class="n">vision_range</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="BaseNPC-64"><a href="#BaseNPC-64"><span class="linenos">64</span></a>        <span class="n">hearing_range</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="BaseNPC-65"><a href="#BaseNPC-65"><span class="linenos">65</span></a>    <span class="p">):</span>
-</span><span id="BaseNPC-66"><a href="#BaseNPC-66"><span class="linenos">66</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">,</span> <span class="n">vision_range</span><span class="p">,</span> <span class="n">hearing_range</span><span class="p">)</span>
-</span><span id="BaseNPC-67"><a href="#BaseNPC-67"><span class="linenos">67</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
-</span><span id="BaseNPC-68"><a href="#BaseNPC-68"><span class="linenos">68</span></a>
-</span><span id="BaseNPC-69"><a href="#BaseNPC-69"><span class="linenos">69</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="BaseNPC-70"><a href="#BaseNPC-70"><span class="linenos">70</span></a>        <span class="k">pass</span>
-</span><span id="BaseNPC-71"><a href="#BaseNPC-71"><span class="linenos">71</span></a>
-</span><span id="BaseNPC-72"><a href="#BaseNPC-72"><span class="linenos">72</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
-</span><span id="BaseNPC-73"><a href="#BaseNPC-73"><span class="linenos">73</span></a>        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span>
-</span><span id="BaseNPC-74"><a href="#BaseNPC-74"><span class="linenos">74</span></a>            <span class="n">screen</span><span class="p">,</span>
-</span><span id="BaseNPC-75"><a href="#BaseNPC-75"><span class="linenos">75</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
-</span><span id="BaseNPC-76"><a href="#BaseNPC-76"><span class="linenos">76</span></a>            <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">),</span>
-</span><span id="BaseNPC-77"><a href="#BaseNPC-77"><span class="linenos">77</span></a>        <span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="BaseNPC-64"><a href="#BaseNPC-64"><span class="linenos">64</span></a><span class="k">class</span><span class="w"> </span><span class="nc">BaseNPC</span><span class="p">(</span><span class="n">BaseAnimal</span><span class="p">):</span>
+</span><span id="BaseNPC-65"><a href="#BaseNPC-65"><span class="linenos">65</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span id="BaseNPC-66"><a href="#BaseNPC-66"><span class="linenos">66</span></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="BaseNPC-67"><a href="#BaseNPC-67"><span class="linenos">67</span></a>        <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="BaseNPC-68"><a href="#BaseNPC-68"><span class="linenos">68</span></a>        <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="BaseNPC-69"><a href="#BaseNPC-69"><span class="linenos">69</span></a>        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="BaseNPC-70"><a href="#BaseNPC-70"><span class="linenos">70</span></a>        <span class="n">health</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="BaseNPC-71"><a href="#BaseNPC-71"><span class="linenos">71</span></a>        <span class="n">vision_range</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="BaseNPC-72"><a href="#BaseNPC-72"><span class="linenos">72</span></a>        <span class="n">hearing_range</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="BaseNPC-73"><a href="#BaseNPC-73"><span class="linenos">73</span></a>    <span class="p">):</span>
+</span><span id="BaseNPC-74"><a href="#BaseNPC-74"><span class="linenos">74</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">,</span> <span class="n">vision_range</span><span class="p">,</span> <span class="n">hearing_range</span><span class="p">)</span>
+</span><span id="BaseNPC-75"><a href="#BaseNPC-75"><span class="linenos">75</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
+</span><span id="BaseNPC-76"><a href="#BaseNPC-76"><span class="linenos">76</span></a>
+</span><span id="BaseNPC-77"><a href="#BaseNPC-77"><span class="linenos">77</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+</span><span id="BaseNPC-78"><a href="#BaseNPC-78"><span class="linenos">78</span></a>        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span>
+</span><span id="BaseNPC-79"><a href="#BaseNPC-79"><span class="linenos">79</span></a>            <span class="n">screen</span><span class="p">,</span>
+</span><span id="BaseNPC-80"><a href="#BaseNPC-80"><span class="linenos">80</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
+</span><span id="BaseNPC-81"><a href="#BaseNPC-81"><span class="linenos">81</span></a>            <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">),</span>
+</span><span id="BaseNPC-82"><a href="#BaseNPC-82"><span class="linenos">82</span></a>        <span class="p">)</span>
+</span><span id="BaseNPC-83"><a href="#BaseNPC-83"><span class="linenos">83</span></a>
+</span><span id="BaseNPC-84"><a href="#BaseNPC-84"><span class="linenos">84</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="BaseNPC-85"><a href="#BaseNPC-85"><span class="linenos">85</span></a>        <span class="k">pass</span>
+</span><span id="BaseNPC-86"><a href="#BaseNPC-86"><span class="linenos">86</span></a>
+</span><span id="BaseNPC-87"><a href="#BaseNPC-87"><span class="linenos">87</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="BaseNPC-88"><a href="#BaseNPC-88"><span class="linenos">88</span></a>        <span class="k">pass</span>
 </span></pre></div>
 
 
@@ -559,17 +632,17 @@ inheritance.</p>
 
     </div>
     <a class="headerlink" href="#BaseNPC.__init__"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="BaseNPC.__init__-57"><a href="#BaseNPC.__init__-57"><span class="linenos">57</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-</span><span id="BaseNPC.__init__-58"><a href="#BaseNPC.__init__-58"><span class="linenos">58</span></a>        <span class="bp">self</span><span class="p">,</span>
-</span><span id="BaseNPC.__init__-59"><a href="#BaseNPC.__init__-59"><span class="linenos">59</span></a>        <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="BaseNPC.__init__-60"><a href="#BaseNPC.__init__-60"><span class="linenos">60</span></a>        <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="BaseNPC.__init__-61"><a href="#BaseNPC.__init__-61"><span class="linenos">61</span></a>        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-</span><span id="BaseNPC.__init__-62"><a href="#BaseNPC.__init__-62"><span class="linenos">62</span></a>        <span class="n">health</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="BaseNPC.__init__-63"><a href="#BaseNPC.__init__-63"><span class="linenos">63</span></a>        <span class="n">vision_range</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="BaseNPC.__init__-64"><a href="#BaseNPC.__init__-64"><span class="linenos">64</span></a>        <span class="n">hearing_range</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-</span><span id="BaseNPC.__init__-65"><a href="#BaseNPC.__init__-65"><span class="linenos">65</span></a>    <span class="p">):</span>
-</span><span id="BaseNPC.__init__-66"><a href="#BaseNPC.__init__-66"><span class="linenos">66</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">,</span> <span class="n">vision_range</span><span class="p">,</span> <span class="n">hearing_range</span><span class="p">)</span>
-</span><span id="BaseNPC.__init__-67"><a href="#BaseNPC.__init__-67"><span class="linenos">67</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="BaseNPC.__init__-65"><a href="#BaseNPC.__init__-65"><span class="linenos">65</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span id="BaseNPC.__init__-66"><a href="#BaseNPC.__init__-66"><span class="linenos">66</span></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="BaseNPC.__init__-67"><a href="#BaseNPC.__init__-67"><span class="linenos">67</span></a>        <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="BaseNPC.__init__-68"><a href="#BaseNPC.__init__-68"><span class="linenos">68</span></a>        <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="BaseNPC.__init__-69"><a href="#BaseNPC.__init__-69"><span class="linenos">69</span></a>        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span id="BaseNPC.__init__-70"><a href="#BaseNPC.__init__-70"><span class="linenos">70</span></a>        <span class="n">health</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="BaseNPC.__init__-71"><a href="#BaseNPC.__init__-71"><span class="linenos">71</span></a>        <span class="n">vision_range</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="BaseNPC.__init__-72"><a href="#BaseNPC.__init__-72"><span class="linenos">72</span></a>        <span class="n">hearing_range</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="BaseNPC.__init__-73"><a href="#BaseNPC.__init__-73"><span class="linenos">73</span></a>    <span class="p">):</span>
+</span><span id="BaseNPC.__init__-74"><a href="#BaseNPC.__init__-74"><span class="linenos">74</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">,</span> <span class="n">vision_range</span><span class="p">,</span> <span class="n">hearing_range</span><span class="p">)</span>
+</span><span id="BaseNPC.__init__-75"><a href="#BaseNPC.__init__-75"><span class="linenos">75</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -589,25 +662,6 @@ inheritance.</p>
     
 
                             </div>
-                            <div id="BaseNPC.update" class="classattr">
-                                        <input id="BaseNPC.update-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
-<div class="attr function">
-            
-        <span class="def">def</span>
-        <span class="name">update</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">):</span></span>
-
-                <label class="view-source-button" for="BaseNPC.update-view-source"><span>View Source</span></label>
-
-    </div>
-    <a class="headerlink" href="#BaseNPC.update"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="BaseNPC.update-69"><a href="#BaseNPC.update-69"><span class="linenos">69</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="BaseNPC.update-70"><a href="#BaseNPC.update-70"><span class="linenos">70</span></a>        <span class="k">pass</span>
-</span></pre></div>
-
-
-    
-
-                            </div>
                             <div id="BaseNPC.render" class="classattr">
                                         <input id="BaseNPC.render-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
@@ -619,12 +673,50 @@ inheritance.</p>
 
     </div>
     <a class="headerlink" href="#BaseNPC.render"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="BaseNPC.render-72"><a href="#BaseNPC.render-72"><span class="linenos">72</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
-</span><span id="BaseNPC.render-73"><a href="#BaseNPC.render-73"><span class="linenos">73</span></a>        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span>
-</span><span id="BaseNPC.render-74"><a href="#BaseNPC.render-74"><span class="linenos">74</span></a>            <span class="n">screen</span><span class="p">,</span>
-</span><span id="BaseNPC.render-75"><a href="#BaseNPC.render-75"><span class="linenos">75</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
-</span><span id="BaseNPC.render-76"><a href="#BaseNPC.render-76"><span class="linenos">76</span></a>            <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">),</span>
-</span><span id="BaseNPC.render-77"><a href="#BaseNPC.render-77"><span class="linenos">77</span></a>        <span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="BaseNPC.render-77"><a href="#BaseNPC.render-77"><span class="linenos">77</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+</span><span id="BaseNPC.render-78"><a href="#BaseNPC.render-78"><span class="linenos">78</span></a>        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span>
+</span><span id="BaseNPC.render-79"><a href="#BaseNPC.render-79"><span class="linenos">79</span></a>            <span class="n">screen</span><span class="p">,</span>
+</span><span id="BaseNPC.render-80"><a href="#BaseNPC.render-80"><span class="linenos">80</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
+</span><span id="BaseNPC.render-81"><a href="#BaseNPC.render-81"><span class="linenos">81</span></a>            <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">),</span>
+</span><span id="BaseNPC.render-82"><a href="#BaseNPC.render-82"><span class="linenos">82</span></a>        <span class="p">)</span>
+</span></pre></div>
+
+
+    
+
+                            </div>
+                            <div id="BaseNPC.prepare" class="classattr">
+                                        <input id="BaseNPC.prepare-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">prepare</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">event</span><span class="p">:</span> <span class="n">Any</span></span><span class="return-annotation">):</span></span>
+
+                <label class="view-source-button" for="BaseNPC.prepare-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#BaseNPC.prepare"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="BaseNPC.prepare-84"><a href="#BaseNPC.prepare-84"><span class="linenos">84</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="BaseNPC.prepare-85"><a href="#BaseNPC.prepare-85"><span class="linenos">85</span></a>        <span class="k">pass</span>
+</span></pre></div>
+
+
+    
+
+                            </div>
+                            <div id="BaseNPC.update" class="classattr">
+                                        <input id="BaseNPC.update-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">update</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">event</span><span class="p">:</span> <span class="n">Any</span></span><span class="return-annotation">):</span></span>
+
+                <label class="view-source-button" for="BaseNPC.update-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#BaseNPC.update"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="BaseNPC.update-87"><a href="#BaseNPC.update-87"><span class="linenos">87</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="BaseNPC.update-88"><a href="#BaseNPC.update-88"><span class="linenos">88</span></a>        <span class="k">pass</span>
 </span></pre></div>
 
 
