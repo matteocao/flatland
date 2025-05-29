@@ -7,11 +7,11 @@ if TYPE_CHECKING:
 
 class InteractionScheduler:
     def __init__(self, interval: float = 1.0):
-        self.queue: list[InteractionCommand] = []
+        self.queue: list["InteractionCommand"] = []
         self.last_execution = time.time()
         self.interval = interval
 
-    def add(self, command: InteractionCommand) -> None:
+    def add(self, command: "InteractionCommand") -> None:
         self.queue.append(command)
 
     def update(self) -> None:
