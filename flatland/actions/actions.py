@@ -1,10 +1,12 @@
 from typing import Optional
 
+from ..consts import MAX_X, MAX_Y
+
 
 class MovementMixin:
     def move(self, dx: int, dy: int, world):
-        self.x: int = (self.x + dx) % world.width
-        self.y: int = (self.y + dy) % world.height
+        self.x: int = (self.x + dx) % MAX_X
+        self.y: int = (self.y + dy) % MAX_Y
         print(f"{self.__class__.__name__} moves to ({self.x}, {self.y})")
 
 

@@ -1,5 +1,4 @@
-from ..internal_representation.object_representation import \
-    ObjectRepresentation
+from ..internal.representation import ObjectRepresentation
 
 
 class SightSensorMixin:
@@ -8,8 +7,8 @@ class SightSensorMixin:
             if obj is self:
                 continue
             rep = self.internal_state.get_representation(obj, snapshot)
-            rep.visible_size = getattr(obj, "size", None)
-            rep.attractiveness = getattr(obj, "attractiveness", None)
+            rep.visible_size = getattr(rep.source_object, "size", None)
+            rep.attractiveness = getattr(rep.source_object, "attractiveness", None)
 
 
 class HearingSensorMixin:
@@ -18,4 +17,4 @@ class HearingSensorMixin:
             if obj is self:
                 continue
             rep = self.internal_state.get_representation(obj, snapshot)
-            rep.noise_intensity = getattr(obj, "noise_intensity", None)
+            rep.noise_intensity = getattr(rep.source_object, "noise_intensity", None)

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Callable
 
 if TYPE_CHECKING:
     from ..objects.base_objects import GameObject
@@ -7,22 +7,43 @@ if TYPE_CHECKING:
 
 class InteractionMixin(ABC):
     @abstractmethod
-    def execute_interaction(self, other: "GameObject") -> None:
+    def get_interaction_callables(
+        self, other: "GameObject"
+    ) -> list[Callable[[], None]]:
+        """Return list of interaction callables relevant for this mixin"""
         pass
 
 
 class ContactInteractionMixin(InteractionMixin):
     def on_contact(self, other: "GameObject"):
-        if isinstance(other, ContactInteractionMixin):
+        if isinstance(other, ContactInteractionMixin) and other.distance(self) <= 10:
             print(f"{self.__class__.__name__} contacts {other.__class__.__name__}")
             self.contact_effect(other)
 
     def contact_effect(self, other: "GameObject"):
-        pass  # override in subclass
+        raise NotImplementedError  # override in subclass
 
-    def execute_interaction(self, other: "GameObject") -> None:
-        """
-        Entry point for Command-style scheduling.
-        This can be queued and called by a central scheduler.
-        """
-        self.on_contact(other)
+    def get_interaction_callables(self, other: "GameObject"):
+        if isinstance(other, ContactInteractionMixin):
+            return [lambda: self.on_contact(other)]
+        return []
+
+
+class HeatInteractionMixin(InteractionMixin):
+    def on_heat_transfer(self, other: "GameObject"):
+        if (
+            hasattr(self, "temperature")
+            and hasattr(other, "temperature")
+            and other.distance(self) < 10
+        ):
+            diff = (self.temperature - other.temperature) / 2
+            self.temperature -= diff
+            other.temperature += diff
+            print(
+                f"{self.__class__.__name__} transfers heat to {other.__class__.__name__}"
+            )
+
+    def get_interaction_callables(self, other: "GameObject"):
+        if isinstance(other, HeatInteractionMixin):
+            return [lambda: self.on_heat_transfer(other)]
+        return []

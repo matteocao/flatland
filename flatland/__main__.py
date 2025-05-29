@@ -17,7 +17,9 @@ def main():
 
         keys = pygame.key.get_pressed()
         # send keys to the user
-        world.prepare(keys)
+        world.send_keys_to_user(keys)
+        near_objs = world._observers
+        world.prepare(near_objs)
         world.update(keys)
         world.render(screen)
         pygame.display.flip()

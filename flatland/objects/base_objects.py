@@ -1,11 +1,16 @@
+import math
 import random
 from abc import ABC, abstractmethod
 from typing import Any
 
 import pygame
 
+from ..actions.volition import VolitionEngine
 from ..consts import TILE_SIZE
+from ..interactions.command import InteractionCommand
 from ..interactions.interactions import ContactInteractionMixin
+from ..interactions.scheduler import InteractionScheduler
+from ..internal.state import InternalState
 
 
 class GameObject(ABC):
@@ -17,14 +22,19 @@ class GameObject(ABC):
         self.y = y
         self.name = name
         self.health = health
+        self.scheduler = InteractionScheduler(interval=1.0)
+        self.volition = VolitionEngine(owner=self)
 
-    @abstractmethod
     def update(self, event: Any):
-        pass
+        self.scheduler.update()
 
-    @abstractmethod
-    def prepare(self, event: Any):
-        pass
+    def prepare(self, near_objs: Any):
+        # prepare interactions
+        for near_obj in near_objs:
+            self.scheduler.add(InteractionCommand(self, near_obj))
+
+    def distance(self, other: Any) -> float:
+        return math.sqrt((self.x - other.x) ** 2 + (self.y - other.y) ** 2)
 
     @abstractmethod
     def render(self, screen: pygame.Surface):
@@ -45,6 +55,16 @@ class BaseAnimal(GameObject):
         self.color = (255, 255, 0)
         self.vision_range = vision_range
         self.hearing_range = hearing_range
+        self.internal_state = InternalState(self)
+
+    def update(self, event: Any):
+        super().update(event)
+        self.volition.update()
+
+    def prepare(self, near_objs: Any):
+        super().prepare(near_objs)
+        self.volition.prepare()
+        self.internal_state.update(near_objs)
 
     def render(self, screen):
         pygame.draw.rect(
@@ -52,12 +72,6 @@ class BaseAnimal(GameObject):
             self.color,
             pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE),
         )
-
-    def prepare(self, event: Any):
-        pass
-
-    def update(self, event: Any):
-        pass
 
 
 class BaseNPC(BaseAnimal):
@@ -79,9 +93,3 @@ class BaseNPC(BaseAnimal):
             self.color,
             pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE),
         )
-
-    def prepare(self, event: Any):
-        pass
-
-    def update(self, event: Any):
-        pass

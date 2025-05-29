@@ -21,5 +21,6 @@ for (
         health=random.randint(3, 9),
         vision_range=5,
         hearing_range=3,
+        temperature=12.3,
     )
     world.register(obj)

@@ -10,6 +10,15 @@ class InteractionCommand:
         self.target = target
 
     def execute(self):
-        self.initiator.execute_interaction(
-            self.target
-        )  # this method is guaranteed by base class
+        if isinstance(self.initiator, InteractionMixin):
+            callables = []
+            for base in self.initiator.__class__.__mro__:
+                if issubclass(base, InteractionMixin) and base != InteractionMixin:
+                    mixin_obj = base.__dict__.get("get_interaction_callables")
+                    if mixin_obj:
+                        calls = base.get_interaction_callables(
+                            self.initiator, self.target
+                        )
+                        callables.extend(calls)
+            for call in callables:
+                call()

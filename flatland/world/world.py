@@ -22,15 +22,20 @@ class World:
             cls._instance = super(World, cls).__new__(cls)
         return cls._instance
 
-    def __init__(self):
+    def __init__(self) -> None:
         if not hasattr(self, "_observers"):
             self._observers: list["GameObject"] = []
 
-    def register(self, obj: "GameObject"):
+    def register(self, obj: "GameObject") -> None:
         if obj not in self._observers:
             self._observers.append(obj)
 
-    def unregister(self, obj: "GameObject"):
+    def send_keys_to_user(self, keys) -> None:
+        for observer in self._observers:
+            if hasattr(observer, "get_pressed_keys"):
+                observer.get_pressed_keys(keys)
+
+    def unregister(self, obj: "GameObject") -> None:
         if obj in self._observers:
             self._observers.remove(obj)
 

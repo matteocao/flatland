@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 class ObjectRepresentation:
     dx: Optional[int] = None
     dy: Optional[int] = None
-    visible_size: Optional[float] = None
     noise_intensity: Optional[float] = None
     attractiveness: Optional[float] = None
+    visible_size: Optional[float] = None
     source_object: Optional["GameObject"] = None

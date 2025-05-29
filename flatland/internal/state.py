@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Dict, List, Type
 
-from .object_representation import ObjectRepresentation
+from .representation import ObjectRepresentation
 
 if TYPE_CHECKING:
     from ..objects.base_objects import GameObject
