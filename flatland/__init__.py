@@ -1,1 +1,2 @@
-from . import llm_stub, main, moderator, objects, registry, tilemap, world
+from . import (actions, consts, interactions, internal_representation,
+               llm_stub, objects, sensors, world)

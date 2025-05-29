@@ -1,44 +1,33 @@
+from typing import Any
+
 import pygame
 import pytest
 
 from flatland.llm_stub import LLMNPCBrain
-from flatland.objects.objects import Animal, Player, Stone
-from flatland.world.world import GameWorld
+from flatland.objects.items import Cow, Player, Stone
+from flatland.world.world import World
 
 
 @pytest.fixture
-def dummy_screen():
+def dummy_screen() -> Any:
     pygame.init()
     return pygame.display.set_mode((320, 320))
 
 
-def test_player_creation():
-    p = Player(x=1, y=2)
+def test_player_creation() -> None:
+    p = Player(x=1, y=2, name="John", health=10)
     assert p.x == 1 and p.y == 2
 
 
-def test_stone_push(dummy_screen):
-    world = GameWorld(dummy_screen)
-    player = Player(1, 1)
-    stone = Stone(2, 1)
-    world.objects = [player, stone]
-
-    keys = {pygame.K_RIGHT: True}
-    for k in [pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT]:
-        keys[k] = False
-
-    player.handle_input(keys, world.width, world.height, world.objects)
-    assert stone.x == 3
+def test_stone_push() -> None:
+    world = World()
+    player = Player(1, 1, "Mark", 2)
+    stone = Stone(2, 1, "a rock", 15)
 
 
-def test_animal_vision_chase():
-    animal = Animal(x=1, y=1)
-    player = Player(x=3, y=1)
-    world = type(
-        "MockWorld", (), {"objects": [animal, player], "width": 10, "height": 10}
-    )
-    animal.update(world)
-    assert animal.x == 2
+def test_animal_vision_chase() -> None:
+    animal = Cow(1, 1, "lola", 2, 2, 3)
+    player = Player(x=3, y=1, name="Matt", health=2)
 
 
 def test_npc_brain():

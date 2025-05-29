@@ -1,40 +1,46 @@
-from typing import TYPE_CHECKING
+"""
+world
+"""
 
-import pygame
-
-from ..moderator import InteractionModerator
-from ..objects.objects import NPC, Animal, Player, Stone
-from ..registry import registry
-from ..tilemap import TileMap
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    from ..objects.objects import GameObject
+    from ..objects.base_objects import GameObject
 
 
-class GameWorld:
-    def __init__(self, screen: pygame.Surface):
-        self.screen = screen
-        self.objects: list["GameObject"] = []
-        self.width = screen.get_width() // 32
-        self.height = screen.get_height() // 32
-        self.interactions = InteractionModerator()
-        self.tilemap = TileMap(self.width, self.height)
+# --------------------- implemented via observer pattern ----------------
+class World:
+    """
+    The world, treated as a subject to which all objects register to.
+    Via the observer method, the world loops through the objects and updates them.
+    """
 
-        self.player = Player(x=5, y=5)
-        self.objects.append(self.player)
-        self.objects.append(Stone(x=6, y=5))
-        self.objects.append(Animal(x=4, y=5))
-        self.objects.append(NPC(x=5, y=6))
+    _instance = None
 
-    def handle_input(self, keys):
-        self.player.handle_input(keys, self.width, self.height, self.objects)
+    def __new__(cls, *args: Any, **kwargs: Any):
+        if cls._instance is None:
+            cls._instance = super(World, cls).__new__(cls)
+        return cls._instance
 
-    def update(self):
-        for obj in self.objects:
-            obj.update(self)
-        self.interactions.resolve(self.objects, self)
+    def __init__(self):
+        if not hasattr(self, "_observers"):
+            self._observers = []
 
-    def render(self):
-        self.screen.fill((0, 0, 0))
-        for obj in self.objects:
-            obj.render(self.screen)
+    def register(self, obj: "GameObject"):
+        if obj not in self._observers:
+            self._observers.append(obj)
+
+    def unregister(self, obj: "GameObject"):
+        if obj in self._observers:
+            self._observers.remove(obj)
+
+    def prepare(self) -> None:
+        for observer in self._observers:
+            observer.prepare()
+
+    def update(self) -> None:
+        for observer in self._observers:
+            observer.update()
+
+
+world = World()

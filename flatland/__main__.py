@@ -1,6 +1,6 @@
 import pygame
 
-from .world.world import GameWorld
+from .world.world import world
 
 
 def main():
@@ -8,8 +8,6 @@ def main():
     screen = pygame.display.set_mode((640, 480))
     pygame.display.set_caption("AI-Driven 2D RPG")
     clock = pygame.time.Clock()
-
-    world = GameWorld(screen)
 
     running = True
     while running:
