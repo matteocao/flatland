@@ -30,3 +30,7 @@ make test
 ## Documentation
 
 You can find the online documentation [here](https://matteocao.github.io/flatland/flatland.html).
+
+## Asset resources
+
+I would like to signal this beautiful free website: https://opengameart.org/. It contains a lot of beautiful and well done 2D sprites that are perfect for our game.

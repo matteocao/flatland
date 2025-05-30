@@ -1,3 +1,4 @@
+import copy
 from pathlib import Path
 from typing import Any
 
@@ -35,6 +36,27 @@ class Stone(ContactInteractionMixin, GameObject):
             self.color,
             pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE),
         )
+
+
+# ----------------- Prototype pattern ---------------------
+@registry.register
+class Ground(GameObject):
+    def __init__(self, x: int, y: int, name: str, health: int, tile_name: str, **kwargs: Any):
+        super().__init__(x, y, name, health)
+        self.tile_name = tile_name
+        # Extract NSWE neighbor tuple from the last 4 components of the name
+        parts = self.tile_name.split("_")
+        try:
+            self.nswe_neigh = tuple(int(n) for n in parts[-4:])
+        except ValueError:
+            raise ValueError(f"Tile name '{tile_name}' does not end with four numeric components")
+
+    def clone(self) -> "Ground":
+        return copy.deepcopy(self)
+
+    def render(self, screen):
+        sprite = pygame.image.load(f"{self.tile_name}.png").convert_alpha()
+        screen.blit(sprite, (self.x * TILE_SIZE, self.y * TILE_SIZE))
 
 
 @registry.register

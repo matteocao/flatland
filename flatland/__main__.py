@@ -5,7 +5,7 @@ import pygame
 from .consts import MAX_X, MAX_Y, TILE_SIZE
 from .logger import Logger
 from .objects import items
-from .world.register_to_world import register_objects
+from .world.register_to_world import register_objects, register_terrain
 from .world.world import world
 
 # initialise pygame for CI tests
@@ -21,9 +21,10 @@ except pygame.error as e:
 def main():
 
     screen = pygame.display.set_mode((MAX_X * TILE_SIZE, MAX_Y * TILE_SIZE))
-    pygame.display.set_caption("AI-Driven 2D RPG")
+    pygame.display.set_caption("Flatland")
     clock = pygame.time.Clock()
     logger = Logger()
+    register_terrain()
     register_objects()
 
     running = True
