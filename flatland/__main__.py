@@ -13,7 +13,6 @@ try:
 except pygame.error as e:
     # fallback: disable sound if mixer init fails (e.g., in CI)
     warnings.warn(f"Could not load mixer, {e}")
-    pygame.mixer = None  # type: ignore
 
 
 def main():
