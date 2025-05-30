@@ -26,7 +26,7 @@ class GameObject(ABC):
         self.scheduler = InteractionScheduler(interval=1.0)
         self.volition = VolitionEngine(owner=self)
         self.logger = Logger()
-        self.direction = Direction.DOWN
+        self.direction: Direction = Direction.DOWN
         self.speed: int = 0  # shall be >= 0. This is the current speed
         self.actions_per_second: int = 1
         self.last_action_time: float = 0.0

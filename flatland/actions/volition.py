@@ -1,6 +1,7 @@
 import random
 from typing import TYPE_CHECKING, Any, Callable
 
+from ..consts import Direction
 from ..logger import Logger
 
 if TYPE_CHECKING:
@@ -26,7 +27,14 @@ class VolitionEngine:
             )
         if hasattr(self.owner, "move") and random.random() > 0.5:
             self.list_of_actions.append(
-                (self.owner.move, {"dx": random.randint(-1, 1), "dy": random.randint(-1, 1)})
+                (
+                    self.owner.move,
+                    {
+                        "direction": random.choice(
+                            [Direction.DOWN, Direction.UP, Direction.LEFT, Direction.RIGHT]
+                        )
+                    },
+                )
             )
 
     def update(self):
