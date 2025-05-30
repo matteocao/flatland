@@ -16,9 +16,9 @@ class VolitionEngine:
         """
         self.list_of_actions = []
         # temporarily a random thingy
-        if getattr(self, "speak") and random.random() > 0.5:
+        if hasattr(self, "speak") and random.random() > 0.5:
             self.list_of_actions.append(self.speak, random.choice("hello", "mooo"))
-        if getattr(self, "move") and random.random() > 0.5:
+        if hasattr(self, "move") and random.random() > 0.5:
             self.list_of_actions.append(
                 self.move, {"dx", random.randint(-1, 2), "dy", random.randint(-1, 2)}
             )

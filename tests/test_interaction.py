@@ -1,3 +1,12 @@
+import os
+
+import pygame
+
+os.environ["SDL_VIDEODRIVER"] = "dummy"  # Use a headless display
+pygame.init()
+pygame.display.set_mode((1, 1))  # Minimal dummy window
+
+from flatland.consts import MAX_X, MAX_Y
 from flatland.objects.items import Stone, Sword
 
 

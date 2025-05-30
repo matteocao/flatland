@@ -1,6 +1,11 @@
+import os
 from typing import Any
 
 import pygame
+
+os.environ["SDL_VIDEODRIVER"] = "dummy"  # Use a headless display
+pygame.init()
+pygame.display.set_mode((1, 1))  # Minimal dummy window
 import pytest
 
 from flatland.llm_stub import LLMNPCBrain

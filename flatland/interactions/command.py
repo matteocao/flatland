@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING
 
+from .interactions import InteractionMixin
+
 if TYPE_CHECKING:
     from ..objects.base_objects import GameObject
 
@@ -16,9 +18,7 @@ class InteractionCommand:
                 if issubclass(base, InteractionMixin) and base != InteractionMixin:
                     mixin_obj = base.__dict__.get("get_interaction_callables")
                     if mixin_obj:
-                        calls = base.get_interaction_callables(
-                            self.initiator, self.target
-                        )
+                        calls = base.get_interaction_callables(self.initiator, self.target)
                         callables.extend(calls)
             for call in callables:
                 call()

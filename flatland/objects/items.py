@@ -1,11 +1,13 @@
+from pathlib import Path
 from typing import Any
 
 import pygame
+pygame.init()
+pygame.display.set_mode((1, 1))
 
 from ..actions.actions import LimbControlMixin, MovementMixin, SpeechMixin
-from ..consts import MAX_X, MAX_Y, TILE_SIZE
-from ..interactions.interactions import (ContactInteractionMixin,
-                                         HeatInteractionMixin)
+from ..consts import MAX_X, MAX_Y, TILE_SIZE, Direction
+from ..interactions.interactions import ContactInteractionMixin, HeatInteractionMixin
 from ..internal.state import InternalState
 from ..sensors.sensors import HearingSensorMixin, SightSensorMixin
 from .base_objects import BaseAnimal, BaseNPC, GameObject
@@ -45,6 +47,7 @@ class HeatedStone(ContactInteractionMixin, HeatInteractionMixin, GameObject):
         self.noise_intensity = 0.1
         self.attractiveness = 0.1
         self.visible_size = 0.5
+        self.color = (255, 0, 0)
 
     def contact_effect(self, other):
         self.health -= 1
@@ -152,7 +155,33 @@ class Cow(
         self.attractiveness = 0.1
         self.visible_size = 4.0
         self.moving = False
+        self.direction = Direction.DOWN
         self.internal_state = InternalState(owner=self)
+
+        # Load sprites
+        self.sprites = {
+            Direction.UP: [
+                pygame.image.load(f"assets/sprites/cow/up_{i}.png").convert_alpha()
+                for i in range(2)
+            ],
+            Direction.DOWN: [
+                pygame.image.load(f"assets/sprites/cow/down_{i}.png").convert_alpha()
+                for i in range(2)
+            ],
+            Direction.LEFT: [
+                pygame.image.load(f"assets/sprites/cow/left_{i}.png").convert_alpha()
+                for i in range(2)
+            ],
+            Direction.RIGHT: [
+                pygame.image.load(f"assets/sprites/cow/right_{i}.png").convert_alpha()
+                for i in range(2)
+            ],
+        }
+        self.animation_index = 0
+        self.animation_timer = 0
+
+        # Load sound
+        self.moo_sound = pygame.mixer.Sound("assets/sounds/cow_moo.wav")
 
     def contact_effect(self, other):
         if isinstance(other, Stone):
@@ -165,12 +194,19 @@ class Cow(
             self.health -= 3
             print("hit with heated stone")
 
+    def update_animation(self):
+        if self.moving:
+            self.animation_timer += 1
+            if self.animation_timer >= 10:
+                self.animation_timer = 0
+                self.animation_index = (self.animation_index + 1) % 2
+        else:
+            self.animation_index = 0
+
     def render(self, screen):
-        pygame.draw.rect(
-            screen,
-            self.color,
-            pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE),
-        )
+        self.update_animation()
+        sprite = self.sprites[self.direction][self.animation_index]
+        screen.blit(sprite, (self.x * TILE_SIZE, self.y * TILE_SIZE))
 
 
 @registry.register

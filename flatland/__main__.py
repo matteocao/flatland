@@ -1,10 +1,11 @@
 import pygame
 
+from .consts import MAX_X, MAX_Y
 from .world.world import world
 
 
 def main():
-    pygame.init()
+
     screen = pygame.display.set_mode((MAX_X, MAX_Y))
     pygame.display.set_caption("AI-Driven 2D RPG")
     clock = pygame.time.Clock()
@@ -14,6 +15,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+        screen.fill((0, 0, 0))
 
         keys = pygame.key.get_pressed()
         # send keys to the user

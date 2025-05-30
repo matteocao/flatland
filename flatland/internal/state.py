@@ -11,9 +11,7 @@ from collections import deque
 class InternalState:
     def __init__(self, owner: "GameObject", history_length: int = 10) -> None:
         self.owner = owner
-        self.time_history: deque[List[ObjectRepresentation]] = deque(
-            maxlen=history_length
-        )
+        self.time_history: deque[List[ObjectRepresentation]] = deque(maxlen=history_length)
 
     def update(self, perceivable_objects: List["GameObject"]):
         snapshot: Dict[int, ObjectRepresentation] = {}
