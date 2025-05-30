@@ -5,7 +5,7 @@ test:
 	poetry run black .
 	poetry run isort .
 	poetry run mypy .
-	poetry run pytest -vs --cov=. --cov-report=xml
+	poetry run pytest -vs --cov=. --cov-report=html
 
 run:
 	poetry run python3 -m flatland
