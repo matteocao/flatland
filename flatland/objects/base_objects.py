@@ -40,7 +40,6 @@ class GameObject(ABC):
 
     def prepare(self, near_objs: Any):
         self.logger.info(f"Preparation for {self.__class__.__name__}")
-        self.speed = 0
         # prepare interactions
         for near_obj in near_objs:
             self.scheduler.add(InteractionCommand(self, near_obj))

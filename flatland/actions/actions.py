@@ -36,6 +36,7 @@ class SpeechMixin:
     logger = Logger()
 
     def speak(self, message: Optional[str] = None):
+        self.speed = 0
         default = getattr(self, "default_sound", f"{self.__class__.__name__} is silent.")
         self.logger.info(f"{self.__class__.__name__} says: {message or default}")
         if hasattr(self, "moo_sound"):

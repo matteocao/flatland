@@ -153,24 +153,25 @@ class Cow(
         self.attractiveness = 0.1
         self.visible_size = 4.0
         self.internal_state = InternalState(owner=self)
+        self.num_animations = 4
 
         # Load sprites
         self.sprites = {
             Direction.UP: [
                 pygame.image.load(f"assets/sprites/cow/up_{i}.png").convert_alpha()
-                for i in range(2)
+                for i in range(self.num_animations)
             ],
             Direction.DOWN: [
                 pygame.image.load(f"assets/sprites/cow/down_{i}.png").convert_alpha()
-                for i in range(2)
+                for i in range(self.num_animations)
             ],
             Direction.LEFT: [
                 pygame.image.load(f"assets/sprites/cow/left_{i}.png").convert_alpha()
-                for i in range(2)
+                for i in range(self.num_animations)
             ],
             Direction.RIGHT: [
                 pygame.image.load(f"assets/sprites/cow/right_{i}.png").convert_alpha()
-                for i in range(2)
+                for i in range(self.num_animations)
             ],
         }
         self.animation_index = 0
@@ -198,7 +199,7 @@ class Cow(
             self.animation_timer += 1
             if self.animation_timer >= 10:
                 self.animation_timer = 0
-                self.animation_index = (self.animation_index + 1) % 2
+                self.animation_index = (self.animation_index + 1) % self.num_animations
         else:
             self.animation_index = 0
 
