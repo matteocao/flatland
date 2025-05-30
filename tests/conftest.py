@@ -1,6 +1,7 @@
 # conftest.py
 
 import os
+import warnings
 
 import pygame
 import pytest
@@ -13,6 +14,7 @@ def init_pygame():
     pygame.display.set_mode((1, 1))
     try:
         pygame.mixer.init()
-    except pygame.error:
+    except pygame.error as e:
         # fallback: disable sound if mixer init fails (e.g., in CI)
+        warnings.warn(f"Could not load mixer, {e}")
         pygame.mixer = None
