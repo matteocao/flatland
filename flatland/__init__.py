@@ -1,4 +1,8 @@
+import os
 import pathlib
+
+if os.environ.get("VERBOSE_LOGS", None) is None:
+    os.environ["VERBOSE_LOGS"] = "true"
 
 from . import __main__, actions, consts, interactions, internal, llm_stub, objects, sensors, world
 

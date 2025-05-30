@@ -28,6 +28,13 @@ def test_animal_vision_chase() -> None:
     player = Player(x=3, y=1, name="Matt", health=2)
 
 
+def test_cow() -> None:
+    cow = Cow(1, 1, "lola", 4, 3, 3)
+    assert "speak" in dir(cow)
+    assert hasattr(cow, "speak")
+    assert callable(getattr(cow, "speak", None))
+
+
 def test_npc_brain():
 
     brain = LLMNPCBrain("Bob", "friendly")

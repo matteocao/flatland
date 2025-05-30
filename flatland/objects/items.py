@@ -20,7 +20,6 @@ class Stone(ContactInteractionMixin, GameObject):
     def __init__(self, x: int, y: int, name: str, health: int, **kwargs: Any):
         super().__init__(x, y, name, health)
         self.color = (128, 128, 128)
-        self.moving = False
         self.noise_intensity = 0.1
         self.attractiveness = 0.1
         self.visible_size = 0.5
@@ -28,7 +27,7 @@ class Stone(ContactInteractionMixin, GameObject):
     def contact_effect(self, other):
         if isinstance(other, Sword):
             self.health -= 1
-            print(f"{self.name} chips! Durability: {self.health}")
+            self.logger.info(f"{self.name} chips! Durability: {self.health}")
 
     def render(self, screen):
         pygame.draw.rect(
@@ -52,7 +51,7 @@ class HeatedStone(ContactInteractionMixin, HeatInteractionMixin, GameObject):
 
     def contact_effect(self, other):
         self.health -= 1
-        print(f"{self.name} bumps into {other.name}")
+        self.logger.info(f"{self.name} bumps into {other.name}")
 
     def render(self, screen):
         pygame.draw.rect(
@@ -67,7 +66,6 @@ class Sword(ContactInteractionMixin, GameObject):
     def __init__(self, x: int, y: int, name: str, health: int, **kwargs: Any):
         super().__init__(x, y, name, health)
         self.color = (128, 0, 128)
-        self.moving = False
         self.noise_intensity = 0.1
         self.attractiveness = 1.1
         self.visible_size = 0.5
@@ -75,7 +73,7 @@ class Sword(ContactInteractionMixin, GameObject):
     def contact_effect(self, other):
         if isinstance(other, Stone):
             self.health -= 3
-            print(f"{self.name} dulls! Sharpness: {self.health}")
+            self.logger.info(f"{self.name} dulls! Sharpness: {self.health}")
 
     def render(self, screen):
         pygame.draw.rect(
@@ -107,7 +105,6 @@ class Elf(
     ):
         super().__init__(x, y, name, health, vision_range, hearing_range)
         self.color = (128, 0, 0)
-        self.moving = False
         self.noise_intensity = 0.3
         self.attractiveness = 3.1
         self.visible_size = 2.3
@@ -115,13 +112,13 @@ class Elf(
     def contact_effect(self, other):
         if isinstance(other, Stone):
             self.health -= 2
-            print("hit with stone")
+            self.logger.info("hit with stone")
         elif isinstance(other, Sword):
             self.health -= 4
-            print("hit with sword")
+            self.logger.info("hit with sword")
         elif isinstance(other, HeatedStone):
             self.health -= 3
-            print("hit with heated stone")
+            self.logger.info("hit with heated stone")
 
     def render(self, screen):
         pygame.draw.rect(
@@ -155,8 +152,6 @@ class Cow(
         self.noise_intensity = 3.1
         self.attractiveness = 0.1
         self.visible_size = 4.0
-        self.moving = False
-        self.direction = Direction.DOWN
         self.internal_state = InternalState(owner=self)
 
         # Load sprites
@@ -185,21 +180,21 @@ class Cow(
         try:
             self.moo_sound = pygame.mixer.Sound("assets/sounds/cow_moo.wav")
         except pygame.error:
-            print("Could not load sound. Probably mixer not initialised.")
+            self.logger.info("Could not load sound. Probably mixer not initialised.")
 
     def contact_effect(self, other):
         if isinstance(other, Stone):
             self.health -= 2
-            print("hit with stone")
+            self.logger.info("hit with stone")
         elif isinstance(other, Sword):
             self.health -= 4
-            print("hit with sword")
+            self.logger.info("hit with sword")
         elif isinstance(other, HeatedStone):
             self.health -= 3
-            print("hit with heated stone")
+            self.logger.info("hit with heated stone")
 
     def update_animation(self):
-        if self.moving:
+        if self.speed > 0:
             self.animation_timer += 1
             if self.animation_timer >= 10:
                 self.animation_timer = 0

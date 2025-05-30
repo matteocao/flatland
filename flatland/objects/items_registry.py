@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING, Any, Type
 
+from ..logger import Logger
+
 if TYPE_CHECKING:
     from ..objects.base_objects import GameObject
 
@@ -7,8 +9,10 @@ if TYPE_CHECKING:
 class Registry:
     def __init__(self) -> None:
         self._registry: dict[str, "Type[GameObject]"] = dict()
+        self.logger = Logger()
 
     def register(self, cls: type) -> type:
+        self.logger.info(f"About to register {cls.__name__}")
         self._registry[cls.__name__] = cls
         return cls
 

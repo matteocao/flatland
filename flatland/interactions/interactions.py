@@ -1,11 +1,15 @@
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Callable
 
+from ..logger import Logger
+
 if TYPE_CHECKING:
     from ..objects.base_objects import GameObject
 
 
 class InteractionMixin(ABC):
+    logger = Logger()
+
     @abstractmethod
     def get_interaction_callables(self, other: "GameObject") -> list[Callable[[], None]]:
         """Return list of interaction callables relevant for this mixin"""
@@ -19,7 +23,7 @@ class ContactInteractionMixin(InteractionMixin):
             and other.distance(self) <= 1
             and not self is other
         ):
-            print(f"{self.__class__.__name__} contacts {other.__class__.__name__}")
+            self.logger.info(f"{self.__class__.__name__} contacts {other.__class__.__name__}")
             self.contact_effect(other)
 
     def contact_effect(self, other: "GameObject"):
@@ -35,7 +39,7 @@ class DeathMixin(InteractionMixin):
     def check_death(self):
         if hasattr(self, "health"):
             if health <= 0:
-                print(f"{self.__class__.__name__} dies")
+                self.logger.info(f"{self.__class__.__name__} dies")
                 del self
 
     def get_interaction_callables(self, other: "GameObject"):
@@ -54,7 +58,9 @@ class HeatInteractionMixin(InteractionMixin):
             diff = (self.temperature - other.temperature) / 2
             self.temperature -= diff
             other.temperature += diff
-            print(f"{self.__class__.__name__} transfers heat to {other.__class__.__name__}")
+            self.logger.info(
+                f"{self.__class__.__name__} transfers heat to {other.__class__.__name__}"
+            )
 
     def get_interaction_callables(self, other: "GameObject"):
         if isinstance(other, HeatInteractionMixin):

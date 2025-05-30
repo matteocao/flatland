@@ -4,6 +4,8 @@ world
 
 from typing import TYPE_CHECKING, Any
 
+from ..logger import Logger
+
 if TYPE_CHECKING:
     from ..objects.base_objects import GameObject
 
@@ -25,9 +27,11 @@ class World:
     def __init__(self) -> None:
         if not hasattr(self, "_observers"):
             self._observers: list["GameObject"] = []
+        self.logger = Logger()
 
     def register(self, obj: "GameObject") -> None:
         if obj not in self._observers:
+            self.logger.info(f"Register to world {obj}")
             self._observers.append(obj)
 
     def send_keys_to_user(self, keys) -> None:
@@ -39,13 +43,13 @@ class World:
         if obj in self._observers:
             self._observers.remove(obj)
 
-    def update(self, event) -> None:
+    def update(self, event: Any) -> None:
         for observer in self._observers:
             observer.update(event)
 
-    def prepare(self, keys) -> None:
+    def prepare(self, near_objs: Any) -> None:
         for obj in self._observers:
-            obj.prepare(keys)
+            obj.prepare(near_objs)
 
     def render(self, screen) -> None:
         for obj in self._observers:

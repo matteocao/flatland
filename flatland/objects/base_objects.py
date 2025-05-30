@@ -6,11 +6,12 @@ from typing import Any
 import pygame
 
 from ..actions.volition import VolitionEngine
-from ..consts import TILE_SIZE
+from ..consts import TILE_SIZE, Direction
 from ..interactions.command import InteractionCommand
 from ..interactions.interactions import ContactInteractionMixin
 from ..interactions.scheduler import InteractionScheduler
 from ..internal.state import InternalState
+from ..logger import Logger
 
 
 class GameObject(ABC):
@@ -24,11 +25,22 @@ class GameObject(ABC):
         self.health = health
         self.scheduler = InteractionScheduler(interval=1.0)
         self.volition = VolitionEngine(owner=self)
+        self.logger = Logger()
+        self.direction = Direction.DOWN
+        self.speed: int = 0  # shall be >= 0. This is the current speed
+        self.actions_per_second: int = 1
+        self.last_action_time: float = 0.0
 
     def update(self, event: Any):
-        self.scheduler.update()
+        now = pygame.time.get_ticks()
+        if now - self.last_action_time >= 1 / self.actions_per_second:
+            self.last_action_time = now
+            self.logger.info(f"Update for {self.__class__.__name__}")
+            self.scheduler.update()
 
     def prepare(self, near_objs: Any):
+        self.logger.info(f"Preparation for {self.__class__.__name__}")
+        self.speed = 0
         # prepare interactions
         for near_obj in near_objs:
             self.scheduler.add(InteractionCommand(self, near_obj))
@@ -59,7 +71,9 @@ class BaseAnimal(GameObject):
 
     def update(self, event: Any):
         super().update(event)
-        self.volition.update()
+        now = pygame.time.get_ticks()
+        if now - self.last_action_time >= 1 / self.actions_per_second:
+            self.volition.update()
 
     def prepare(self, near_objs: Any):
         super().prepare(near_objs)
