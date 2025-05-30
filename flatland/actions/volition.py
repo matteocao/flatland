@@ -26,7 +26,7 @@ class VolitionEngine:
             )
         if hasattr(self.owner, "move") and random.random() > 0.5:
             self.list_of_actions.append(
-                (self.owner.move, {"dx": random.randint(-1, 2), "dy": random.randint(-1, 2)})
+                (self.owner.move, {"dx": random.randint(-1, 1), "dy": random.randint(-1, 1)})
             )
 
     def update(self):
