@@ -1,4 +1,7 @@
-import copy
+"""
+----------------- Prototype pattern for all of the items below ---------------------
+"""
+
 from pathlib import Path
 from typing import Any
 
@@ -9,7 +12,11 @@ pygame.display.set_mode((1, 1))
 
 from ..actions.actions import LimbControlMixin, MovementMixin, SpeechMixin
 from ..consts import MAX_X, MAX_Y, TILE_SIZE, Direction
-from ..interactions.interactions import ContactInteractionMixin, HeatInteractionMixin
+from ..interactions.interactions import (
+    ContactInteractionMixin,
+    HeatInteractionMixin,
+    InertiaPrincipleWithFriction,
+)
 from ..internal.state import InternalState
 from ..sensors.sensors import HearingSensorMixin, SightSensorMixin
 from .base_objects import BaseAnimal, BaseNPC, GameObject
@@ -17,18 +24,13 @@ from .items_registry import registry
 
 
 @registry.register
-class Stone(ContactInteractionMixin, GameObject):
-    def __init__(self, x: int, y: int, name: str, health: int, **kwargs: Any):
+class Stone(ContactInteractionMixin, InertiaPrincipleWithFriction, GameObject):
+    def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
         super().__init__(x, y, name, health)
         self.color = (128, 128, 128)
         self.noise_intensity = 0.1
         self.attractiveness = 0.1
         self.visible_size = 0.5
-
-    def contact_effect(self, other):
-        if isinstance(other, Sword):
-            self.health -= 1
-            self.logger.info(f"{self.name} chips! Durability: {self.health}")
 
     def render(self, screen):
         pygame.draw.rect(
@@ -38,10 +40,9 @@ class Stone(ContactInteractionMixin, GameObject):
         )
 
 
-# ----------------- Prototype pattern ---------------------
 @registry.register
 class Ground(GameObject):
-    def __init__(self, x: int, y: int, name: str, health: int, tile_name: str, **kwargs: Any):
+    def __init__(self, x: int, y: int, name: str, health: float, tile_name: str, **kwargs: Any):
         super().__init__(x, y, name, health)
         self.tile_name = tile_name
         # Extract NSWE neighbor tuple from the last 4 components of the name
@@ -51,18 +52,17 @@ class Ground(GameObject):
         except ValueError:
             raise ValueError(f"Tile name '{tile_name}' does not end with four numeric components")
 
-    def clone(self) -> "Ground":
-        return copy.deepcopy(self)
-
     def render(self, screen):
         sprite = pygame.image.load(f"{self.tile_name}.png").convert_alpha()
         screen.blit(sprite, (self.x * TILE_SIZE, self.y * TILE_SIZE))
 
 
 @registry.register
-class HeatedStone(ContactInteractionMixin, HeatInteractionMixin, GameObject):
+class HeatedStone(
+    ContactInteractionMixin, HeatInteractionMixin, InertiaPrincipleWithFriction, GameObject
+):
     def __init__(
-        self, x: int, y: int, name: str, health: int, temperature: float, **kwargs: Any
+        self, x: int, y: int, name: str, health: float, temperature: float, **kwargs: Any
     ) -> None:
         super().__init__(x, y, name, health)
         self.temperature = temperature
@@ -70,10 +70,6 @@ class HeatedStone(ContactInteractionMixin, HeatInteractionMixin, GameObject):
         self.attractiveness = 0.1
         self.visible_size = 0.5
         self.color = (255, 0, 0)
-
-    def contact_effect(self, other):
-        self.health -= 1
-        self.logger.info(f"{self.name} bumps into {other.name}")
 
     def render(self, screen):
         pygame.draw.rect(
@@ -85,17 +81,12 @@ class HeatedStone(ContactInteractionMixin, HeatInteractionMixin, GameObject):
 
 @registry.register
 class Sword(ContactInteractionMixin, GameObject):
-    def __init__(self, x: int, y: int, name: str, health: int, **kwargs: Any):
+    def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
         super().__init__(x, y, name, health)
         self.color = (128, 0, 128)
         self.noise_intensity = 0.1
         self.attractiveness = 1.1
         self.visible_size = 0.5
-
-    def contact_effect(self, other):
-        if isinstance(other, Stone):
-            self.health -= 3
-            self.logger.info(f"{self.name} dulls! Sharpness: {self.health}")
 
     def render(self, screen):
         pygame.draw.rect(
@@ -120,7 +111,7 @@ class Elf(
         x: int,
         y: int,
         name: str,
-        health: int,
+        health: float,
         vision_range: int,
         hearing_range: int,
         **kwargs: Any,
@@ -130,17 +121,6 @@ class Elf(
         self.noise_intensity = 0.3
         self.attractiveness = 3.1
         self.visible_size = 2.3
-
-    def contact_effect(self, other):
-        if isinstance(other, Stone):
-            self.health -= 2
-            self.logger.info("hit with stone")
-        elif isinstance(other, Sword):
-            self.health -= 4
-            self.logger.info("hit with sword")
-        elif isinstance(other, HeatedStone):
-            self.health -= 3
-            self.logger.info("hit with heated stone")
 
     def render(self, screen):
         pygame.draw.rect(
@@ -164,7 +144,7 @@ class Cow(
         x: int,
         y: int,
         name: str,
-        health: int,
+        health: float,
         vision_range: int,
         hearing_range: int,
         **kwargs: Any,
@@ -178,26 +158,19 @@ class Cow(
         self.num_animations = 4
 
         # Load sprites
-        self.sprites = {
-            Direction.UP: [
-                pygame.image.load(f"assets/sprites/cow/up_{i}.png").convert_alpha()
-                for i in range(self.num_animations)
-            ],
+        self.movement_sprites_locations = {
+            Direction.UP: [f"assets/sprites/cow/up_{i}.png" for i in range(self.num_animations)],
             Direction.DOWN: [
-                pygame.image.load(f"assets/sprites/cow/down_{i}.png").convert_alpha()
-                for i in range(self.num_animations)
+                f"assets/sprites/cow/down_{i}.png" for i in range(self.num_animations)
             ],
             Direction.LEFT: [
-                pygame.image.load(f"assets/sprites/cow/left_{i}.png").convert_alpha()
-                for i in range(self.num_animations)
+                f"assets/sprites/cow/left_{i}.png" for i in range(self.num_animations)
             ],
             Direction.RIGHT: [
-                pygame.image.load(f"assets/sprites/cow/right_{i}.png").convert_alpha()
-                for i in range(self.num_animations)
+                f"assets/sprites/cow/right_{i}.png" for i in range(self.num_animations)
             ],
         }
-        self.animation_index = 0
-        self.animation_timer = 0
+        self.create_movement_sprites()  # do not forget!
 
         # Load sound
         try:
@@ -205,35 +178,10 @@ class Cow(
         except pygame.error:
             self.logger.info("Could not load sound. Probably mixer not initialised.")
 
-    def contact_effect(self, other):
-        if isinstance(other, Stone):
-            self.health -= 2
-            self.logger.info("hit with stone")
-        elif isinstance(other, Sword):
-            self.health -= 4
-            self.logger.info("hit with sword")
-        elif isinstance(other, HeatedStone):
-            self.health -= 3
-            self.logger.info("hit with heated stone")
-
-    def update_animation(self):
-        if self.speed > 0:
-            self.animation_timer += 1
-            if self.animation_timer >= 10:
-                self.animation_timer = 0
-                self.animation_index = (self.animation_index + 1) % self.num_animations
-        else:
-            self.animation_index = 0
-
-    def render(self, screen):
-        self.update_animation()
-        sprite = self.sprites[self.direction][self.animation_index]
-        screen.blit(sprite, (self.x * TILE_SIZE, self.y * TILE_SIZE))
-
 
 @registry.register
 class Player(GameObject):
-    def __init__(self, x: int, y: int, name: str, health: int, **kwargs: Any):
+    def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
         super().__init__(x, y, name, health)
         self.color = (0, 255, 0)
         self.noise_intensity = 1.1

@@ -21,6 +21,7 @@ class VolitionEngine:
         """
         self.list_of_actions = []
         # temporarily a random thingy
+
         if hasattr(self.owner, "speak") and random.random() > 0.9:
             self.list_of_actions.append(
                 (self.owner.speak, {"message": random.choice(["hello", "mooo"])})
