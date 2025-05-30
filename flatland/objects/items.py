@@ -182,7 +182,8 @@ class Cow(
         self.animation_timer = 0
 
         # Load sound
-        self.moo_sound = pygame.mixer.Sound("assets/sounds/cow_moo.wav")
+        if pygame.mixer:
+            self.moo_sound = pygame.mixer.Sound("assets/sounds/cow_moo.wav")
 
     def contact_effect(self, other):
         if isinstance(other, Stone):
