@@ -201,7 +201,7 @@ class Cow(
 
         # Load sound
         try:
-            self.moo_sound = pygame.mixer.Sound("assets/sounds/cow_moo.wav")
+            self.make_sound = pygame.mixer.Sound("assets/sounds/cow_moo.wav")
         except pygame.error:
             self.logger.info("Could not load sound. Probably mixer not initialised.")
 

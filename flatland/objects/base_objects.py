@@ -67,6 +67,7 @@ class BaseAnimal(GameObject):
         self.vision_range = vision_range
         self.hearing_range = hearing_range
         self.internal_state = InternalState(self)
+        self.speech = ""
 
     def update(self, event: Any):
         super().update(event)

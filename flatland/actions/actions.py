@@ -29,10 +29,10 @@ class SpeechMixin:
 
     def speak(self, message: Optional[str] = None):
         self.speed = 0
-        default = getattr(self, "default_sound", f"{self.__class__.__name__} is silent.")
-        self.logger.info(f"{self.__class__.__name__} says: {message or default}")
-        if hasattr(self, "moo_sound"):
-            self.moo_sound.play()
+        if message:
+            self.speech = message
+        if hasattr(self, "make_sound"):
+            self.make_sound.play()
 
 
 class LimbControlMixin:
