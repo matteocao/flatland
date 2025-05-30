@@ -1,5 +1,7 @@
 # Flatland
 
+[![Python CI](https://github.com/matteocao/flatland/actions/workflows/ci.yml/badge.svg)](https://github.com/matteocao/flatland/actions/workflows/ci.yml)
+
 A 2D tile-based role-playing game built with `pygame` and powered by AI-controlled entities.
 
 ## Features
