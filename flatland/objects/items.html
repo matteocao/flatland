@@ -461,7 +461,7 @@
 </span><span id="L-201"><a href="#L-201"><span class="linenos">201</span></a>
 </span><span id="L-202"><a href="#L-202"><span class="linenos">202</span></a>        <span class="c1"># Load sound</span>
 </span><span id="L-203"><a href="#L-203"><span class="linenos">203</span></a>        <span class="k">try</span><span class="p">:</span>
-</span><span id="L-204"><a href="#L-204"><span class="linenos">204</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">moo_sound</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="s2">&quot;assets/sounds/cow_moo.wav&quot;</span><span class="p">)</span>
+</span><span id="L-204"><a href="#L-204"><span class="linenos">204</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">make_sound</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="s2">&quot;assets/sounds/cow_moo.wav&quot;</span><span class="p">)</span>
 </span><span id="L-205"><a href="#L-205"><span class="linenos">205</span></a>        <span class="k">except</span> <span class="n">pygame</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
 </span><span id="L-206"><a href="#L-206"><span class="linenos">206</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Could not load sound. Probably mixer not initialised.&quot;</span><span class="p">)</span>
 </span><span id="L-207"><a href="#L-207"><span class="linenos">207</span></a>
@@ -1443,6 +1443,7 @@ inheritance.</p>
                                 <dd id="Elf.vision_range" class="variable"><a href="base_objects.html#BaseAnimal.vision_range">vision_range</a></dd>
                 <dd id="Elf.hearing_range" class="variable"><a href="base_objects.html#BaseAnimal.hearing_range">hearing_range</a></dd>
                 <dd id="Elf.internal_state" class="variable"><a href="base_objects.html#BaseAnimal.internal_state">internal_state</a></dd>
+                <dd id="Elf.speech" class="variable"><a href="base_objects.html#BaseAnimal.speech">speech</a></dd>
                 <dd id="Elf.update" class="function"><a href="base_objects.html#BaseAnimal.update">update</a></dd>
                 <dd id="Elf.prepare" class="function"><a href="base_objects.html#BaseAnimal.prepare">prepare</a></dd>
 
@@ -1549,7 +1550,7 @@ inheritance.</p>
 </span><span id="Cow-202"><a href="#Cow-202"><span class="linenos">202</span></a>
 </span><span id="Cow-203"><a href="#Cow-203"><span class="linenos">203</span></a>        <span class="c1"># Load sound</span>
 </span><span id="Cow-204"><a href="#Cow-204"><span class="linenos">204</span></a>        <span class="k">try</span><span class="p">:</span>
-</span><span id="Cow-205"><a href="#Cow-205"><span class="linenos">205</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">moo_sound</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="s2">&quot;assets/sounds/cow_moo.wav&quot;</span><span class="p">)</span>
+</span><span id="Cow-205"><a href="#Cow-205"><span class="linenos">205</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">make_sound</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="s2">&quot;assets/sounds/cow_moo.wav&quot;</span><span class="p">)</span>
 </span><span id="Cow-206"><a href="#Cow-206"><span class="linenos">206</span></a>        <span class="k">except</span> <span class="n">pygame</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
 </span><span id="Cow-207"><a href="#Cow-207"><span class="linenos">207</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Could not load sound. Probably mixer not initialised.&quot;</span><span class="p">)</span>
 </span><span id="Cow-208"><a href="#Cow-208"><span class="linenos">208</span></a>
@@ -1637,7 +1638,7 @@ inheritance.</p>
 </span><span id="Cow.__init__-202"><a href="#Cow.__init__-202"><span class="linenos">202</span></a>
 </span><span id="Cow.__init__-203"><a href="#Cow.__init__-203"><span class="linenos">203</span></a>        <span class="c1"># Load sound</span>
 </span><span id="Cow.__init__-204"><a href="#Cow.__init__-204"><span class="linenos">204</span></a>        <span class="k">try</span><span class="p">:</span>
-</span><span id="Cow.__init__-205"><a href="#Cow.__init__-205"><span class="linenos">205</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">moo_sound</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="s2">&quot;assets/sounds/cow_moo.wav&quot;</span><span class="p">)</span>
+</span><span id="Cow.__init__-205"><a href="#Cow.__init__-205"><span class="linenos">205</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">make_sound</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="s2">&quot;assets/sounds/cow_moo.wav&quot;</span><span class="p">)</span>
 </span><span id="Cow.__init__-206"><a href="#Cow.__init__-206"><span class="linenos">206</span></a>        <span class="k">except</span> <span class="n">pygame</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
 </span><span id="Cow.__init__-207"><a href="#Cow.__init__-207"><span class="linenos">207</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Could not load sound. Probably mixer not initialised.&quot;</span><span class="p">)</span>
 </span></pre></div>
@@ -1835,6 +1836,7 @@ inheritance.</p>
             <div><dt><a href="base_objects.html#BaseAnimal">flatland.objects.base_objects.BaseAnimal</a></dt>
                                 <dd id="Cow.vision_range" class="variable"><a href="base_objects.html#BaseAnimal.vision_range">vision_range</a></dd>
                 <dd id="Cow.hearing_range" class="variable"><a href="base_objects.html#BaseAnimal.hearing_range">hearing_range</a></dd>
+                <dd id="Cow.speech" class="variable"><a href="base_objects.html#BaseAnimal.speech">speech</a></dd>
                 <dd id="Cow.update" class="function"><a href="base_objects.html#BaseAnimal.update">update</a></dd>
                 <dd id="Cow.prepare" class="function"><a href="base_objects.html#BaseAnimal.prepare">prepare</a></dd>
 
