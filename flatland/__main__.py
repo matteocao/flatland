@@ -1,7 +1,19 @@
+import warnings
+
 import pygame
 
 from .consts import MAX_X, MAX_Y
 from .world.world import world
+
+# initialise pygame
+pygame.init()
+pygame.display.set_mode((1, 1))  # Minimal dummy window
+try:
+    pygame.mixer.init()
+except pygame.error as e:
+    # fallback: disable sound if mixer init fails (e.g., in CI)
+    warnings.warn(f"Could not load mixer, {e}")
+    pygame.mixer = None  # type: ignore
 
 
 def main():
