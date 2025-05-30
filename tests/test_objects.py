@@ -13,12 +13,6 @@ from flatland.objects.items import Cow, Player, Stone
 from flatland.world.world import World
 
 
-@pytest.fixture
-def dummy_screen() -> Any:
-    pygame.init()
-    return pygame.display.set_mode((320, 320))
-
-
 def test_player_creation() -> None:
     p = Player(x=1, y=2, name="John", health=10)
     assert p.x == 1 and p.y == 2

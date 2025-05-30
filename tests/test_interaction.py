@@ -1,3 +1,17 @@
+import os
+import warnings
+
+import pygame
+
+os.environ["SDL_VIDEODRIVER"] = "dummy"  # headless video
+pygame.init()
+pygame.display.set_mode((1, 1))
+try:
+    pygame.mixer.init()
+except pygame.error as e:
+    # fallback: disable sound if mixer init fails (e.g., in CI)
+    warnings.warn(f"Could not load mixer, {e}")
+
 from flatland.consts import MAX_X, MAX_Y
 from flatland.objects.items import Stone, Sword
 
