@@ -17,7 +17,6 @@ class MovementMixin:
                 (dx, dy) = (1, 0)
             case Direction.LEFT:
                 (dx, dy) = (-1, 0)
-        self.inertia = 1
         self.direction = direction
         self.x: int = (self.x + dx) % MAX_X
         self.y: int = (self.y + dy) % MAX_Y
@@ -28,7 +27,6 @@ class SpeechMixin:
     logger = Logger()
 
     def speak(self, message: Optional[str] = None):
-        self.inertia = 0
         if message:
             self.speech = message
         if hasattr(self, "make_sound"):

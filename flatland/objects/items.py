@@ -12,11 +12,8 @@ pygame.display.set_mode((1, 1))
 
 from ..actions.actions import LimbControlMixin, MovementMixin, SpeechMixin
 from ..consts import MAX_X, MAX_Y, TILE_SIZE, Direction
-from ..interactions.interactions import (
-    ContactInteractionMixin,
-    HeatInteractionMixin,
-    InertiaPrincipleWithFriction,
-)
+from ..interactions.evolution import InertiaPrincipleWithFrictionEvolution
+from ..interactions.interactions import ContactInteractionMixin, HeatInteractionMixin
 from ..internal.state import InternalState
 from ..sensors.sensors import HearingSensorMixin, SightSensorMixin
 from .base_objects import BaseAnimal, BaseNPC, GameObject
@@ -24,7 +21,7 @@ from .items_registry import registry
 
 
 @registry.register
-class Stone(ContactInteractionMixin, InertiaPrincipleWithFriction, GameObject):
+class Stone(ContactInteractionMixin, InertiaPrincipleWithFrictionEvolution, GameObject):
     def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
         super().__init__(x, y, name, health)
         self.color = (128, 128, 128)
@@ -59,7 +56,7 @@ class Ground(GameObject):
 
 @registry.register
 class HeatedStone(
-    ContactInteractionMixin, HeatInteractionMixin, InertiaPrincipleWithFriction, GameObject
+    ContactInteractionMixin, HeatInteractionMixin, InertiaPrincipleWithFrictionEvolution, GameObject
 ):
     def __init__(
         self, x: int, y: int, name: str, health: float, temperature: float, **kwargs: Any
@@ -138,6 +135,7 @@ class Cow(
     SpeechMixin,
     SightSensorMixin,
     HearingSensorMixin,
+    InertiaPrincipleWithFrictionEvolution,
 ):
     def __init__(
         self,

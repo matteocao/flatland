@@ -7,7 +7,7 @@ from typing import Any
 import pygame
 
 from ..actions.volition import VolitionEngine
-from ..consts import TILE_SIZE, Direction
+from ..consts import NEXT_ANIMATION_STEPS, TILE_SIZE, Direction
 from ..interactions.command import InteractionCommand
 from ..interactions.interactions import ContactInteractionMixin
 from ..interactions.scheduler import InteractionScheduler
@@ -86,10 +86,10 @@ class GameObject:
     def clone(self) -> Any:
         return copy.deepcopy(self)
 
-    def update_animation(self):
-        if self.inertia > 0:
+    def update_movement_animation(self):
+        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
             self.animation_timer += 1
-            if self.animation_timer >= 10:
+            if self.animation_timer >= NEXT_ANIMATION_STEPS:
                 self.animation_timer = 0
                 self.animation_index = (self.animation_index + 1) % self.num_animations
         else:
@@ -105,8 +105,9 @@ class GameObject:
             (alpha * self.x + (1 - alpha) * self.prev_x) * TILE_SIZE,
             (alpha * self.y + (1 - alpha) * self.prev_y) * TILE_SIZE,
         )
-        self.update_animation()
+        self.update_movement_animation()
         sprite = self.movement_sprites[self.direction][self.animation_index]
+        # TODO: here we will need to generalize with new animations and improve the logic
         screen.blit(sprite, pos)
 
 
