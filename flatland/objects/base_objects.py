@@ -50,14 +50,8 @@ class GameObject:
         self.is_update_just_done: bool = (
             False  # this turns to true when self.update() is called and is set to false when self.prepare is called
         )
-        self.new_render_time = 0.0
-        self.last_render_time = 0.0
-
-    def create_movement_sprites(self) -> None:
-        self.movement_sprites = {
-            k: list(map(lambda x: pygame.image.load(x).convert_alpha(), lst_str))
-            for k, lst_str in self.movement_sprites_locations.items()
-        }
+        self.new_render_time = 0
+        self.last_render_time = 0
 
     def update(self, event: Any):
         now = pygame.time.get_ticks()
@@ -86,29 +80,9 @@ class GameObject:
     def clone(self) -> Any:
         return copy.deepcopy(self)
 
-    def update_movement_animation(self):
-        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
-            self.animation_timer += 1
-            if self.animation_timer >= NEXT_ANIMATION_STEPS:
-                self.animation_timer = 0
-                self.animation_index = (self.animation_index + 1) % self.num_animations
-        else:
-            self.animation_index = 0  # standing still
-
-    def render(self, screen: pygame.Surface):
-        now = pygame.time.get_ticks()
-        if self.is_update_just_done:
-            self.new_render_time = now
-        self.last_render_time = now
-        alpha = (self.last_render_time - self.new_render_time) / 1000 * self.actions_per_second
-        pos = (
-            (alpha * self.x + (1 - alpha) * self.prev_x) * TILE_SIZE,
-            (alpha * self.y + (1 - alpha) * self.prev_y) * TILE_SIZE,
-        )
-        self.update_movement_animation()
-        sprite = self.movement_sprites[self.direction][self.animation_index]
-        # TODO: here we will need to generalize with new animations and improve the logic
-        screen.blit(sprite, pos)
+    def render(self, screen: pygame.Surface) -> None:
+        self.logger.info(f"There is not rendering function for {self.__class__.__name__}")
+        pass
 
 
 class BaseAnimal(GameObject):

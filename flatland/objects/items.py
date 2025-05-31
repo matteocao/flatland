@@ -11,6 +11,7 @@ pygame.init()
 pygame.display.set_mode((1, 1))
 
 from ..actions.actions import LimbControlMixin, MovementMixin, SpeechMixin
+from ..animations.animations import MovementAnimationMixin
 from ..consts import MAX_X, MAX_Y, TILE_SIZE, Direction
 from ..interactions.evolution import InertiaPrincipleWithFrictionEvolution
 from ..interactions.interactions import ContactInteractionMixin, HeatInteractionMixin
@@ -136,6 +137,7 @@ class Cow(
     SightSensorMixin,
     HearingSensorMixin,
     InertiaPrincipleWithFrictionEvolution,
+    MovementAnimationMixin,
 ):
     def __init__(
         self,
@@ -175,6 +177,11 @@ class Cow(
             self.make_sound = pygame.mixer.Sound("assets/sounds/cow_moo.wav")
         except pygame.error:
             self.logger.info("Could not load sound. Probably mixer not initialised.")
+
+    def render(self, screen: pygame.Surface) -> None:
+        self.render_movement(
+            screen
+        )  # NOTE: here add all the rendering and respective interaction logics
 
 
 @registry.register
