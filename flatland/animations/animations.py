@@ -1,9 +1,12 @@
-from typing import Any, Callable, Literal, Optional, Protocol, runtime_checkable
+from typing import TYPE_CHECKING, Any, Callable, Literal, Optional, Protocol, runtime_checkable
 
 import pygame
 
 from ..consts import NEXT_ANIMATION_STEPS, TILE_SIZE, Direction
 from ..logger import Logger
+
+if TYPE_CHECKING:
+    from ..objects.base_objects import GameObject
 
 
 @runtime_checkable
@@ -23,6 +26,7 @@ class HasMovementAttributes(Protocol):
     num_animations: int
     movement_sprites: dict[Direction, dict]
     update_movement_animation: Callable[[], None]
+    parent: "GameObject"
 
 
 class MovementAnimationMixin:
@@ -59,3 +63,9 @@ class MovementAnimationMixin:
         sprite = self.movement_sprites[self.direction][self.animation_index]
         # TODO: here we will need to generalize with new animations and improve the logic
         screen.blit(sprite, pos)
+
+
+class AlwaysOnTopOfParent:
+    def render_on_top(self: HasMovementAttributes | Any) -> None:
+        if self.parent:
+            self.z_level = self.parent.z_level + 1

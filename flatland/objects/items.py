@@ -11,10 +11,14 @@ pygame.init()
 pygame.display.set_mode((1, 1))
 
 from ..actions.actions import LimbControlMixin, MovementMixin, SpeechMixin
-from ..animations.animations import MovementAnimationMixin
+from ..animations.animations import AlwaysOnTopOfParent, MovementAnimationMixin
 from ..consts import MAX_X, MAX_Y, TILE_SIZE, Direction
 from ..interactions.evolution import InertiaPrincipleWithFrictionEvolution
-from ..interactions.interactions import ContactInteractionMixin, HeatInteractionMixin
+from ..interactions.interactions import (
+    AttachedToParentMixin,
+    ContactInteractionMixin,
+    HeatInteractionMixin,
+)
 from ..internal.state import InternalState
 from ..sensors.sensors import HearingSensorMixin, SightSensorMixin
 from .base_objects import BaseAnimal, BaseNPC, GameObject
@@ -22,26 +26,46 @@ from .items_registry import registry
 
 
 @registry.register
-class Stone(ContactInteractionMixin, InertiaPrincipleWithFrictionEvolution, GameObject):
+class Stone(
+    ContactInteractionMixin,
+    InertiaPrincipleWithFrictionEvolution,
+    GameObject,
+    MovementAnimationMixin,
+):
     def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
         super().__init__(x, y, name, health)
         self.color = (128, 128, 128)
         self.noise_intensity = 0.1
         self.attractiveness = 0.1
         self.visible_size = 0.5
+        self.z_level = 1.0
+        self.num_animations = 4  # do nnot forget this when inheriting from MovementAnimationMixin
+        # Load sprites
+        self.movement_sprites_locations = {
+            Direction.UP: [
+                f"assets/sprites/boulder/up_{i}.png" for i in range(self.num_animations)
+            ],
+            Direction.DOWN: [
+                f"assets/sprites/boulder/down_{i}.png" for i in range(self.num_animations)
+            ],
+            Direction.LEFT: [
+                f"assets/sprites/boulder/left_{i}.png" for i in range(self.num_animations)
+            ],
+            Direction.RIGHT: [
+                f"assets/sprites/boulder/right_{i}.png" for i in range(self.num_animations)
+            ],
+        }
+        self.create_movement_sprites()  # do not forget!
 
-    def render(self, screen):
-        pygame.draw.rect(
-            screen,
-            self.color,
-            pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE),
-        )
+    def render(self, screen: pygame.Surface) -> None:
+        self.render_movement(screen)
 
 
 @registry.register
 class Ground(GameObject):
     def __init__(self, x: int, y: int, name: str, health: float, tile_name: str, **kwargs: Any):
         super().__init__(x, y, name, health)
+        self.z_level = 0.0
         self.tile_name = tile_name
         # Extract NSWE neighbor tuple from the last 4 components of the name
         parts = self.tile_name.split("_")
@@ -67,6 +91,7 @@ class HeatedStone(
         self.noise_intensity = 0.1
         self.attractiveness = 0.1
         self.visible_size = 0.5
+        self.z_level = 1.0
         self.color = (255, 0, 0)
 
     def render(self, screen):
@@ -78,15 +103,17 @@ class HeatedStone(
 
 
 @registry.register
-class Sword(ContactInteractionMixin, GameObject):
+class Sword(ContactInteractionMixin, GameObject, AttachedToParentMixin, AlwaysOnTopOfParent):
     def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
         super().__init__(x, y, name, health)
         self.color = (128, 0, 128)
         self.noise_intensity = 0.1
         self.attractiveness = 1.1
+        self.z_level = 1.0
         self.visible_size = 0.5
 
     def render(self, screen):
+        self.render_on_top()  # from AlwaysOnTopOfParent
         pygame.draw.rect(
             screen,
             self.color,
@@ -119,6 +146,7 @@ class Elf(
         self.noise_intensity = 0.3
         self.attractiveness = 3.1
         self.visible_size = 2.3
+        self.z_level = 3.0
 
     def render(self, screen):
         pygame.draw.rect(
@@ -156,6 +184,7 @@ class Cow(
         self.visible_size = 4.0
         self.internal_state = InternalState(owner=self)
         self.num_animations = 4
+        self.z_level = 2.0
 
         # Load sprites
         self.movement_sprites_locations = {
@@ -185,13 +214,14 @@ class Cow(
 
 
 @registry.register
-class Player(GameObject):
+class Player(GameObject, LimbControlMixin):
     def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
         super().__init__(x, y, name, health)
         self.color = (0, 255, 0)
         self.noise_intensity = 1.1
         self.attractiveness = 2.1
         self.visible_size = 2.0
+        self.z_level = 10.0
 
     def get_pressed_keys(self, keys) -> None:
         self.keys = keys
@@ -206,6 +236,19 @@ class Player(GameObject):
             dx = -1
         elif self.keys[pygame.K_RIGHT]:
             dx = 1
+        elif self.keys[pygame.K_e]:
+            for obj in near_objs:
+                if obj.distance(self) < 1:
+                    self.push(obj)
+        match (dx, dy):
+            case (1, 0):
+                self.direction = Direction.RIGHT
+            case (-1, 0):
+                self.direction = Direction.LEFT
+            case (0, 1):
+                self.direction = Direction.DOWN
+            case (0, -1):
+                self.direction = Direction.UP
 
         self.new_x = (self.x + dx) % MAX_X
         self.new_y = (self.y + dy) % MAX_Y

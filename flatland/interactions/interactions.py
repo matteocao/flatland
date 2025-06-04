@@ -31,6 +31,22 @@ class InteractionMixin(ABC):
         }.get(direction, direction)
 
 
+class AttachedToParentMixin(InteractionMixin):
+    """
+    This mixin makes sure that an object is located always on top of the parent object
+    """
+
+    def location_as_parent(self, parent: "GameObject") -> None:
+        self.x: int = parent.x
+        self.y: int = parent.y
+        self.direction: Direction = parent.direction
+
+    def get_interaction_callables(self, other: "GameObject") -> list[Callable[[], None]]:
+        if self in other.children:
+            return [lambda: self.location_as_parent(other)]
+        return []
+
+
 class ContactInteractionMixin(InteractionMixin):
     x: int
     y: int
@@ -39,7 +55,7 @@ class ContactInteractionMixin(InteractionMixin):
     mass: float
     inertia: int
 
-    def on_contact(self, other: "GameObject"):
+    def on_contact(self, other: "GameObject") -> None:
         if (
             isinstance(other, ContactInteractionMixin)
             and other.distance(self) < 0.1
@@ -48,7 +64,7 @@ class ContactInteractionMixin(InteractionMixin):
             self.logger.info(f"{self.__class__.__name__} contacts {other.__class__.__name__}")
             self.contact_effect(other)
 
-    def contact_effect(self, other: "GameObject"):
+    def contact_effect(self, other: "GameObject") -> None:
         # Simple elastic collision logic: exchange inertia based on mass
         if not hasattr(self, "inertia") or not hasattr(other, "inertia"):
             return

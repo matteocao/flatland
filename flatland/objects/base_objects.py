@@ -2,7 +2,7 @@ import copy
 import math
 import random
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, Optional
 
 import pygame
 
@@ -15,6 +15,7 @@ from ..internal.state import InternalState
 from ..logger import Logger
 
 
+# ---------- composite pattern ------------
 class GameObject:
     def __init__(self, x: int, y: int, name: str, health: float):
         """
@@ -52,6 +53,10 @@ class GameObject:
         )
         self.new_render_time = 0
         self.last_render_time = 0
+        self.parent: Optional["GameObject"] = None
+        self.children: list[Optional["GameObject"]] = [None]
+        # this is the value that decides the rendering order: the higher, the later it will be rendered.
+        self.z_level: float = 0
 
     def update(self, event: Any):
         now = pygame.time.get_ticks()
@@ -81,7 +86,7 @@ class GameObject:
         return copy.deepcopy(self)
 
     def render(self, screen: pygame.Surface) -> None:
-        self.logger.info(f"There is not rendering function for {self.__class__.__name__}")
+        self.logger.info(f"There is no rendering function for {self.__class__.__name__}")
         pass
 
 

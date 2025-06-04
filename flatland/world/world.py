@@ -52,8 +52,11 @@ class World:
             obj.prepare(near_objs)
 
     def render(self, screen) -> None:
-        for obj in self._observers:
+        for obj in self.order_observers_by_z_level():
             obj.render(screen)
+
+    def order_observers_by_z_level(self) -> list["GameObject"]:
+        return sorted(self._observers, key=lambda obj: obj.z_level)
 
 
 world = World()

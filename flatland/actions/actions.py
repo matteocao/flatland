@@ -1,7 +1,10 @@
-from typing import Literal, Optional
+from typing import TYPE_CHECKING, Any, Literal, Optional
 
 from ..consts import MAX_X, MAX_Y, Direction
 from ..logger import Logger
+
+if TYPE_CHECKING:
+    from ..objects.base_objects import GameObject
 
 
 class MovementMixin:
@@ -49,3 +52,8 @@ class LimbControlMixin:
 
     def throw(self):
         self.logger.info(f"{self.__class__.__name__} throws.")
+
+    def push(self: Any, other: "GameObject") -> None:
+        other.inertia += 1
+        other.direction = self.direction
+        self.logger.info(f"{self.__class__.__name__} pushes.")
