@@ -130,6 +130,24 @@
 
             </li>
             <li>
+                    <a class="class" href="#PushAnimationMixin">PushAnimationMixin</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="variable" href="#PushAnimationMixin.logger">logger</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#PushAnimationMixin.create_push_sprites">create_push_sprites</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#PushAnimationMixin.update_push_animation">update_push_animation</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#PushAnimationMixin.render_push">render_push</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
                     <a class="class" href="#AlwaysOnTopOfParent">AlwaysOnTopOfParent</a>
                             <ul class="memberlist">
                         <li>
@@ -259,14 +277,46 @@
 </span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>        <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">sprite</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
 </span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>
 </span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a>
-</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a><span class="k">class</span><span class="w"> </span><span class="nc">AlwaysOnTopOfParent</span><span class="p">:</span>
-</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a><span class="sd">    Mixin to be used in case you want an object to always be on top of the parent object, like an armor or helmet</span>
-</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>
-</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render_on_top</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">HasMovementAttributes</span> <span class="o">|</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">:</span>
-</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">z_level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">z_level</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a><span class="k">class</span><span class="w"> </span><span class="nc">PushAnimationMixin</span><span class="p">:</span>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>    <span class="n">logger</span> <span class="o">=</span> <span class="n">Logger</span><span class="p">()</span>
+</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">create_push_sprites</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">push_sprites</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>            <span class="n">k</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">convert_alpha</span><span class="p">(),</span> <span class="n">lst_str</span><span class="p">))</span>
+</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">lst_str</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">push_sprites_locations</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>        <span class="p">}</span>
+</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>
+</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update_push_animation</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">push_animation_timer</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">push_animation_timer</span> <span class="o">&gt;=</span> <span class="n">NEXT_ANIMATION_STEPS</span><span class="p">:</span>
+</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">push_animation_timer</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">push_animation_index</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">push_animation_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span>
+</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">push_sprites</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">direction</span><span class="p">]</span>
+</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>            <span class="p">)</span>
+</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>
+</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render_push</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">screen</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>        <span class="n">now</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">get_ticks</span><span class="p">()</span>
+</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_update_just_done</span><span class="p">:</span>
+</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">new_render_time</span> <span class="o">=</span> <span class="n">now</span>
+</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">last_render_time</span> <span class="o">=</span> <span class="n">now</span>
+</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a>        <span class="n">alpha</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">last_render_time</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_render_time</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">actions_per_second</span>
+</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a>        <span class="n">offset_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sprite_size_x</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">TILE_SIZE</span> <span class="o">//</span> <span class="mi">2</span>
+</span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a>        <span class="n">offset_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sprite_size_y</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">TILE_SIZE</span> <span class="o">//</span> <span class="mi">2</span>
+</span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a>        <span class="n">pos</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">-</span> <span class="n">offset_x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">-</span> <span class="n">offset_y</span><span class="p">)</span>
+</span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">update_push_animation</span><span class="p">()</span>
+</span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a>        <span class="n">sprite</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">push_sprites</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">direction</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">push_animation_index</span><span class="p">]</span>
+</span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a>        <span class="c1"># TODO: here we will need to generalize with new animations and improve the logic</span>
+</span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a>        <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">sprite</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+</span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a>
+</span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a>
+</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a><span class="k">class</span><span class="w"> </span><span class="nc">AlwaysOnTopOfParent</span><span class="p">:</span>
+</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a><span class="sd">    Mixin to be used in case you want an object to always be on top of the parent object, like an armor or helmet</span>
+</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a>
+</span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render_on_top</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">HasMovementAttributes</span> <span class="o">|</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">:</span>
+</span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">z_level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">z_level</span> <span class="o">+</span> <span class="mi">1</span>
 </span></pre></div>
 
 
@@ -858,6 +908,141 @@ Protocol classes can be generic, they are defined as::</p>
 
                             </div>
                 </section>
+                <section id="PushAnimationMixin">
+                            <input id="PushAnimationMixin-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">PushAnimationMixin</span>:
+
+                <label class="view-source-button" for="PushAnimationMixin-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#PushAnimationMixin"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="PushAnimationMixin-102"><a href="#PushAnimationMixin-102"><span class="linenos">102</span></a><span class="k">class</span><span class="w"> </span><span class="nc">PushAnimationMixin</span><span class="p">:</span>
+</span><span id="PushAnimationMixin-103"><a href="#PushAnimationMixin-103"><span class="linenos">103</span></a>    <span class="n">logger</span> <span class="o">=</span> <span class="n">Logger</span><span class="p">()</span>
+</span><span id="PushAnimationMixin-104"><a href="#PushAnimationMixin-104"><span class="linenos">104</span></a>
+</span><span id="PushAnimationMixin-105"><a href="#PushAnimationMixin-105"><span class="linenos">105</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">create_push_sprites</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="PushAnimationMixin-106"><a href="#PushAnimationMixin-106"><span class="linenos">106</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">push_sprites</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="PushAnimationMixin-107"><a href="#PushAnimationMixin-107"><span class="linenos">107</span></a>            <span class="n">k</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">convert_alpha</span><span class="p">(),</span> <span class="n">lst_str</span><span class="p">))</span>
+</span><span id="PushAnimationMixin-108"><a href="#PushAnimationMixin-108"><span class="linenos">108</span></a>            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">lst_str</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">push_sprites_locations</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+</span><span id="PushAnimationMixin-109"><a href="#PushAnimationMixin-109"><span class="linenos">109</span></a>        <span class="p">}</span>
+</span><span id="PushAnimationMixin-110"><a href="#PushAnimationMixin-110"><span class="linenos">110</span></a>
+</span><span id="PushAnimationMixin-111"><a href="#PushAnimationMixin-111"><span class="linenos">111</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update_push_animation</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="PushAnimationMixin-112"><a href="#PushAnimationMixin-112"><span class="linenos">112</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">push_animation_timer</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span id="PushAnimationMixin-113"><a href="#PushAnimationMixin-113"><span class="linenos">113</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">push_animation_timer</span> <span class="o">&gt;=</span> <span class="n">NEXT_ANIMATION_STEPS</span><span class="p">:</span>
+</span><span id="PushAnimationMixin-114"><a href="#PushAnimationMixin-114"><span class="linenos">114</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">push_animation_timer</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="PushAnimationMixin-115"><a href="#PushAnimationMixin-115"><span class="linenos">115</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">push_animation_index</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">push_animation_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span>
+</span><span id="PushAnimationMixin-116"><a href="#PushAnimationMixin-116"><span class="linenos">116</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">push_sprites</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">direction</span><span class="p">]</span>
+</span><span id="PushAnimationMixin-117"><a href="#PushAnimationMixin-117"><span class="linenos">117</span></a>            <span class="p">)</span>
+</span><span id="PushAnimationMixin-118"><a href="#PushAnimationMixin-118"><span class="linenos">118</span></a>
+</span><span id="PushAnimationMixin-119"><a href="#PushAnimationMixin-119"><span class="linenos">119</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render_push</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">screen</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="PushAnimationMixin-120"><a href="#PushAnimationMixin-120"><span class="linenos">120</span></a>        <span class="n">now</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">get_ticks</span><span class="p">()</span>
+</span><span id="PushAnimationMixin-121"><a href="#PushAnimationMixin-121"><span class="linenos">121</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_update_just_done</span><span class="p">:</span>
+</span><span id="PushAnimationMixin-122"><a href="#PushAnimationMixin-122"><span class="linenos">122</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">new_render_time</span> <span class="o">=</span> <span class="n">now</span>
+</span><span id="PushAnimationMixin-123"><a href="#PushAnimationMixin-123"><span class="linenos">123</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">last_render_time</span> <span class="o">=</span> <span class="n">now</span>
+</span><span id="PushAnimationMixin-124"><a href="#PushAnimationMixin-124"><span class="linenos">124</span></a>        <span class="n">alpha</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">last_render_time</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_render_time</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">actions_per_second</span>
+</span><span id="PushAnimationMixin-125"><a href="#PushAnimationMixin-125"><span class="linenos">125</span></a>        <span class="n">offset_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sprite_size_x</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">TILE_SIZE</span> <span class="o">//</span> <span class="mi">2</span>
+</span><span id="PushAnimationMixin-126"><a href="#PushAnimationMixin-126"><span class="linenos">126</span></a>        <span class="n">offset_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sprite_size_y</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">TILE_SIZE</span> <span class="o">//</span> <span class="mi">2</span>
+</span><span id="PushAnimationMixin-127"><a href="#PushAnimationMixin-127"><span class="linenos">127</span></a>        <span class="n">pos</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">-</span> <span class="n">offset_x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">-</span> <span class="n">offset_y</span><span class="p">)</span>
+</span><span id="PushAnimationMixin-128"><a href="#PushAnimationMixin-128"><span class="linenos">128</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">update_push_animation</span><span class="p">()</span>
+</span><span id="PushAnimationMixin-129"><a href="#PushAnimationMixin-129"><span class="linenos">129</span></a>        <span class="n">sprite</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">push_sprites</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">direction</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">push_animation_index</span><span class="p">]</span>
+</span><span id="PushAnimationMixin-130"><a href="#PushAnimationMixin-130"><span class="linenos">130</span></a>        <span class="c1"># TODO: here we will need to generalize with new animations and improve the logic</span>
+</span><span id="PushAnimationMixin-131"><a href="#PushAnimationMixin-131"><span class="linenos">131</span></a>        <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">sprite</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+</span></pre></div>
+
+
+    
+
+                            <div id="PushAnimationMixin.logger" class="classattr">
+                                <div class="attr variable">
+            <span class="name">logger</span>        =
+<span class="default_value">&lt;<a href="../logger.html#Logger">flatland.logger.Logger</a> object&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#PushAnimationMixin.logger"></a>
+    
+    
+
+                            </div>
+                            <div id="PushAnimationMixin.create_push_sprites" class="classattr">
+                                        <input id="PushAnimationMixin.create_push_sprites-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">create_push_sprites</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span><span class="p">:</span> <span class="n">Any</span></span><span class="return-annotation">) -> <span class="kc">None</span>:</span></span>
+
+                <label class="view-source-button" for="PushAnimationMixin.create_push_sprites-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#PushAnimationMixin.create_push_sprites"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="PushAnimationMixin.create_push_sprites-105"><a href="#PushAnimationMixin.create_push_sprites-105"><span class="linenos">105</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">create_push_sprites</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="PushAnimationMixin.create_push_sprites-106"><a href="#PushAnimationMixin.create_push_sprites-106"><span class="linenos">106</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">push_sprites</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="PushAnimationMixin.create_push_sprites-107"><a href="#PushAnimationMixin.create_push_sprites-107"><span class="linenos">107</span></a>            <span class="n">k</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">convert_alpha</span><span class="p">(),</span> <span class="n">lst_str</span><span class="p">))</span>
+</span><span id="PushAnimationMixin.create_push_sprites-108"><a href="#PushAnimationMixin.create_push_sprites-108"><span class="linenos">108</span></a>            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">lst_str</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">push_sprites_locations</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+</span><span id="PushAnimationMixin.create_push_sprites-109"><a href="#PushAnimationMixin.create_push_sprites-109"><span class="linenos">109</span></a>        <span class="p">}</span>
+</span></pre></div>
+
+
+    
+
+                            </div>
+                            <div id="PushAnimationMixin.update_push_animation" class="classattr">
+                                        <input id="PushAnimationMixin.update_push_animation-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">update_push_animation</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span><span class="p">:</span> <span class="n">Any</span></span><span class="return-annotation">):</span></span>
+
+                <label class="view-source-button" for="PushAnimationMixin.update_push_animation-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#PushAnimationMixin.update_push_animation"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="PushAnimationMixin.update_push_animation-111"><a href="#PushAnimationMixin.update_push_animation-111"><span class="linenos">111</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update_push_animation</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="PushAnimationMixin.update_push_animation-112"><a href="#PushAnimationMixin.update_push_animation-112"><span class="linenos">112</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">push_animation_timer</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span id="PushAnimationMixin.update_push_animation-113"><a href="#PushAnimationMixin.update_push_animation-113"><span class="linenos">113</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">push_animation_timer</span> <span class="o">&gt;=</span> <span class="n">NEXT_ANIMATION_STEPS</span><span class="p">:</span>
+</span><span id="PushAnimationMixin.update_push_animation-114"><a href="#PushAnimationMixin.update_push_animation-114"><span class="linenos">114</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">push_animation_timer</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="PushAnimationMixin.update_push_animation-115"><a href="#PushAnimationMixin.update_push_animation-115"><span class="linenos">115</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">push_animation_index</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">push_animation_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span>
+</span><span id="PushAnimationMixin.update_push_animation-116"><a href="#PushAnimationMixin.update_push_animation-116"><span class="linenos">116</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">push_sprites</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">direction</span><span class="p">]</span>
+</span><span id="PushAnimationMixin.update_push_animation-117"><a href="#PushAnimationMixin.update_push_animation-117"><span class="linenos">117</span></a>            <span class="p">)</span>
+</span></pre></div>
+
+
+    
+
+                            </div>
+                            <div id="PushAnimationMixin.render_push" class="classattr">
+                                        <input id="PushAnimationMixin.render_push-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">render_push</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span><span class="p">:</span> <span class="n">Any</span>, </span><span class="param"><span class="n">screen</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">surface</span><span class="o">.</span><span class="n">Surface</span></span><span class="return-annotation">) -> <span class="kc">None</span>:</span></span>
+
+                <label class="view-source-button" for="PushAnimationMixin.render_push-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#PushAnimationMixin.render_push"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="PushAnimationMixin.render_push-119"><a href="#PushAnimationMixin.render_push-119"><span class="linenos">119</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render_push</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">screen</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="PushAnimationMixin.render_push-120"><a href="#PushAnimationMixin.render_push-120"><span class="linenos">120</span></a>        <span class="n">now</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">get_ticks</span><span class="p">()</span>
+</span><span id="PushAnimationMixin.render_push-121"><a href="#PushAnimationMixin.render_push-121"><span class="linenos">121</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_update_just_done</span><span class="p">:</span>
+</span><span id="PushAnimationMixin.render_push-122"><a href="#PushAnimationMixin.render_push-122"><span class="linenos">122</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">new_render_time</span> <span class="o">=</span> <span class="n">now</span>
+</span><span id="PushAnimationMixin.render_push-123"><a href="#PushAnimationMixin.render_push-123"><span class="linenos">123</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">last_render_time</span> <span class="o">=</span> <span class="n">now</span>
+</span><span id="PushAnimationMixin.render_push-124"><a href="#PushAnimationMixin.render_push-124"><span class="linenos">124</span></a>        <span class="n">alpha</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">last_render_time</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_render_time</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">actions_per_second</span>
+</span><span id="PushAnimationMixin.render_push-125"><a href="#PushAnimationMixin.render_push-125"><span class="linenos">125</span></a>        <span class="n">offset_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sprite_size_x</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">TILE_SIZE</span> <span class="o">//</span> <span class="mi">2</span>
+</span><span id="PushAnimationMixin.render_push-126"><a href="#PushAnimationMixin.render_push-126"><span class="linenos">126</span></a>        <span class="n">offset_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sprite_size_y</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">TILE_SIZE</span> <span class="o">//</span> <span class="mi">2</span>
+</span><span id="PushAnimationMixin.render_push-127"><a href="#PushAnimationMixin.render_push-127"><span class="linenos">127</span></a>        <span class="n">pos</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">-</span> <span class="n">offset_x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">TILE_SIZE</span> <span class="o">-</span> <span class="n">offset_y</span><span class="p">)</span>
+</span><span id="PushAnimationMixin.render_push-128"><a href="#PushAnimationMixin.render_push-128"><span class="linenos">128</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">update_push_animation</span><span class="p">()</span>
+</span><span id="PushAnimationMixin.render_push-129"><a href="#PushAnimationMixin.render_push-129"><span class="linenos">129</span></a>        <span class="n">sprite</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">push_sprites</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">direction</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">push_animation_index</span><span class="p">]</span>
+</span><span id="PushAnimationMixin.render_push-130"><a href="#PushAnimationMixin.render_push-130"><span class="linenos">130</span></a>        <span class="c1"># TODO: here we will need to generalize with new animations and improve the logic</span>
+</span><span id="PushAnimationMixin.render_push-131"><a href="#PushAnimationMixin.render_push-131"><span class="linenos">131</span></a>        <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">sprite</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+</span></pre></div>
+
+
+    
+
+                            </div>
+                </section>
                 <section id="AlwaysOnTopOfParent">
                             <input id="AlwaysOnTopOfParent-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
@@ -869,14 +1054,14 @@ Protocol classes can be generic, they are defined as::</p>
 
     </div>
     <a class="headerlink" href="#AlwaysOnTopOfParent"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="AlwaysOnTopOfParent-102"><a href="#AlwaysOnTopOfParent-102"><span class="linenos">102</span></a><span class="k">class</span><span class="w"> </span><span class="nc">AlwaysOnTopOfParent</span><span class="p">:</span>
-</span><span id="AlwaysOnTopOfParent-103"><a href="#AlwaysOnTopOfParent-103"><span class="linenos">103</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="AlwaysOnTopOfParent-104"><a href="#AlwaysOnTopOfParent-104"><span class="linenos">104</span></a><span class="sd">    Mixin to be used in case you want an object to always be on top of the parent object, like an armor or helmet</span>
-</span><span id="AlwaysOnTopOfParent-105"><a href="#AlwaysOnTopOfParent-105"><span class="linenos">105</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="AlwaysOnTopOfParent-106"><a href="#AlwaysOnTopOfParent-106"><span class="linenos">106</span></a>
-</span><span id="AlwaysOnTopOfParent-107"><a href="#AlwaysOnTopOfParent-107"><span class="linenos">107</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render_on_top</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">HasMovementAttributes</span> <span class="o">|</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="AlwaysOnTopOfParent-108"><a href="#AlwaysOnTopOfParent-108"><span class="linenos">108</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">:</span>
-</span><span id="AlwaysOnTopOfParent-109"><a href="#AlwaysOnTopOfParent-109"><span class="linenos">109</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">z_level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">z_level</span> <span class="o">+</span> <span class="mi">1</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="AlwaysOnTopOfParent-134"><a href="#AlwaysOnTopOfParent-134"><span class="linenos">134</span></a><span class="k">class</span><span class="w"> </span><span class="nc">AlwaysOnTopOfParent</span><span class="p">:</span>
+</span><span id="AlwaysOnTopOfParent-135"><a href="#AlwaysOnTopOfParent-135"><span class="linenos">135</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="AlwaysOnTopOfParent-136"><a href="#AlwaysOnTopOfParent-136"><span class="linenos">136</span></a><span class="sd">    Mixin to be used in case you want an object to always be on top of the parent object, like an armor or helmet</span>
+</span><span id="AlwaysOnTopOfParent-137"><a href="#AlwaysOnTopOfParent-137"><span class="linenos">137</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="AlwaysOnTopOfParent-138"><a href="#AlwaysOnTopOfParent-138"><span class="linenos">138</span></a>
+</span><span id="AlwaysOnTopOfParent-139"><a href="#AlwaysOnTopOfParent-139"><span class="linenos">139</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render_on_top</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">HasMovementAttributes</span> <span class="o">|</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="AlwaysOnTopOfParent-140"><a href="#AlwaysOnTopOfParent-140"><span class="linenos">140</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">:</span>
+</span><span id="AlwaysOnTopOfParent-141"><a href="#AlwaysOnTopOfParent-141"><span class="linenos">141</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">z_level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">z_level</span> <span class="o">+</span> <span class="mi">1</span>
 </span></pre></div>
 
 
@@ -895,9 +1080,9 @@ Protocol classes can be generic, they are defined as::</p>
 
     </div>
     <a class="headerlink" href="#AlwaysOnTopOfParent.render_on_top"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="AlwaysOnTopOfParent.render_on_top-107"><a href="#AlwaysOnTopOfParent.render_on_top-107"><span class="linenos">107</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render_on_top</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">HasMovementAttributes</span> <span class="o">|</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="AlwaysOnTopOfParent.render_on_top-108"><a href="#AlwaysOnTopOfParent.render_on_top-108"><span class="linenos">108</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">:</span>
-</span><span id="AlwaysOnTopOfParent.render_on_top-109"><a href="#AlwaysOnTopOfParent.render_on_top-109"><span class="linenos">109</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">z_level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">z_level</span> <span class="o">+</span> <span class="mi">1</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="AlwaysOnTopOfParent.render_on_top-139"><a href="#AlwaysOnTopOfParent.render_on_top-139"><span class="linenos">139</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render_on_top</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">HasMovementAttributes</span> <span class="o">|</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="AlwaysOnTopOfParent.render_on_top-140"><a href="#AlwaysOnTopOfParent.render_on_top-140"><span class="linenos">140</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">:</span>
+</span><span id="AlwaysOnTopOfParent.render_on_top-141"><a href="#AlwaysOnTopOfParent.render_on_top-141"><span class="linenos">141</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">z_level</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">z_level</span> <span class="o">+</span> <span class="mi">1</span>
 </span></pre></div>
 
 
