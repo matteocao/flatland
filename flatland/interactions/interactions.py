@@ -4,7 +4,7 @@ The the evolutioners take care of evolving the system till a stable configuratio
 """
 
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Callable
+from typing import TYPE_CHECKING, Any, Callable
 
 from ..consts import Direction
 from ..logger import Logger
@@ -36,14 +36,14 @@ class AttachedToParentMixin(InteractionMixin):
     This mixin makes sure that an object is located always on top of the parent object
     """
 
-    def location_as_parent(self, parent: "GameObject") -> None:
-        self.x: int = parent.x
-        self.y: int = parent.y
-        self.direction: Direction = parent.direction
+    def location_as_parent(self: Any) -> None:
+        self.x: int = self.parent.x
+        self.y: int = self.parent.y
+        self.direction: Direction = self.parent.direction
 
-    def get_interaction_callables(self, other: "GameObject") -> list[Callable[[], None]]:
-        if self in other.children:
-            return [lambda: self.location_as_parent(other)]
+    def get_interaction_callables(self: Any, other: "GameObject") -> list[Callable[[], None]]:
+        if other is self.parent:
+            return [lambda: self.location_as_parent()]
         return []
 
 

@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Any, Literal, Optional
 
-from ..consts import MAX_X, MAX_Y, Direction
+from ..consts import Direction
 from ..logger import Logger
 
 if TYPE_CHECKING:
@@ -21,8 +21,8 @@ class MovementMixin:
             case Direction.LEFT:
                 (dx, dy) = (-1, 0)
         self.direction = direction
-        self.x: int = (self.x + dx) % MAX_X
-        self.y: int = (self.y + dy) % MAX_Y
+        self.x: int = self.x + dx
+        self.y: int = self.y + dy
         self.logger.info(f"{self.__class__.__name__} moves to ({self.x}, {self.y})")
 
 

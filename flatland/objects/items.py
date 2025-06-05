@@ -12,7 +12,7 @@ pygame.display.set_mode((1, 1))
 
 from ..actions.actions import LimbControlMixin, MovementMixin, SpeechMixin
 from ..animations.animations import AlwaysOnTopOfParent, MovementAnimationMixin
-from ..consts import MAX_X, MAX_Y, TILE_SIZE, Direction
+from ..consts import TILE_SIZE, Direction
 from ..interactions.evolution import InertiaPrincipleWithFrictionEvolution
 from ..interactions.interactions import (
     AttachedToParentMixin,
@@ -185,6 +185,8 @@ class Cow(
         self.internal_state = InternalState(owner=self)
         self.num_animations = 4
         self.z_level = 2.0
+        self.sprite_size_x: int = 128
+        self.sprite_size_y: int = 128
 
         # Load sprites
         self.movement_sprites_locations = {
@@ -211,6 +213,27 @@ class Cow(
         self.render_movement(
             screen
         )  # NOTE: here add all the rendering and respective interaction logics
+
+
+@registry.register
+class CowShadow(GameObject, MovementAnimationMixin, AttachedToParentMixin):
+    def __init__(self, x: int, y: int, name: str, health: int, **kwargs: Any):
+        super().__init__(x, y, name, health)
+        self.z_level = 1
+        self.num_animations = 1
+        # Load sprites
+        self.movement_sprites_locations = {
+            Direction.UP: [f"assets/sprites/cow_shadow/up.png"],
+            Direction.DOWN: [f"assets/sprites/cow_shadow/down.png"],
+            Direction.LEFT: [f"assets/sprites/cow_shadow/left.png"],
+            Direction.RIGHT: [f"assets/sprites/cow_shadow/right.png"],
+        }
+        self.create_movement_sprites()  # do not forget!
+        self.sprite_size_x: int = 128
+        self.sprite_size_y: int = 128
+
+    def render(self, screen: pygame.Surface) -> None:
+        self.render_movement(screen)
 
 
 @registry.register
@@ -250,8 +273,8 @@ class Player(GameObject, LimbControlMixin):
             case (0, -1):
                 self.direction = Direction.UP
 
-        self.new_x = (self.x + dx) % MAX_X
-        self.new_y = (self.y + dy) % MAX_Y
+        self.new_x = self.x + dx
+        self.new_y = self.y + dy
 
     def update(self, event):
         self.x = self.new_x

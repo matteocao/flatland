@@ -16,8 +16,8 @@ if TYPE_CHECKING:
 def register_objects() -> None:
     # TODO: this will create one instance per object, but this is not general
     for cls_name in registry._registry:
-        if cls_name != "Ground":
-            rnd_name = "".join(
+        if cls_name != "Ground" and cls_name != "Cow" and cls_name != "CowShadow":
+            rnd_name = cls_name + "".join(
                 random.choice(string.ascii_uppercase + string.digits) for _ in range(6)
             )
             obj = registry.create(
@@ -30,7 +30,29 @@ def register_objects() -> None:
                 hearing_range=3,
                 temperature=12.3,
             )
+
             world.register(obj)
+    cow = registry.create(
+        cls_name="Cow",
+        x=random.randint(0, 9),
+        y=random.randint(0, 9),
+        name="lola",
+        health=5,
+        vision_range=5,
+        hearing_range=3,
+    )
+    cow_shadow = registry.create(
+        cls_name="CowShadow",
+        x=cow.x,
+        y=cow.y,
+        name="lola_shadow",
+        health=100,
+    )
+    cow_shadow.parent = cow
+    cow.children.append(cow_shadow)
+
+    world.register(cow)
+    world.register(cow_shadow)
 
 
 # register terrain

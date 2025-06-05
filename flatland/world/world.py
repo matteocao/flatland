@@ -4,6 +4,7 @@ world
 
 from typing import TYPE_CHECKING, Any
 
+from ..consts import MAX_X, MAX_Y
 from ..logger import Logger
 
 if TYPE_CHECKING:
@@ -50,6 +51,11 @@ class World:
     def prepare(self, near_objs: Any) -> None:
         for obj in self._observers:
             obj.prepare(near_objs)
+
+    def correct_periodic_positions(self) -> None:
+        for obj in self._observers:
+            obj.x = obj.x % MAX_X
+            obj.y = obj.y % MAX_Y
 
     def render(self, screen) -> None:
         for obj in self.order_observers_by_z_level():

@@ -27,6 +27,8 @@ class HasMovementAttributes(Protocol):
     movement_sprites: dict[Direction, dict]
     update_movement_animation: Callable[[], None]
     parent: "GameObject"
+    sprite_size_x: int
+    sprite_size_y: int
 
 
 class MovementAnimationMixin:
@@ -55,9 +57,11 @@ class MovementAnimationMixin:
             self.new_render_time = now
         self.last_render_time = now
         alpha = (self.last_render_time - self.new_render_time) / 1000 * self.actions_per_second
+        offset_x = self.sprite_size_x // 2 - TILE_SIZE // 2
+        offset_y = self.sprite_size_y // 2 - TILE_SIZE // 2
         pos = (
-            (alpha * self.x + (1 - alpha) * self.prev_x) * TILE_SIZE,
-            (alpha * self.y + (1 - alpha) * self.prev_y) * TILE_SIZE,
+            (alpha * self.x + (1 - alpha) * self.prev_x) * TILE_SIZE - offset_x,
+            (alpha * self.y + (1 - alpha) * self.prev_y) * TILE_SIZE - offset_y,
         )
         self.update_movement_animation()
         sprite = self.movement_sprites[self.direction][self.animation_index]

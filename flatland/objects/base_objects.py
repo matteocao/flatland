@@ -57,6 +57,8 @@ class GameObject:
         self.children: list[Optional["GameObject"]] = [None]
         # this is the value that decides the rendering order: the higher, the later it will be rendered.
         self.z_level: float = 0
+        self.sprite_size_x: int = 64
+        self.sprite_size_y: int = 64
 
     def update(self, event: Any):
         now = pygame.time.get_ticks()

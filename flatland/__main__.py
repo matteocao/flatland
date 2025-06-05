@@ -42,6 +42,7 @@ def main():
         # logger.info(near_objs)
         world.prepare(near_objs)
         world.update(keys)
+        world.correct_periodic_positions()  # this is needed now that the world is periodic
         world.render(screen)
         pygame.display.flip()
         clock.tick(10)
