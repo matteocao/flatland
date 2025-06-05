@@ -193,10 +193,43 @@
                                 <a class="variable" href="#Cow.z_level">z_level</a>
                         </li>
                         <li>
+                                <a class="variable" href="#Cow.sprite_size_x">sprite_size_x</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Cow.sprite_size_y">sprite_size_y</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#Cow.movement_sprites_locations">movement_sprites_locations</a>
                         </li>
                         <li>
                                 <a class="function" href="#Cow.render">render</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#CowShadow">CowShadow</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#CowShadow.__init__">CowShadow</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#CowShadow.z_level">z_level</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#CowShadow.num_animations">num_animations</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#CowShadow.movement_sprites_locations">movement_sprites_locations</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#CowShadow.sprite_size_x">sprite_size_x</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#CowShadow.sprite_size_y">sprite_size_y</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#CowShadow.render">render</a>
                         </li>
                 </ul>
 
@@ -274,7 +307,7 @@
 </span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a>
 </span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">..actions.actions</span><span class="w"> </span><span class="kn">import</span> <span class="n">LimbControlMixin</span><span class="p">,</span> <span class="n">MovementMixin</span><span class="p">,</span> <span class="n">SpeechMixin</span>
 </span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">..animations.animations</span><span class="w"> </span><span class="kn">import</span> <span class="n">AlwaysOnTopOfParent</span><span class="p">,</span> <span class="n">MovementAnimationMixin</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">..consts</span><span class="w"> </span><span class="kn">import</span> <span class="n">MAX_X</span><span class="p">,</span> <span class="n">MAX_Y</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">Direction</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">..consts</span><span class="w"> </span><span class="kn">import</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">Direction</span>
 </span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">..interactions.evolution</span><span class="w"> </span><span class="kn">import</span> <span class="n">InertiaPrincipleWithFrictionEvolution</span>
 </span><span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">..interactions.interactions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
 </span><span id="L-18"><a href="#L-18"><span class="linenos"> 18</span></a>    <span class="n">AttachedToParentMixin</span><span class="p">,</span>
@@ -447,84 +480,107 @@
 </span><span id="L-185"><a href="#L-185"><span class="linenos">185</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">internal_state</span> <span class="o">=</span> <span class="n">InternalState</span><span class="p">(</span><span class="n">owner</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
 </span><span id="L-186"><a href="#L-186"><span class="linenos">186</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span> <span class="o">=</span> <span class="mi">4</span>
 </span><span id="L-187"><a href="#L-187"><span class="linenos">187</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">z_level</span> <span class="o">=</span> <span class="mf">2.0</span>
-</span><span id="L-188"><a href="#L-188"><span class="linenos">188</span></a>
-</span><span id="L-189"><a href="#L-189"><span class="linenos">189</span></a>        <span class="c1"># Load sprites</span>
-</span><span id="L-190"><a href="#L-190"><span class="linenos">190</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">movement_sprites_locations</span> <span class="o">=</span> <span class="p">{</span>
-</span><span id="L-191"><a href="#L-191"><span class="linenos">191</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">UP</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;assets/sprites/cow/up_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span><span class="p">)],</span>
-</span><span id="L-192"><a href="#L-192"><span class="linenos">192</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">DOWN</span><span class="p">:</span> <span class="p">[</span>
-</span><span id="L-193"><a href="#L-193"><span class="linenos">193</span></a>                <span class="sa">f</span><span class="s2">&quot;assets/sprites/cow/down_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span><span class="p">)</span>
-</span><span id="L-194"><a href="#L-194"><span class="linenos">194</span></a>            <span class="p">],</span>
-</span><span id="L-195"><a href="#L-195"><span class="linenos">195</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">LEFT</span><span class="p">:</span> <span class="p">[</span>
-</span><span id="L-196"><a href="#L-196"><span class="linenos">196</span></a>                <span class="sa">f</span><span class="s2">&quot;assets/sprites/cow/left_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span><span class="p">)</span>
-</span><span id="L-197"><a href="#L-197"><span class="linenos">197</span></a>            <span class="p">],</span>
-</span><span id="L-198"><a href="#L-198"><span class="linenos">198</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">:</span> <span class="p">[</span>
-</span><span id="L-199"><a href="#L-199"><span class="linenos">199</span></a>                <span class="sa">f</span><span class="s2">&quot;assets/sprites/cow/right_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span><span class="p">)</span>
-</span><span id="L-200"><a href="#L-200"><span class="linenos">200</span></a>            <span class="p">],</span>
-</span><span id="L-201"><a href="#L-201"><span class="linenos">201</span></a>        <span class="p">}</span>
-</span><span id="L-202"><a href="#L-202"><span class="linenos">202</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">create_movement_sprites</span><span class="p">()</span>  <span class="c1"># do not forget!</span>
-</span><span id="L-203"><a href="#L-203"><span class="linenos">203</span></a>
-</span><span id="L-204"><a href="#L-204"><span class="linenos">204</span></a>        <span class="c1"># Load sound</span>
-</span><span id="L-205"><a href="#L-205"><span class="linenos">205</span></a>        <span class="k">try</span><span class="p">:</span>
-</span><span id="L-206"><a href="#L-206"><span class="linenos">206</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">make_sound</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="s2">&quot;assets/sounds/cow_moo.wav&quot;</span><span class="p">)</span>
-</span><span id="L-207"><a href="#L-207"><span class="linenos">207</span></a>        <span class="k">except</span> <span class="n">pygame</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
-</span><span id="L-208"><a href="#L-208"><span class="linenos">208</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Could not load sound. Probably mixer not initialised.&quot;</span><span class="p">)</span>
-</span><span id="L-209"><a href="#L-209"><span class="linenos">209</span></a>
-</span><span id="L-210"><a href="#L-210"><span class="linenos">210</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-211"><a href="#L-211"><span class="linenos">211</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">render_movement</span><span class="p">(</span>
-</span><span id="L-212"><a href="#L-212"><span class="linenos">212</span></a>            <span class="n">screen</span>
-</span><span id="L-213"><a href="#L-213"><span class="linenos">213</span></a>        <span class="p">)</span>  <span class="c1"># NOTE: here add all the rendering and respective interaction logics</span>
-</span><span id="L-214"><a href="#L-214"><span class="linenos">214</span></a>
-</span><span id="L-215"><a href="#L-215"><span class="linenos">215</span></a>
-</span><span id="L-216"><a href="#L-216"><span class="linenos">216</span></a><span class="nd">@registry</span><span class="o">.</span><span class="n">register</span>
-</span><span id="L-217"><a href="#L-217"><span class="linenos">217</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Player</span><span class="p">(</span><span class="n">GameObject</span><span class="p">,</span> <span class="n">LimbControlMixin</span><span class="p">):</span>
-</span><span id="L-218"><a href="#L-218"><span class="linenos">218</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">health</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
-</span><span id="L-219"><a href="#L-219"><span class="linenos">219</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">)</span>
-</span><span id="L-220"><a href="#L-220"><span class="linenos">220</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</span><span id="L-221"><a href="#L-221"><span class="linenos">221</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">noise_intensity</span> <span class="o">=</span> <span class="mf">1.1</span>
-</span><span id="L-222"><a href="#L-222"><span class="linenos">222</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">attractiveness</span> <span class="o">=</span> <span class="mf">2.1</span>
-</span><span id="L-223"><a href="#L-223"><span class="linenos">223</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">visible_size</span> <span class="o">=</span> <span class="mf">2.0</span>
-</span><span id="L-224"><a href="#L-224"><span class="linenos">224</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">z_level</span> <span class="o">=</span> <span class="mf">10.0</span>
-</span><span id="L-225"><a href="#L-225"><span class="linenos">225</span></a>
-</span><span id="L-226"><a href="#L-226"><span class="linenos">226</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_pressed_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-227"><a href="#L-227"><span class="linenos">227</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">keys</span> <span class="o">=</span> <span class="n">keys</span>
-</span><span id="L-228"><a href="#L-228"><span class="linenos">228</span></a>
-</span><span id="L-229"><a href="#L-229"><span class="linenos">229</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">near_objs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
-</span><span id="L-230"><a href="#L-230"><span class="linenos">230</span></a>        <span class="n">dx</span> <span class="o">=</span> <span class="n">dy</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="L-231"><a href="#L-231"><span class="linenos">231</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_UP</span><span class="p">]:</span>
-</span><span id="L-232"><a href="#L-232"><span class="linenos">232</span></a>            <span class="n">dy</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-</span><span id="L-233"><a href="#L-233"><span class="linenos">233</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_DOWN</span><span class="p">]:</span>
-</span><span id="L-234"><a href="#L-234"><span class="linenos">234</span></a>            <span class="n">dy</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="L-235"><a href="#L-235"><span class="linenos">235</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_LEFT</span><span class="p">]:</span>
-</span><span id="L-236"><a href="#L-236"><span class="linenos">236</span></a>            <span class="n">dx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-</span><span id="L-237"><a href="#L-237"><span class="linenos">237</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_RIGHT</span><span class="p">]:</span>
-</span><span id="L-238"><a href="#L-238"><span class="linenos">238</span></a>            <span class="n">dx</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="L-239"><a href="#L-239"><span class="linenos">239</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_e</span><span class="p">]:</span>
-</span><span id="L-240"><a href="#L-240"><span class="linenos">240</span></a>            <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">near_objs</span><span class="p">:</span>
-</span><span id="L-241"><a href="#L-241"><span class="linenos">241</span></a>                <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-</span><span id="L-242"><a href="#L-242"><span class="linenos">242</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-</span><span id="L-243"><a href="#L-243"><span class="linenos">243</span></a>        <span class="k">match</span> <span class="p">(</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">):</span>
-</span><span id="L-244"><a href="#L-244"><span class="linenos">244</span></a>            <span class="k">case</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
-</span><span id="L-245"><a href="#L-245"><span class="linenos">245</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">Direction</span><span class="o">.</span><span class="n">RIGHT</span>
-</span><span id="L-246"><a href="#L-246"><span class="linenos">246</span></a>            <span class="k">case</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
-</span><span id="L-247"><a href="#L-247"><span class="linenos">247</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">Direction</span><span class="o">.</span><span class="n">LEFT</span>
-</span><span id="L-248"><a href="#L-248"><span class="linenos">248</span></a>            <span class="k">case</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
-</span><span id="L-249"><a href="#L-249"><span class="linenos">249</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">Direction</span><span class="o">.</span><span class="n">DOWN</span>
-</span><span id="L-250"><a href="#L-250"><span class="linenos">250</span></a>            <span class="k">case</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
-</span><span id="L-251"><a href="#L-251"><span class="linenos">251</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">Direction</span><span class="o">.</span><span class="n">UP</span>
-</span><span id="L-252"><a href="#L-252"><span class="linenos">252</span></a>
-</span><span id="L-253"><a href="#L-253"><span class="linenos">253</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">new_x</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">dx</span><span class="p">)</span> <span class="o">%</span> <span class="n">MAX_X</span>
-</span><span id="L-254"><a href="#L-254"><span class="linenos">254</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">new_y</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">dy</span><span class="p">)</span> <span class="o">%</span> <span class="n">MAX_Y</span>
-</span><span id="L-255"><a href="#L-255"><span class="linenos">255</span></a>
-</span><span id="L-256"><a href="#L-256"><span class="linenos">256</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-</span><span id="L-257"><a href="#L-257"><span class="linenos">257</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_x</span>
-</span><span id="L-258"><a href="#L-258"><span class="linenos">258</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_y</span>
-</span><span id="L-259"><a href="#L-259"><span class="linenos">259</span></a>
-</span><span id="L-260"><a href="#L-260"><span class="linenos">260</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
-</span><span id="L-261"><a href="#L-261"><span class="linenos">261</span></a>        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span>
-</span><span id="L-262"><a href="#L-262"><span class="linenos">262</span></a>            <span class="n">screen</span><span class="p">,</span>
-</span><span id="L-263"><a href="#L-263"><span class="linenos">263</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
-</span><span id="L-264"><a href="#L-264"><span class="linenos">264</span></a>            <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">),</span>
-</span><span id="L-265"><a href="#L-265"><span class="linenos">265</span></a>        <span class="p">)</span>
+</span><span id="L-188"><a href="#L-188"><span class="linenos">188</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sprite_size_x</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">128</span>
+</span><span id="L-189"><a href="#L-189"><span class="linenos">189</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sprite_size_y</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">128</span>
+</span><span id="L-190"><a href="#L-190"><span class="linenos">190</span></a>
+</span><span id="L-191"><a href="#L-191"><span class="linenos">191</span></a>        <span class="c1"># Load sprites</span>
+</span><span id="L-192"><a href="#L-192"><span class="linenos">192</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">movement_sprites_locations</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="L-193"><a href="#L-193"><span class="linenos">193</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">UP</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;assets/sprites/cow/up_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span><span class="p">)],</span>
+</span><span id="L-194"><a href="#L-194"><span class="linenos">194</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">DOWN</span><span class="p">:</span> <span class="p">[</span>
+</span><span id="L-195"><a href="#L-195"><span class="linenos">195</span></a>                <span class="sa">f</span><span class="s2">&quot;assets/sprites/cow/down_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span><span class="p">)</span>
+</span><span id="L-196"><a href="#L-196"><span class="linenos">196</span></a>            <span class="p">],</span>
+</span><span id="L-197"><a href="#L-197"><span class="linenos">197</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">LEFT</span><span class="p">:</span> <span class="p">[</span>
+</span><span id="L-198"><a href="#L-198"><span class="linenos">198</span></a>                <span class="sa">f</span><span class="s2">&quot;assets/sprites/cow/left_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span><span class="p">)</span>
+</span><span id="L-199"><a href="#L-199"><span class="linenos">199</span></a>            <span class="p">],</span>
+</span><span id="L-200"><a href="#L-200"><span class="linenos">200</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">:</span> <span class="p">[</span>
+</span><span id="L-201"><a href="#L-201"><span class="linenos">201</span></a>                <span class="sa">f</span><span class="s2">&quot;assets/sprites/cow/right_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span><span class="p">)</span>
+</span><span id="L-202"><a href="#L-202"><span class="linenos">202</span></a>            <span class="p">],</span>
+</span><span id="L-203"><a href="#L-203"><span class="linenos">203</span></a>        <span class="p">}</span>
+</span><span id="L-204"><a href="#L-204"><span class="linenos">204</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">create_movement_sprites</span><span class="p">()</span>  <span class="c1"># do not forget!</span>
+</span><span id="L-205"><a href="#L-205"><span class="linenos">205</span></a>
+</span><span id="L-206"><a href="#L-206"><span class="linenos">206</span></a>        <span class="c1"># Load sound</span>
+</span><span id="L-207"><a href="#L-207"><span class="linenos">207</span></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="L-208"><a href="#L-208"><span class="linenos">208</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">make_sound</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="s2">&quot;assets/sounds/cow_moo.wav&quot;</span><span class="p">)</span>
+</span><span id="L-209"><a href="#L-209"><span class="linenos">209</span></a>        <span class="k">except</span> <span class="n">pygame</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
+</span><span id="L-210"><a href="#L-210"><span class="linenos">210</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Could not load sound. Probably mixer not initialised.&quot;</span><span class="p">)</span>
+</span><span id="L-211"><a href="#L-211"><span class="linenos">211</span></a>
+</span><span id="L-212"><a href="#L-212"><span class="linenos">212</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-213"><a href="#L-213"><span class="linenos">213</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">render_movement</span><span class="p">(</span>
+</span><span id="L-214"><a href="#L-214"><span class="linenos">214</span></a>            <span class="n">screen</span>
+</span><span id="L-215"><a href="#L-215"><span class="linenos">215</span></a>        <span class="p">)</span>  <span class="c1"># NOTE: here add all the rendering and respective interaction logics</span>
+</span><span id="L-216"><a href="#L-216"><span class="linenos">216</span></a>
+</span><span id="L-217"><a href="#L-217"><span class="linenos">217</span></a>
+</span><span id="L-218"><a href="#L-218"><span class="linenos">218</span></a><span class="nd">@registry</span><span class="o">.</span><span class="n">register</span>
+</span><span id="L-219"><a href="#L-219"><span class="linenos">219</span></a><span class="k">class</span><span class="w"> </span><span class="nc">CowShadow</span><span class="p">(</span><span class="n">GameObject</span><span class="p">,</span> <span class="n">MovementAnimationMixin</span><span class="p">,</span> <span class="n">AttachedToParentMixin</span><span class="p">):</span>
+</span><span id="L-220"><a href="#L-220"><span class="linenos">220</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">health</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="L-221"><a href="#L-221"><span class="linenos">221</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">)</span>
+</span><span id="L-222"><a href="#L-222"><span class="linenos">222</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">z_level</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="L-223"><a href="#L-223"><span class="linenos">223</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="L-224"><a href="#L-224"><span class="linenos">224</span></a>        <span class="c1"># Load sprites</span>
+</span><span id="L-225"><a href="#L-225"><span class="linenos">225</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">movement_sprites_locations</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="L-226"><a href="#L-226"><span class="linenos">226</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">UP</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;assets/sprites/cow_shadow/up.png&quot;</span><span class="p">],</span>
+</span><span id="L-227"><a href="#L-227"><span class="linenos">227</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">DOWN</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;assets/sprites/cow_shadow/down.png&quot;</span><span class="p">],</span>
+</span><span id="L-228"><a href="#L-228"><span class="linenos">228</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">LEFT</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;assets/sprites/cow_shadow/left.png&quot;</span><span class="p">],</span>
+</span><span id="L-229"><a href="#L-229"><span class="linenos">229</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;assets/sprites/cow_shadow/right.png&quot;</span><span class="p">],</span>
+</span><span id="L-230"><a href="#L-230"><span class="linenos">230</span></a>        <span class="p">}</span>
+</span><span id="L-231"><a href="#L-231"><span class="linenos">231</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">create_movement_sprites</span><span class="p">()</span>  <span class="c1"># do not forget!</span>
+</span><span id="L-232"><a href="#L-232"><span class="linenos">232</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sprite_size_x</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">128</span>
+</span><span id="L-233"><a href="#L-233"><span class="linenos">233</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sprite_size_y</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">128</span>
+</span><span id="L-234"><a href="#L-234"><span class="linenos">234</span></a>
+</span><span id="L-235"><a href="#L-235"><span class="linenos">235</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-236"><a href="#L-236"><span class="linenos">236</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">render_movement</span><span class="p">(</span><span class="n">screen</span><span class="p">)</span>
+</span><span id="L-237"><a href="#L-237"><span class="linenos">237</span></a>
+</span><span id="L-238"><a href="#L-238"><span class="linenos">238</span></a>
+</span><span id="L-239"><a href="#L-239"><span class="linenos">239</span></a><span class="nd">@registry</span><span class="o">.</span><span class="n">register</span>
+</span><span id="L-240"><a href="#L-240"><span class="linenos">240</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Player</span><span class="p">(</span><span class="n">GameObject</span><span class="p">,</span> <span class="n">LimbControlMixin</span><span class="p">):</span>
+</span><span id="L-241"><a href="#L-241"><span class="linenos">241</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">health</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="L-242"><a href="#L-242"><span class="linenos">242</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">)</span>
+</span><span id="L-243"><a href="#L-243"><span class="linenos">243</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span id="L-244"><a href="#L-244"><span class="linenos">244</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">noise_intensity</span> <span class="o">=</span> <span class="mf">1.1</span>
+</span><span id="L-245"><a href="#L-245"><span class="linenos">245</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">attractiveness</span> <span class="o">=</span> <span class="mf">2.1</span>
+</span><span id="L-246"><a href="#L-246"><span class="linenos">246</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">visible_size</span> <span class="o">=</span> <span class="mf">2.0</span>
+</span><span id="L-247"><a href="#L-247"><span class="linenos">247</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">z_level</span> <span class="o">=</span> <span class="mf">10.0</span>
+</span><span id="L-248"><a href="#L-248"><span class="linenos">248</span></a>
+</span><span id="L-249"><a href="#L-249"><span class="linenos">249</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_pressed_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-250"><a href="#L-250"><span class="linenos">250</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">keys</span> <span class="o">=</span> <span class="n">keys</span>
+</span><span id="L-251"><a href="#L-251"><span class="linenos">251</span></a>
+</span><span id="L-252"><a href="#L-252"><span class="linenos">252</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">near_objs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="L-253"><a href="#L-253"><span class="linenos">253</span></a>        <span class="n">dx</span> <span class="o">=</span> <span class="n">dy</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="L-254"><a href="#L-254"><span class="linenos">254</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_UP</span><span class="p">]:</span>
+</span><span id="L-255"><a href="#L-255"><span class="linenos">255</span></a>            <span class="n">dy</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+</span><span id="L-256"><a href="#L-256"><span class="linenos">256</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_DOWN</span><span class="p">]:</span>
+</span><span id="L-257"><a href="#L-257"><span class="linenos">257</span></a>            <span class="n">dy</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="L-258"><a href="#L-258"><span class="linenos">258</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_LEFT</span><span class="p">]:</span>
+</span><span id="L-259"><a href="#L-259"><span class="linenos">259</span></a>            <span class="n">dx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+</span><span id="L-260"><a href="#L-260"><span class="linenos">260</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_RIGHT</span><span class="p">]:</span>
+</span><span id="L-261"><a href="#L-261"><span class="linenos">261</span></a>            <span class="n">dx</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="L-262"><a href="#L-262"><span class="linenos">262</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_e</span><span class="p">]:</span>
+</span><span id="L-263"><a href="#L-263"><span class="linenos">263</span></a>            <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">near_objs</span><span class="p">:</span>
+</span><span id="L-264"><a href="#L-264"><span class="linenos">264</span></a>                <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="L-265"><a href="#L-265"><span class="linenos">265</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+</span><span id="L-266"><a href="#L-266"><span class="linenos">266</span></a>        <span class="k">match</span> <span class="p">(</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">):</span>
+</span><span id="L-267"><a href="#L-267"><span class="linenos">267</span></a>            <span class="k">case</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+</span><span id="L-268"><a href="#L-268"><span class="linenos">268</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">Direction</span><span class="o">.</span><span class="n">RIGHT</span>
+</span><span id="L-269"><a href="#L-269"><span class="linenos">269</span></a>            <span class="k">case</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+</span><span id="L-270"><a href="#L-270"><span class="linenos">270</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">Direction</span><span class="o">.</span><span class="n">LEFT</span>
+</span><span id="L-271"><a href="#L-271"><span class="linenos">271</span></a>            <span class="k">case</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+</span><span id="L-272"><a href="#L-272"><span class="linenos">272</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">Direction</span><span class="o">.</span><span class="n">DOWN</span>
+</span><span id="L-273"><a href="#L-273"><span class="linenos">273</span></a>            <span class="k">case</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+</span><span id="L-274"><a href="#L-274"><span class="linenos">274</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">Direction</span><span class="o">.</span><span class="n">UP</span>
+</span><span id="L-275"><a href="#L-275"><span class="linenos">275</span></a>
+</span><span id="L-276"><a href="#L-276"><span class="linenos">276</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">new_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">dx</span>
+</span><span id="L-277"><a href="#L-277"><span class="linenos">277</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">new_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">dy</span>
+</span><span id="L-278"><a href="#L-278"><span class="linenos">278</span></a>
+</span><span id="L-279"><a href="#L-279"><span class="linenos">279</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+</span><span id="L-280"><a href="#L-280"><span class="linenos">280</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_x</span>
+</span><span id="L-281"><a href="#L-281"><span class="linenos">281</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_y</span>
+</span><span id="L-282"><a href="#L-282"><span class="linenos">282</span></a>
+</span><span id="L-283"><a href="#L-283"><span class="linenos">283</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+</span><span id="L-284"><a href="#L-284"><span class="linenos">284</span></a>        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span>
+</span><span id="L-285"><a href="#L-285"><span class="linenos">285</span></a>            <span class="n">screen</span><span class="p">,</span>
+</span><span id="L-286"><a href="#L-286"><span class="linenos">286</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
+</span><span id="L-287"><a href="#L-287"><span class="linenos">287</span></a>            <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">),</span>
+</span><span id="L-288"><a href="#L-288"><span class="linenos">288</span></a>        <span class="p">)</span>
 </span></pre></div>
 
 
@@ -765,6 +821,8 @@ inheritance.</p>
                 <dd id="Stone.last_render_time" class="variable"><a href="base_objects.html#GameObject.last_render_time">last_render_time</a></dd>
                 <dd id="Stone.parent" class="variable"><a href="base_objects.html#GameObject.parent">parent</a></dd>
                 <dd id="Stone.children" class="variable"><a href="base_objects.html#GameObject.children">children</a></dd>
+                <dd id="Stone.sprite_size_x" class="variable"><a href="base_objects.html#GameObject.sprite_size_x">sprite_size_x</a></dd>
+                <dd id="Stone.sprite_size_y" class="variable"><a href="base_objects.html#GameObject.sprite_size_y">sprite_size_y</a></dd>
                 <dd id="Stone.update" class="function"><a href="base_objects.html#GameObject.update">update</a></dd>
                 <dd id="Stone.prepare" class="function"><a href="base_objects.html#GameObject.prepare">prepare</a></dd>
                 <dd id="Stone.distance" class="function"><a href="base_objects.html#GameObject.distance">distance</a></dd>
@@ -914,6 +972,8 @@ inheritance.</p>
                 <dd id="Ground.last_render_time" class="variable"><a href="base_objects.html#GameObject.last_render_time">last_render_time</a></dd>
                 <dd id="Ground.parent" class="variable"><a href="base_objects.html#GameObject.parent">parent</a></dd>
                 <dd id="Ground.children" class="variable"><a href="base_objects.html#GameObject.children">children</a></dd>
+                <dd id="Ground.sprite_size_x" class="variable"><a href="base_objects.html#GameObject.sprite_size_x">sprite_size_x</a></dd>
+                <dd id="Ground.sprite_size_y" class="variable"><a href="base_objects.html#GameObject.sprite_size_y">sprite_size_y</a></dd>
                 <dd id="Ground.update" class="function"><a href="base_objects.html#GameObject.update">update</a></dd>
                 <dd id="Ground.prepare" class="function"><a href="base_objects.html#GameObject.prepare">prepare</a></dd>
                 <dd id="Ground.distance" class="function"><a href="base_objects.html#GameObject.distance">distance</a></dd>
@@ -1129,6 +1189,8 @@ inheritance.</p>
                 <dd id="HeatedStone.last_render_time" class="variable"><a href="base_objects.html#GameObject.last_render_time">last_render_time</a></dd>
                 <dd id="HeatedStone.parent" class="variable"><a href="base_objects.html#GameObject.parent">parent</a></dd>
                 <dd id="HeatedStone.children" class="variable"><a href="base_objects.html#GameObject.children">children</a></dd>
+                <dd id="HeatedStone.sprite_size_x" class="variable"><a href="base_objects.html#GameObject.sprite_size_x">sprite_size_x</a></dd>
+                <dd id="HeatedStone.sprite_size_y" class="variable"><a href="base_objects.html#GameObject.sprite_size_y">sprite_size_y</a></dd>
                 <dd id="HeatedStone.update" class="function"><a href="base_objects.html#GameObject.update">update</a></dd>
                 <dd id="HeatedStone.prepare" class="function"><a href="base_objects.html#GameObject.prepare">prepare</a></dd>
                 <dd id="HeatedStone.distance" class="function"><a href="base_objects.html#GameObject.distance">distance</a></dd>
@@ -1315,6 +1377,8 @@ inheritance.</p>
                 <dd id="Sword.last_render_time" class="variable"><a href="base_objects.html#GameObject.last_render_time">last_render_time</a></dd>
                 <dd id="Sword.parent" class="variable"><a href="base_objects.html#GameObject.parent">parent</a></dd>
                 <dd id="Sword.children" class="variable"><a href="base_objects.html#GameObject.children">children</a></dd>
+                <dd id="Sword.sprite_size_x" class="variable"><a href="base_objects.html#GameObject.sprite_size_x">sprite_size_x</a></dd>
+                <dd id="Sword.sprite_size_y" class="variable"><a href="base_objects.html#GameObject.sprite_size_y">sprite_size_y</a></dd>
                 <dd id="Sword.update" class="function"><a href="base_objects.html#GameObject.update">update</a></dd>
                 <dd id="Sword.prepare" class="function"><a href="base_objects.html#GameObject.prepare">prepare</a></dd>
                 <dd id="Sword.distance" class="function"><a href="base_objects.html#GameObject.distance">distance</a></dd>
@@ -1552,6 +1616,8 @@ inheritance.</p>
                 <dd id="Elf.last_render_time" class="variable"><a href="base_objects.html#GameObject.last_render_time">last_render_time</a></dd>
                 <dd id="Elf.parent" class="variable"><a href="base_objects.html#GameObject.parent">parent</a></dd>
                 <dd id="Elf.children" class="variable"><a href="base_objects.html#GameObject.children">children</a></dd>
+                <dd id="Elf.sprite_size_x" class="variable"><a href="base_objects.html#GameObject.sprite_size_x">sprite_size_x</a></dd>
+                <dd id="Elf.sprite_size_y" class="variable"><a href="base_objects.html#GameObject.sprite_size_y">sprite_size_y</a></dd>
                 <dd id="Elf.distance" class="function"><a href="base_objects.html#GameObject.distance">distance</a></dd>
                 <dd id="Elf.clone" class="function"><a href="base_objects.html#GameObject.clone">clone</a></dd>
 
@@ -1623,32 +1689,34 @@ inheritance.</p>
 </span><span id="Cow-186"><a href="#Cow-186"><span class="linenos">186</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">internal_state</span> <span class="o">=</span> <span class="n">InternalState</span><span class="p">(</span><span class="n">owner</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
 </span><span id="Cow-187"><a href="#Cow-187"><span class="linenos">187</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span> <span class="o">=</span> <span class="mi">4</span>
 </span><span id="Cow-188"><a href="#Cow-188"><span class="linenos">188</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">z_level</span> <span class="o">=</span> <span class="mf">2.0</span>
-</span><span id="Cow-189"><a href="#Cow-189"><span class="linenos">189</span></a>
-</span><span id="Cow-190"><a href="#Cow-190"><span class="linenos">190</span></a>        <span class="c1"># Load sprites</span>
-</span><span id="Cow-191"><a href="#Cow-191"><span class="linenos">191</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">movement_sprites_locations</span> <span class="o">=</span> <span class="p">{</span>
-</span><span id="Cow-192"><a href="#Cow-192"><span class="linenos">192</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">UP</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;assets/sprites/cow/up_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span><span class="p">)],</span>
-</span><span id="Cow-193"><a href="#Cow-193"><span class="linenos">193</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">DOWN</span><span class="p">:</span> <span class="p">[</span>
-</span><span id="Cow-194"><a href="#Cow-194"><span class="linenos">194</span></a>                <span class="sa">f</span><span class="s2">&quot;assets/sprites/cow/down_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span><span class="p">)</span>
-</span><span id="Cow-195"><a href="#Cow-195"><span class="linenos">195</span></a>            <span class="p">],</span>
-</span><span id="Cow-196"><a href="#Cow-196"><span class="linenos">196</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">LEFT</span><span class="p">:</span> <span class="p">[</span>
-</span><span id="Cow-197"><a href="#Cow-197"><span class="linenos">197</span></a>                <span class="sa">f</span><span class="s2">&quot;assets/sprites/cow/left_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span><span class="p">)</span>
-</span><span id="Cow-198"><a href="#Cow-198"><span class="linenos">198</span></a>            <span class="p">],</span>
-</span><span id="Cow-199"><a href="#Cow-199"><span class="linenos">199</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">:</span> <span class="p">[</span>
-</span><span id="Cow-200"><a href="#Cow-200"><span class="linenos">200</span></a>                <span class="sa">f</span><span class="s2">&quot;assets/sprites/cow/right_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span><span class="p">)</span>
-</span><span id="Cow-201"><a href="#Cow-201"><span class="linenos">201</span></a>            <span class="p">],</span>
-</span><span id="Cow-202"><a href="#Cow-202"><span class="linenos">202</span></a>        <span class="p">}</span>
-</span><span id="Cow-203"><a href="#Cow-203"><span class="linenos">203</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">create_movement_sprites</span><span class="p">()</span>  <span class="c1"># do not forget!</span>
-</span><span id="Cow-204"><a href="#Cow-204"><span class="linenos">204</span></a>
-</span><span id="Cow-205"><a href="#Cow-205"><span class="linenos">205</span></a>        <span class="c1"># Load sound</span>
-</span><span id="Cow-206"><a href="#Cow-206"><span class="linenos">206</span></a>        <span class="k">try</span><span class="p">:</span>
-</span><span id="Cow-207"><a href="#Cow-207"><span class="linenos">207</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">make_sound</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="s2">&quot;assets/sounds/cow_moo.wav&quot;</span><span class="p">)</span>
-</span><span id="Cow-208"><a href="#Cow-208"><span class="linenos">208</span></a>        <span class="k">except</span> <span class="n">pygame</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
-</span><span id="Cow-209"><a href="#Cow-209"><span class="linenos">209</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Could not load sound. Probably mixer not initialised.&quot;</span><span class="p">)</span>
-</span><span id="Cow-210"><a href="#Cow-210"><span class="linenos">210</span></a>
-</span><span id="Cow-211"><a href="#Cow-211"><span class="linenos">211</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="Cow-212"><a href="#Cow-212"><span class="linenos">212</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">render_movement</span><span class="p">(</span>
-</span><span id="Cow-213"><a href="#Cow-213"><span class="linenos">213</span></a>            <span class="n">screen</span>
-</span><span id="Cow-214"><a href="#Cow-214"><span class="linenos">214</span></a>        <span class="p">)</span>  <span class="c1"># NOTE: here add all the rendering and respective interaction logics</span>
+</span><span id="Cow-189"><a href="#Cow-189"><span class="linenos">189</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sprite_size_x</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">128</span>
+</span><span id="Cow-190"><a href="#Cow-190"><span class="linenos">190</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sprite_size_y</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">128</span>
+</span><span id="Cow-191"><a href="#Cow-191"><span class="linenos">191</span></a>
+</span><span id="Cow-192"><a href="#Cow-192"><span class="linenos">192</span></a>        <span class="c1"># Load sprites</span>
+</span><span id="Cow-193"><a href="#Cow-193"><span class="linenos">193</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">movement_sprites_locations</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="Cow-194"><a href="#Cow-194"><span class="linenos">194</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">UP</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;assets/sprites/cow/up_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span><span class="p">)],</span>
+</span><span id="Cow-195"><a href="#Cow-195"><span class="linenos">195</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">DOWN</span><span class="p">:</span> <span class="p">[</span>
+</span><span id="Cow-196"><a href="#Cow-196"><span class="linenos">196</span></a>                <span class="sa">f</span><span class="s2">&quot;assets/sprites/cow/down_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span><span class="p">)</span>
+</span><span id="Cow-197"><a href="#Cow-197"><span class="linenos">197</span></a>            <span class="p">],</span>
+</span><span id="Cow-198"><a href="#Cow-198"><span class="linenos">198</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">LEFT</span><span class="p">:</span> <span class="p">[</span>
+</span><span id="Cow-199"><a href="#Cow-199"><span class="linenos">199</span></a>                <span class="sa">f</span><span class="s2">&quot;assets/sprites/cow/left_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span><span class="p">)</span>
+</span><span id="Cow-200"><a href="#Cow-200"><span class="linenos">200</span></a>            <span class="p">],</span>
+</span><span id="Cow-201"><a href="#Cow-201"><span class="linenos">201</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">:</span> <span class="p">[</span>
+</span><span id="Cow-202"><a href="#Cow-202"><span class="linenos">202</span></a>                <span class="sa">f</span><span class="s2">&quot;assets/sprites/cow/right_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span><span class="p">)</span>
+</span><span id="Cow-203"><a href="#Cow-203"><span class="linenos">203</span></a>            <span class="p">],</span>
+</span><span id="Cow-204"><a href="#Cow-204"><span class="linenos">204</span></a>        <span class="p">}</span>
+</span><span id="Cow-205"><a href="#Cow-205"><span class="linenos">205</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">create_movement_sprites</span><span class="p">()</span>  <span class="c1"># do not forget!</span>
+</span><span id="Cow-206"><a href="#Cow-206"><span class="linenos">206</span></a>
+</span><span id="Cow-207"><a href="#Cow-207"><span class="linenos">207</span></a>        <span class="c1"># Load sound</span>
+</span><span id="Cow-208"><a href="#Cow-208"><span class="linenos">208</span></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="Cow-209"><a href="#Cow-209"><span class="linenos">209</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">make_sound</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="s2">&quot;assets/sounds/cow_moo.wav&quot;</span><span class="p">)</span>
+</span><span id="Cow-210"><a href="#Cow-210"><span class="linenos">210</span></a>        <span class="k">except</span> <span class="n">pygame</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
+</span><span id="Cow-211"><a href="#Cow-211"><span class="linenos">211</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Could not load sound. Probably mixer not initialised.&quot;</span><span class="p">)</span>
+</span><span id="Cow-212"><a href="#Cow-212"><span class="linenos">212</span></a>
+</span><span id="Cow-213"><a href="#Cow-213"><span class="linenos">213</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Cow-214"><a href="#Cow-214"><span class="linenos">214</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">render_movement</span><span class="p">(</span>
+</span><span id="Cow-215"><a href="#Cow-215"><span class="linenos">215</span></a>            <span class="n">screen</span>
+</span><span id="Cow-216"><a href="#Cow-216"><span class="linenos">216</span></a>        <span class="p">)</span>  <span class="c1"># NOTE: here add all the rendering and respective interaction logics</span>
 </span></pre></div>
 
 
@@ -1685,27 +1753,29 @@ inheritance.</p>
 </span><span id="Cow.__init__-186"><a href="#Cow.__init__-186"><span class="linenos">186</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">internal_state</span> <span class="o">=</span> <span class="n">InternalState</span><span class="p">(</span><span class="n">owner</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
 </span><span id="Cow.__init__-187"><a href="#Cow.__init__-187"><span class="linenos">187</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span> <span class="o">=</span> <span class="mi">4</span>
 </span><span id="Cow.__init__-188"><a href="#Cow.__init__-188"><span class="linenos">188</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">z_level</span> <span class="o">=</span> <span class="mf">2.0</span>
-</span><span id="Cow.__init__-189"><a href="#Cow.__init__-189"><span class="linenos">189</span></a>
-</span><span id="Cow.__init__-190"><a href="#Cow.__init__-190"><span class="linenos">190</span></a>        <span class="c1"># Load sprites</span>
-</span><span id="Cow.__init__-191"><a href="#Cow.__init__-191"><span class="linenos">191</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">movement_sprites_locations</span> <span class="o">=</span> <span class="p">{</span>
-</span><span id="Cow.__init__-192"><a href="#Cow.__init__-192"><span class="linenos">192</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">UP</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;assets/sprites/cow/up_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span><span class="p">)],</span>
-</span><span id="Cow.__init__-193"><a href="#Cow.__init__-193"><span class="linenos">193</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">DOWN</span><span class="p">:</span> <span class="p">[</span>
-</span><span id="Cow.__init__-194"><a href="#Cow.__init__-194"><span class="linenos">194</span></a>                <span class="sa">f</span><span class="s2">&quot;assets/sprites/cow/down_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span><span class="p">)</span>
-</span><span id="Cow.__init__-195"><a href="#Cow.__init__-195"><span class="linenos">195</span></a>            <span class="p">],</span>
-</span><span id="Cow.__init__-196"><a href="#Cow.__init__-196"><span class="linenos">196</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">LEFT</span><span class="p">:</span> <span class="p">[</span>
-</span><span id="Cow.__init__-197"><a href="#Cow.__init__-197"><span class="linenos">197</span></a>                <span class="sa">f</span><span class="s2">&quot;assets/sprites/cow/left_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span><span class="p">)</span>
-</span><span id="Cow.__init__-198"><a href="#Cow.__init__-198"><span class="linenos">198</span></a>            <span class="p">],</span>
-</span><span id="Cow.__init__-199"><a href="#Cow.__init__-199"><span class="linenos">199</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">:</span> <span class="p">[</span>
-</span><span id="Cow.__init__-200"><a href="#Cow.__init__-200"><span class="linenos">200</span></a>                <span class="sa">f</span><span class="s2">&quot;assets/sprites/cow/right_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span><span class="p">)</span>
-</span><span id="Cow.__init__-201"><a href="#Cow.__init__-201"><span class="linenos">201</span></a>            <span class="p">],</span>
-</span><span id="Cow.__init__-202"><a href="#Cow.__init__-202"><span class="linenos">202</span></a>        <span class="p">}</span>
-</span><span id="Cow.__init__-203"><a href="#Cow.__init__-203"><span class="linenos">203</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">create_movement_sprites</span><span class="p">()</span>  <span class="c1"># do not forget!</span>
-</span><span id="Cow.__init__-204"><a href="#Cow.__init__-204"><span class="linenos">204</span></a>
-</span><span id="Cow.__init__-205"><a href="#Cow.__init__-205"><span class="linenos">205</span></a>        <span class="c1"># Load sound</span>
-</span><span id="Cow.__init__-206"><a href="#Cow.__init__-206"><span class="linenos">206</span></a>        <span class="k">try</span><span class="p">:</span>
-</span><span id="Cow.__init__-207"><a href="#Cow.__init__-207"><span class="linenos">207</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">make_sound</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="s2">&quot;assets/sounds/cow_moo.wav&quot;</span><span class="p">)</span>
-</span><span id="Cow.__init__-208"><a href="#Cow.__init__-208"><span class="linenos">208</span></a>        <span class="k">except</span> <span class="n">pygame</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
-</span><span id="Cow.__init__-209"><a href="#Cow.__init__-209"><span class="linenos">209</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Could not load sound. Probably mixer not initialised.&quot;</span><span class="p">)</span>
+</span><span id="Cow.__init__-189"><a href="#Cow.__init__-189"><span class="linenos">189</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sprite_size_x</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">128</span>
+</span><span id="Cow.__init__-190"><a href="#Cow.__init__-190"><span class="linenos">190</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sprite_size_y</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">128</span>
+</span><span id="Cow.__init__-191"><a href="#Cow.__init__-191"><span class="linenos">191</span></a>
+</span><span id="Cow.__init__-192"><a href="#Cow.__init__-192"><span class="linenos">192</span></a>        <span class="c1"># Load sprites</span>
+</span><span id="Cow.__init__-193"><a href="#Cow.__init__-193"><span class="linenos">193</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">movement_sprites_locations</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="Cow.__init__-194"><a href="#Cow.__init__-194"><span class="linenos">194</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">UP</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;assets/sprites/cow/up_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span><span class="p">)],</span>
+</span><span id="Cow.__init__-195"><a href="#Cow.__init__-195"><span class="linenos">195</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">DOWN</span><span class="p">:</span> <span class="p">[</span>
+</span><span id="Cow.__init__-196"><a href="#Cow.__init__-196"><span class="linenos">196</span></a>                <span class="sa">f</span><span class="s2">&quot;assets/sprites/cow/down_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span><span class="p">)</span>
+</span><span id="Cow.__init__-197"><a href="#Cow.__init__-197"><span class="linenos">197</span></a>            <span class="p">],</span>
+</span><span id="Cow.__init__-198"><a href="#Cow.__init__-198"><span class="linenos">198</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">LEFT</span><span class="p">:</span> <span class="p">[</span>
+</span><span id="Cow.__init__-199"><a href="#Cow.__init__-199"><span class="linenos">199</span></a>                <span class="sa">f</span><span class="s2">&quot;assets/sprites/cow/left_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span><span class="p">)</span>
+</span><span id="Cow.__init__-200"><a href="#Cow.__init__-200"><span class="linenos">200</span></a>            <span class="p">],</span>
+</span><span id="Cow.__init__-201"><a href="#Cow.__init__-201"><span class="linenos">201</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">:</span> <span class="p">[</span>
+</span><span id="Cow.__init__-202"><a href="#Cow.__init__-202"><span class="linenos">202</span></a>                <span class="sa">f</span><span class="s2">&quot;assets/sprites/cow/right_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">.png&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span><span class="p">)</span>
+</span><span id="Cow.__init__-203"><a href="#Cow.__init__-203"><span class="linenos">203</span></a>            <span class="p">],</span>
+</span><span id="Cow.__init__-204"><a href="#Cow.__init__-204"><span class="linenos">204</span></a>        <span class="p">}</span>
+</span><span id="Cow.__init__-205"><a href="#Cow.__init__-205"><span class="linenos">205</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">create_movement_sprites</span><span class="p">()</span>  <span class="c1"># do not forget!</span>
+</span><span id="Cow.__init__-206"><a href="#Cow.__init__-206"><span class="linenos">206</span></a>
+</span><span id="Cow.__init__-207"><a href="#Cow.__init__-207"><span class="linenos">207</span></a>        <span class="c1"># Load sound</span>
+</span><span id="Cow.__init__-208"><a href="#Cow.__init__-208"><span class="linenos">208</span></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="Cow.__init__-209"><a href="#Cow.__init__-209"><span class="linenos">209</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">make_sound</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="s2">&quot;assets/sounds/cow_moo.wav&quot;</span><span class="p">)</span>
+</span><span id="Cow.__init__-210"><a href="#Cow.__init__-210"><span class="linenos">210</span></a>        <span class="k">except</span> <span class="n">pygame</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
+</span><span id="Cow.__init__-211"><a href="#Cow.__init__-211"><span class="linenos">211</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Could not load sound. Probably mixer not initialised.&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -1791,6 +1861,28 @@ inheritance.</p>
     
 
                             </div>
+                            <div id="Cow.sprite_size_x" class="classattr">
+                                <div class="attr variable">
+            <span class="name">sprite_size_x</span><span class="annotation">: int</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Cow.sprite_size_x"></a>
+    
+    
+
+                            </div>
+                            <div id="Cow.sprite_size_y" class="classattr">
+                                <div class="attr variable">
+            <span class="name">sprite_size_y</span><span class="annotation">: int</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Cow.sprite_size_y"></a>
+    
+    
+
+                            </div>
                             <div id="Cow.movement_sprites_locations" class="classattr">
                                 <div class="attr variable">
             <span class="name">movement_sprites_locations</span>
@@ -1813,10 +1905,10 @@ inheritance.</p>
 
     </div>
     <a class="headerlink" href="#Cow.render"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Cow.render-211"><a href="#Cow.render-211"><span class="linenos">211</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="Cow.render-212"><a href="#Cow.render-212"><span class="linenos">212</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">render_movement</span><span class="p">(</span>
-</span><span id="Cow.render-213"><a href="#Cow.render-213"><span class="linenos">213</span></a>            <span class="n">screen</span>
-</span><span id="Cow.render-214"><a href="#Cow.render-214"><span class="linenos">214</span></a>        <span class="p">)</span>  <span class="c1"># NOTE: here add all the rendering and respective interaction logics</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Cow.render-213"><a href="#Cow.render-213"><span class="linenos">213</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Cow.render-214"><a href="#Cow.render-214"><span class="linenos">214</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">render_movement</span><span class="p">(</span>
+</span><span id="Cow.render-215"><a href="#Cow.render-215"><span class="linenos">215</span></a>            <span class="n">screen</span>
+</span><span id="Cow.render-216"><a href="#Cow.render-216"><span class="linenos">216</span></a>        <span class="p">)</span>  <span class="c1"># NOTE: here add all the rendering and respective interaction logics</span>
 </span></pre></div>
 
 
@@ -1905,6 +1997,204 @@ inheritance.</p>
                                 </dl>
                             </div>
                 </section>
+                <section id="CowShadow">
+                            <input id="CowShadow-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr class">
+                    <div class="decorator decorator-registry.register">@registry.register</div>
+
+    <span class="def">class</span>
+    <span class="name">CowShadow</span><wbr>(<span class="base"><a href="base_objects.html#GameObject">flatland.objects.base_objects.GameObject</a></span>, <span class="base"><a href="../animations/animations.html#MovementAnimationMixin">flatland.animations.animations.MovementAnimationMixin</a></span>, <span class="base"><a href="../interactions/interactions.html#AttachedToParentMixin">flatland.interactions.interactions.AttachedToParentMixin</a></span>):
+
+                <label class="view-source-button" for="CowShadow-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#CowShadow"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="CowShadow-219"><a href="#CowShadow-219"><span class="linenos">219</span></a><span class="nd">@registry</span><span class="o">.</span><span class="n">register</span>
+</span><span id="CowShadow-220"><a href="#CowShadow-220"><span class="linenos">220</span></a><span class="k">class</span><span class="w"> </span><span class="nc">CowShadow</span><span class="p">(</span><span class="n">GameObject</span><span class="p">,</span> <span class="n">MovementAnimationMixin</span><span class="p">,</span> <span class="n">AttachedToParentMixin</span><span class="p">):</span>
+</span><span id="CowShadow-221"><a href="#CowShadow-221"><span class="linenos">221</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">health</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="CowShadow-222"><a href="#CowShadow-222"><span class="linenos">222</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">)</span>
+</span><span id="CowShadow-223"><a href="#CowShadow-223"><span class="linenos">223</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">z_level</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="CowShadow-224"><a href="#CowShadow-224"><span class="linenos">224</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="CowShadow-225"><a href="#CowShadow-225"><span class="linenos">225</span></a>        <span class="c1"># Load sprites</span>
+</span><span id="CowShadow-226"><a href="#CowShadow-226"><span class="linenos">226</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">movement_sprites_locations</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="CowShadow-227"><a href="#CowShadow-227"><span class="linenos">227</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">UP</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;assets/sprites/cow_shadow/up.png&quot;</span><span class="p">],</span>
+</span><span id="CowShadow-228"><a href="#CowShadow-228"><span class="linenos">228</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">DOWN</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;assets/sprites/cow_shadow/down.png&quot;</span><span class="p">],</span>
+</span><span id="CowShadow-229"><a href="#CowShadow-229"><span class="linenos">229</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">LEFT</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;assets/sprites/cow_shadow/left.png&quot;</span><span class="p">],</span>
+</span><span id="CowShadow-230"><a href="#CowShadow-230"><span class="linenos">230</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;assets/sprites/cow_shadow/right.png&quot;</span><span class="p">],</span>
+</span><span id="CowShadow-231"><a href="#CowShadow-231"><span class="linenos">231</span></a>        <span class="p">}</span>
+</span><span id="CowShadow-232"><a href="#CowShadow-232"><span class="linenos">232</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">create_movement_sprites</span><span class="p">()</span>  <span class="c1"># do not forget!</span>
+</span><span id="CowShadow-233"><a href="#CowShadow-233"><span class="linenos">233</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sprite_size_x</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">128</span>
+</span><span id="CowShadow-234"><a href="#CowShadow-234"><span class="linenos">234</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sprite_size_y</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">128</span>
+</span><span id="CowShadow-235"><a href="#CowShadow-235"><span class="linenos">235</span></a>
+</span><span id="CowShadow-236"><a href="#CowShadow-236"><span class="linenos">236</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="CowShadow-237"><a href="#CowShadow-237"><span class="linenos">237</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">render_movement</span><span class="p">(</span><span class="n">screen</span><span class="p">)</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>This mixin makes sure that an object is located always on top of the parent object</p>
+</div>
+
+
+                            <div id="CowShadow.__init__" class="classattr">
+                                        <input id="CowShadow.__init__-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="name">CowShadow</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">x</span><span class="p">:</span> <span class="nb">int</span>, </span><span class="param"><span class="n">y</span><span class="p">:</span> <span class="nb">int</span>, </span><span class="param"><span class="n">name</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">health</span><span class="p">:</span> <span class="nb">int</span>, </span><span class="param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span></span>)</span>
+
+                <label class="view-source-button" for="CowShadow.__init__-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#CowShadow.__init__"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="CowShadow.__init__-221"><a href="#CowShadow.__init__-221"><span class="linenos">221</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">health</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="CowShadow.__init__-222"><a href="#CowShadow.__init__-222"><span class="linenos">222</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">)</span>
+</span><span id="CowShadow.__init__-223"><a href="#CowShadow.__init__-223"><span class="linenos">223</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">z_level</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="CowShadow.__init__-224"><a href="#CowShadow.__init__-224"><span class="linenos">224</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="CowShadow.__init__-225"><a href="#CowShadow.__init__-225"><span class="linenos">225</span></a>        <span class="c1"># Load sprites</span>
+</span><span id="CowShadow.__init__-226"><a href="#CowShadow.__init__-226"><span class="linenos">226</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">movement_sprites_locations</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="CowShadow.__init__-227"><a href="#CowShadow.__init__-227"><span class="linenos">227</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">UP</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;assets/sprites/cow_shadow/up.png&quot;</span><span class="p">],</span>
+</span><span id="CowShadow.__init__-228"><a href="#CowShadow.__init__-228"><span class="linenos">228</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">DOWN</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;assets/sprites/cow_shadow/down.png&quot;</span><span class="p">],</span>
+</span><span id="CowShadow.__init__-229"><a href="#CowShadow.__init__-229"><span class="linenos">229</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">LEFT</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;assets/sprites/cow_shadow/left.png&quot;</span><span class="p">],</span>
+</span><span id="CowShadow.__init__-230"><a href="#CowShadow.__init__-230"><span class="linenos">230</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;assets/sprites/cow_shadow/right.png&quot;</span><span class="p">],</span>
+</span><span id="CowShadow.__init__-231"><a href="#CowShadow.__init__-231"><span class="linenos">231</span></a>        <span class="p">}</span>
+</span><span id="CowShadow.__init__-232"><a href="#CowShadow.__init__-232"><span class="linenos">232</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">create_movement_sprites</span><span class="p">()</span>  <span class="c1"># do not forget!</span>
+</span><span id="CowShadow.__init__-233"><a href="#CowShadow.__init__-233"><span class="linenos">233</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sprite_size_x</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">128</span>
+</span><span id="CowShadow.__init__-234"><a href="#CowShadow.__init__-234"><span class="linenos">234</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sprite_size_y</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">128</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>x, y are the positions</p>
+</div>
+
+
+                            </div>
+                            <div id="CowShadow.z_level" class="classattr">
+                                <div class="attr variable">
+            <span class="name">z_level</span>
+
+        
+    </div>
+    <a class="headerlink" href="#CowShadow.z_level"></a>
+    
+    
+
+                            </div>
+                            <div id="CowShadow.num_animations" class="classattr">
+                                <div class="attr variable">
+            <span class="name">num_animations</span>
+
+        
+    </div>
+    <a class="headerlink" href="#CowShadow.num_animations"></a>
+    
+    
+
+                            </div>
+                            <div id="CowShadow.movement_sprites_locations" class="classattr">
+                                <div class="attr variable">
+            <span class="name">movement_sprites_locations</span>
+
+        
+    </div>
+    <a class="headerlink" href="#CowShadow.movement_sprites_locations"></a>
+    
+    
+
+                            </div>
+                            <div id="CowShadow.sprite_size_x" class="classattr">
+                                <div class="attr variable">
+            <span class="name">sprite_size_x</span><span class="annotation">: int</span>
+
+        
+    </div>
+    <a class="headerlink" href="#CowShadow.sprite_size_x"></a>
+    
+    
+
+                            </div>
+                            <div id="CowShadow.sprite_size_y" class="classattr">
+                                <div class="attr variable">
+            <span class="name">sprite_size_y</span><span class="annotation">: int</span>
+
+        
+    </div>
+    <a class="headerlink" href="#CowShadow.sprite_size_y"></a>
+    
+    
+
+                            </div>
+                            <div id="CowShadow.render" class="classattr">
+                                        <input id="CowShadow.render-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">render</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">screen</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">surface</span><span class="o">.</span><span class="n">Surface</span></span><span class="return-annotation">) -> <span class="kc">None</span>:</span></span>
+
+                <label class="view-source-button" for="CowShadow.render-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#CowShadow.render"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="CowShadow.render-236"><a href="#CowShadow.render-236"><span class="linenos">236</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="CowShadow.render-237"><a href="#CowShadow.render-237"><span class="linenos">237</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">render_movement</span><span class="p">(</span><span class="n">screen</span><span class="p">)</span>
+</span></pre></div>
+
+
+    
+
+                            </div>
+                            <div class="inherited">
+                                <h5>Inherited Members</h5>
+                                <dl>
+                                    <div><dt><a href="base_objects.html#GameObject">flatland.objects.base_objects.GameObject</a></dt>
+                                <dd id="CowShadow.x" class="variable"><a href="base_objects.html#GameObject.x">x</a></dd>
+                <dd id="CowShadow.y" class="variable"><a href="base_objects.html#GameObject.y">y</a></dd>
+                <dd id="CowShadow.prev_x" class="variable"><a href="base_objects.html#GameObject.prev_x">prev_x</a></dd>
+                <dd id="CowShadow.prev_y" class="variable"><a href="base_objects.html#GameObject.prev_y">prev_y</a></dd>
+                <dd id="CowShadow.name" class="variable"><a href="base_objects.html#GameObject.name">name</a></dd>
+                <dd id="CowShadow.health" class="variable"><a href="base_objects.html#GameObject.health">health</a></dd>
+                <dd id="CowShadow.scheduler" class="variable"><a href="base_objects.html#GameObject.scheduler">scheduler</a></dd>
+                <dd id="CowShadow.logger" class="variable"><a href="base_objects.html#GameObject.logger">logger</a></dd>
+                <dd id="CowShadow.direction" class="variable"><a href="base_objects.html#GameObject.direction">direction</a></dd>
+                <dd id="CowShadow.inertia" class="variable"><a href="base_objects.html#GameObject.inertia">inertia</a></dd>
+                <dd id="CowShadow.acceleration" class="variable"><a href="base_objects.html#GameObject.acceleration">acceleration</a></dd>
+                <dd id="CowShadow.temperature" class="variable"><a href="base_objects.html#GameObject.temperature">temperature</a></dd>
+                <dd id="CowShadow.charge" class="variable"><a href="base_objects.html#GameObject.charge">charge</a></dd>
+                <dd id="CowShadow.actions_per_second" class="variable"><a href="base_objects.html#GameObject.actions_per_second">actions_per_second</a></dd>
+                <dd id="CowShadow.last_action_time" class="variable"><a href="base_objects.html#GameObject.last_action_time">last_action_time</a></dd>
+                <dd id="CowShadow.wetness" class="variable"><a href="base_objects.html#GameObject.wetness">wetness</a></dd>
+                <dd id="CowShadow.mass" class="variable"><a href="base_objects.html#GameObject.mass">mass</a></dd>
+                <dd id="CowShadow.height" class="variable"><a href="base_objects.html#GameObject.height">height</a></dd>
+                <dd id="CowShadow.friction_coefficient" class="variable"><a href="base_objects.html#GameObject.friction_coefficient">friction_coefficient</a></dd>
+                <dd id="CowShadow.animation_index" class="variable"><a href="base_objects.html#GameObject.animation_index">animation_index</a></dd>
+                <dd id="CowShadow.animation_timer" class="variable"><a href="base_objects.html#GameObject.animation_timer">animation_timer</a></dd>
+                <dd id="CowShadow.is_update_just_done" class="variable"><a href="base_objects.html#GameObject.is_update_just_done">is_update_just_done</a></dd>
+                <dd id="CowShadow.new_render_time" class="variable"><a href="base_objects.html#GameObject.new_render_time">new_render_time</a></dd>
+                <dd id="CowShadow.last_render_time" class="variable"><a href="base_objects.html#GameObject.last_render_time">last_render_time</a></dd>
+                <dd id="CowShadow.parent" class="variable"><a href="base_objects.html#GameObject.parent">parent</a></dd>
+                <dd id="CowShadow.children" class="variable"><a href="base_objects.html#GameObject.children">children</a></dd>
+                <dd id="CowShadow.update" class="function"><a href="base_objects.html#GameObject.update">update</a></dd>
+                <dd id="CowShadow.prepare" class="function"><a href="base_objects.html#GameObject.prepare">prepare</a></dd>
+                <dd id="CowShadow.distance" class="function"><a href="base_objects.html#GameObject.distance">distance</a></dd>
+                <dd id="CowShadow.clone" class="function"><a href="base_objects.html#GameObject.clone">clone</a></dd>
+
+            </div>
+            <div><dt><a href="../animations/animations.html#MovementAnimationMixin">flatland.animations.animations.MovementAnimationMixin</a></dt>
+                                <dd id="CowShadow.create_movement_sprites" class="function"><a href="../animations/animations.html#MovementAnimationMixin.create_movement_sprites">create_movement_sprites</a></dd>
+                <dd id="CowShadow.update_movement_animation" class="function"><a href="../animations/animations.html#MovementAnimationMixin.update_movement_animation">update_movement_animation</a></dd>
+                <dd id="CowShadow.render_movement" class="function"><a href="../animations/animations.html#MovementAnimationMixin.render_movement">render_movement</a></dd>
+
+            </div>
+            <div><dt><a href="../interactions/interactions.html#AttachedToParentMixin">flatland.interactions.interactions.AttachedToParentMixin</a></dt>
+                                <dd id="CowShadow.location_as_parent" class="function"><a href="../interactions/interactions.html#AttachedToParentMixin.location_as_parent">location_as_parent</a></dd>
+                <dd id="CowShadow.get_interaction_callables" class="function"><a href="../interactions/interactions.html#AttachedToParentMixin.get_interaction_callables">get_interaction_callables</a></dd>
+
+            </div>
+            <div><dt><a href="../interactions/interactions.html#InteractionMixin">flatland.interactions.interactions.InteractionMixin</a></dt>
+                                <dd id="CowShadow.reverse_direction" class="function"><a href="../interactions/interactions.html#InteractionMixin.reverse_direction">reverse_direction</a></dd>
+
+            </div>
+                                </dl>
+                            </div>
+                </section>
                 <section id="Player">
                             <input id="Player-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
@@ -1917,56 +2207,56 @@ inheritance.</p>
 
     </div>
     <a class="headerlink" href="#Player"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Player-217"><a href="#Player-217"><span class="linenos">217</span></a><span class="nd">@registry</span><span class="o">.</span><span class="n">register</span>
-</span><span id="Player-218"><a href="#Player-218"><span class="linenos">218</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Player</span><span class="p">(</span><span class="n">GameObject</span><span class="p">,</span> <span class="n">LimbControlMixin</span><span class="p">):</span>
-</span><span id="Player-219"><a href="#Player-219"><span class="linenos">219</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">health</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
-</span><span id="Player-220"><a href="#Player-220"><span class="linenos">220</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">)</span>
-</span><span id="Player-221"><a href="#Player-221"><span class="linenos">221</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</span><span id="Player-222"><a href="#Player-222"><span class="linenos">222</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">noise_intensity</span> <span class="o">=</span> <span class="mf">1.1</span>
-</span><span id="Player-223"><a href="#Player-223"><span class="linenos">223</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">attractiveness</span> <span class="o">=</span> <span class="mf">2.1</span>
-</span><span id="Player-224"><a href="#Player-224"><span class="linenos">224</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">visible_size</span> <span class="o">=</span> <span class="mf">2.0</span>
-</span><span id="Player-225"><a href="#Player-225"><span class="linenos">225</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">z_level</span> <span class="o">=</span> <span class="mf">10.0</span>
-</span><span id="Player-226"><a href="#Player-226"><span class="linenos">226</span></a>
-</span><span id="Player-227"><a href="#Player-227"><span class="linenos">227</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_pressed_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="Player-228"><a href="#Player-228"><span class="linenos">228</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">keys</span> <span class="o">=</span> <span class="n">keys</span>
-</span><span id="Player-229"><a href="#Player-229"><span class="linenos">229</span></a>
-</span><span id="Player-230"><a href="#Player-230"><span class="linenos">230</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">near_objs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
-</span><span id="Player-231"><a href="#Player-231"><span class="linenos">231</span></a>        <span class="n">dx</span> <span class="o">=</span> <span class="n">dy</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="Player-232"><a href="#Player-232"><span class="linenos">232</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_UP</span><span class="p">]:</span>
-</span><span id="Player-233"><a href="#Player-233"><span class="linenos">233</span></a>            <span class="n">dy</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-</span><span id="Player-234"><a href="#Player-234"><span class="linenos">234</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_DOWN</span><span class="p">]:</span>
-</span><span id="Player-235"><a href="#Player-235"><span class="linenos">235</span></a>            <span class="n">dy</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="Player-236"><a href="#Player-236"><span class="linenos">236</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_LEFT</span><span class="p">]:</span>
-</span><span id="Player-237"><a href="#Player-237"><span class="linenos">237</span></a>            <span class="n">dx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-</span><span id="Player-238"><a href="#Player-238"><span class="linenos">238</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_RIGHT</span><span class="p">]:</span>
-</span><span id="Player-239"><a href="#Player-239"><span class="linenos">239</span></a>            <span class="n">dx</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="Player-240"><a href="#Player-240"><span class="linenos">240</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_e</span><span class="p">]:</span>
-</span><span id="Player-241"><a href="#Player-241"><span class="linenos">241</span></a>            <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">near_objs</span><span class="p">:</span>
-</span><span id="Player-242"><a href="#Player-242"><span class="linenos">242</span></a>                <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-</span><span id="Player-243"><a href="#Player-243"><span class="linenos">243</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-</span><span id="Player-244"><a href="#Player-244"><span class="linenos">244</span></a>        <span class="k">match</span> <span class="p">(</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">):</span>
-</span><span id="Player-245"><a href="#Player-245"><span class="linenos">245</span></a>            <span class="k">case</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
-</span><span id="Player-246"><a href="#Player-246"><span class="linenos">246</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">Direction</span><span class="o">.</span><span class="n">RIGHT</span>
-</span><span id="Player-247"><a href="#Player-247"><span class="linenos">247</span></a>            <span class="k">case</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
-</span><span id="Player-248"><a href="#Player-248"><span class="linenos">248</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">Direction</span><span class="o">.</span><span class="n">LEFT</span>
-</span><span id="Player-249"><a href="#Player-249"><span class="linenos">249</span></a>            <span class="k">case</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
-</span><span id="Player-250"><a href="#Player-250"><span class="linenos">250</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">Direction</span><span class="o">.</span><span class="n">DOWN</span>
-</span><span id="Player-251"><a href="#Player-251"><span class="linenos">251</span></a>            <span class="k">case</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
-</span><span id="Player-252"><a href="#Player-252"><span class="linenos">252</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">Direction</span><span class="o">.</span><span class="n">UP</span>
-</span><span id="Player-253"><a href="#Player-253"><span class="linenos">253</span></a>
-</span><span id="Player-254"><a href="#Player-254"><span class="linenos">254</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">new_x</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">dx</span><span class="p">)</span> <span class="o">%</span> <span class="n">MAX_X</span>
-</span><span id="Player-255"><a href="#Player-255"><span class="linenos">255</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">new_y</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">dy</span><span class="p">)</span> <span class="o">%</span> <span class="n">MAX_Y</span>
-</span><span id="Player-256"><a href="#Player-256"><span class="linenos">256</span></a>
-</span><span id="Player-257"><a href="#Player-257"><span class="linenos">257</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-</span><span id="Player-258"><a href="#Player-258"><span class="linenos">258</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_x</span>
-</span><span id="Player-259"><a href="#Player-259"><span class="linenos">259</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_y</span>
-</span><span id="Player-260"><a href="#Player-260"><span class="linenos">260</span></a>
-</span><span id="Player-261"><a href="#Player-261"><span class="linenos">261</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
-</span><span id="Player-262"><a href="#Player-262"><span class="linenos">262</span></a>        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span>
-</span><span id="Player-263"><a href="#Player-263"><span class="linenos">263</span></a>            <span class="n">screen</span><span class="p">,</span>
-</span><span id="Player-264"><a href="#Player-264"><span class="linenos">264</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
-</span><span id="Player-265"><a href="#Player-265"><span class="linenos">265</span></a>            <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">),</span>
-</span><span id="Player-266"><a href="#Player-266"><span class="linenos">266</span></a>        <span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Player-240"><a href="#Player-240"><span class="linenos">240</span></a><span class="nd">@registry</span><span class="o">.</span><span class="n">register</span>
+</span><span id="Player-241"><a href="#Player-241"><span class="linenos">241</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Player</span><span class="p">(</span><span class="n">GameObject</span><span class="p">,</span> <span class="n">LimbControlMixin</span><span class="p">):</span>
+</span><span id="Player-242"><a href="#Player-242"><span class="linenos">242</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">health</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="Player-243"><a href="#Player-243"><span class="linenos">243</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">)</span>
+</span><span id="Player-244"><a href="#Player-244"><span class="linenos">244</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span id="Player-245"><a href="#Player-245"><span class="linenos">245</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">noise_intensity</span> <span class="o">=</span> <span class="mf">1.1</span>
+</span><span id="Player-246"><a href="#Player-246"><span class="linenos">246</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">attractiveness</span> <span class="o">=</span> <span class="mf">2.1</span>
+</span><span id="Player-247"><a href="#Player-247"><span class="linenos">247</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">visible_size</span> <span class="o">=</span> <span class="mf">2.0</span>
+</span><span id="Player-248"><a href="#Player-248"><span class="linenos">248</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">z_level</span> <span class="o">=</span> <span class="mf">10.0</span>
+</span><span id="Player-249"><a href="#Player-249"><span class="linenos">249</span></a>
+</span><span id="Player-250"><a href="#Player-250"><span class="linenos">250</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_pressed_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Player-251"><a href="#Player-251"><span class="linenos">251</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">keys</span> <span class="o">=</span> <span class="n">keys</span>
+</span><span id="Player-252"><a href="#Player-252"><span class="linenos">252</span></a>
+</span><span id="Player-253"><a href="#Player-253"><span class="linenos">253</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">near_objs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="Player-254"><a href="#Player-254"><span class="linenos">254</span></a>        <span class="n">dx</span> <span class="o">=</span> <span class="n">dy</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="Player-255"><a href="#Player-255"><span class="linenos">255</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_UP</span><span class="p">]:</span>
+</span><span id="Player-256"><a href="#Player-256"><span class="linenos">256</span></a>            <span class="n">dy</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+</span><span id="Player-257"><a href="#Player-257"><span class="linenos">257</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_DOWN</span><span class="p">]:</span>
+</span><span id="Player-258"><a href="#Player-258"><span class="linenos">258</span></a>            <span class="n">dy</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="Player-259"><a href="#Player-259"><span class="linenos">259</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_LEFT</span><span class="p">]:</span>
+</span><span id="Player-260"><a href="#Player-260"><span class="linenos">260</span></a>            <span class="n">dx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+</span><span id="Player-261"><a href="#Player-261"><span class="linenos">261</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_RIGHT</span><span class="p">]:</span>
+</span><span id="Player-262"><a href="#Player-262"><span class="linenos">262</span></a>            <span class="n">dx</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="Player-263"><a href="#Player-263"><span class="linenos">263</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_e</span><span class="p">]:</span>
+</span><span id="Player-264"><a href="#Player-264"><span class="linenos">264</span></a>            <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">near_objs</span><span class="p">:</span>
+</span><span id="Player-265"><a href="#Player-265"><span class="linenos">265</span></a>                <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="Player-266"><a href="#Player-266"><span class="linenos">266</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+</span><span id="Player-267"><a href="#Player-267"><span class="linenos">267</span></a>        <span class="k">match</span> <span class="p">(</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">):</span>
+</span><span id="Player-268"><a href="#Player-268"><span class="linenos">268</span></a>            <span class="k">case</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+</span><span id="Player-269"><a href="#Player-269"><span class="linenos">269</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">Direction</span><span class="o">.</span><span class="n">RIGHT</span>
+</span><span id="Player-270"><a href="#Player-270"><span class="linenos">270</span></a>            <span class="k">case</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+</span><span id="Player-271"><a href="#Player-271"><span class="linenos">271</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">Direction</span><span class="o">.</span><span class="n">LEFT</span>
+</span><span id="Player-272"><a href="#Player-272"><span class="linenos">272</span></a>            <span class="k">case</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+</span><span id="Player-273"><a href="#Player-273"><span class="linenos">273</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">Direction</span><span class="o">.</span><span class="n">DOWN</span>
+</span><span id="Player-274"><a href="#Player-274"><span class="linenos">274</span></a>            <span class="k">case</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+</span><span id="Player-275"><a href="#Player-275"><span class="linenos">275</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">Direction</span><span class="o">.</span><span class="n">UP</span>
+</span><span id="Player-276"><a href="#Player-276"><span class="linenos">276</span></a>
+</span><span id="Player-277"><a href="#Player-277"><span class="linenos">277</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">new_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">dx</span>
+</span><span id="Player-278"><a href="#Player-278"><span class="linenos">278</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">new_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">dy</span>
+</span><span id="Player-279"><a href="#Player-279"><span class="linenos">279</span></a>
+</span><span id="Player-280"><a href="#Player-280"><span class="linenos">280</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+</span><span id="Player-281"><a href="#Player-281"><span class="linenos">281</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_x</span>
+</span><span id="Player-282"><a href="#Player-282"><span class="linenos">282</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_y</span>
+</span><span id="Player-283"><a href="#Player-283"><span class="linenos">283</span></a>
+</span><span id="Player-284"><a href="#Player-284"><span class="linenos">284</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+</span><span id="Player-285"><a href="#Player-285"><span class="linenos">285</span></a>        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span>
+</span><span id="Player-286"><a href="#Player-286"><span class="linenos">286</span></a>            <span class="n">screen</span><span class="p">,</span>
+</span><span id="Player-287"><a href="#Player-287"><span class="linenos">287</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
+</span><span id="Player-288"><a href="#Player-288"><span class="linenos">288</span></a>            <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">),</span>
+</span><span id="Player-289"><a href="#Player-289"><span class="linenos">289</span></a>        <span class="p">)</span>
 </span></pre></div>
 
 
@@ -1982,13 +2272,13 @@ inheritance.</p>
 
     </div>
     <a class="headerlink" href="#Player.__init__"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Player.__init__-219"><a href="#Player.__init__-219"><span class="linenos">219</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">health</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
-</span><span id="Player.__init__-220"><a href="#Player.__init__-220"><span class="linenos">220</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">)</span>
-</span><span id="Player.__init__-221"><a href="#Player.__init__-221"><span class="linenos">221</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</span><span id="Player.__init__-222"><a href="#Player.__init__-222"><span class="linenos">222</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">noise_intensity</span> <span class="o">=</span> <span class="mf">1.1</span>
-</span><span id="Player.__init__-223"><a href="#Player.__init__-223"><span class="linenos">223</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">attractiveness</span> <span class="o">=</span> <span class="mf">2.1</span>
-</span><span id="Player.__init__-224"><a href="#Player.__init__-224"><span class="linenos">224</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">visible_size</span> <span class="o">=</span> <span class="mf">2.0</span>
-</span><span id="Player.__init__-225"><a href="#Player.__init__-225"><span class="linenos">225</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">z_level</span> <span class="o">=</span> <span class="mf">10.0</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Player.__init__-242"><a href="#Player.__init__-242"><span class="linenos">242</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">health</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="Player.__init__-243"><a href="#Player.__init__-243"><span class="linenos">243</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">)</span>
+</span><span id="Player.__init__-244"><a href="#Player.__init__-244"><span class="linenos">244</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span id="Player.__init__-245"><a href="#Player.__init__-245"><span class="linenos">245</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">noise_intensity</span> <span class="o">=</span> <span class="mf">1.1</span>
+</span><span id="Player.__init__-246"><a href="#Player.__init__-246"><span class="linenos">246</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">attractiveness</span> <span class="o">=</span> <span class="mf">2.1</span>
+</span><span id="Player.__init__-247"><a href="#Player.__init__-247"><span class="linenos">247</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">visible_size</span> <span class="o">=</span> <span class="mf">2.0</span>
+</span><span id="Player.__init__-248"><a href="#Player.__init__-248"><span class="linenos">248</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">z_level</span> <span class="o">=</span> <span class="mf">10.0</span>
 </span></pre></div>
 
 
@@ -2063,8 +2353,8 @@ inheritance.</p>
 
     </div>
     <a class="headerlink" href="#Player.get_pressed_keys"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Player.get_pressed_keys-227"><a href="#Player.get_pressed_keys-227"><span class="linenos">227</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_pressed_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="Player.get_pressed_keys-228"><a href="#Player.get_pressed_keys-228"><span class="linenos">228</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">keys</span> <span class="o">=</span> <span class="n">keys</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Player.get_pressed_keys-250"><a href="#Player.get_pressed_keys-250"><span class="linenos">250</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_pressed_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Player.get_pressed_keys-251"><a href="#Player.get_pressed_keys-251"><span class="linenos">251</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">keys</span> <span class="o">=</span> <span class="n">keys</span>
 </span></pre></div>
 
 
@@ -2082,32 +2372,32 @@ inheritance.</p>
 
     </div>
     <a class="headerlink" href="#Player.prepare"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Player.prepare-230"><a href="#Player.prepare-230"><span class="linenos">230</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">near_objs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
-</span><span id="Player.prepare-231"><a href="#Player.prepare-231"><span class="linenos">231</span></a>        <span class="n">dx</span> <span class="o">=</span> <span class="n">dy</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span id="Player.prepare-232"><a href="#Player.prepare-232"><span class="linenos">232</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_UP</span><span class="p">]:</span>
-</span><span id="Player.prepare-233"><a href="#Player.prepare-233"><span class="linenos">233</span></a>            <span class="n">dy</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-</span><span id="Player.prepare-234"><a href="#Player.prepare-234"><span class="linenos">234</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_DOWN</span><span class="p">]:</span>
-</span><span id="Player.prepare-235"><a href="#Player.prepare-235"><span class="linenos">235</span></a>            <span class="n">dy</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="Player.prepare-236"><a href="#Player.prepare-236"><span class="linenos">236</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_LEFT</span><span class="p">]:</span>
-</span><span id="Player.prepare-237"><a href="#Player.prepare-237"><span class="linenos">237</span></a>            <span class="n">dx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-</span><span id="Player.prepare-238"><a href="#Player.prepare-238"><span class="linenos">238</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_RIGHT</span><span class="p">]:</span>
-</span><span id="Player.prepare-239"><a href="#Player.prepare-239"><span class="linenos">239</span></a>            <span class="n">dx</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span id="Player.prepare-240"><a href="#Player.prepare-240"><span class="linenos">240</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_e</span><span class="p">]:</span>
-</span><span id="Player.prepare-241"><a href="#Player.prepare-241"><span class="linenos">241</span></a>            <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">near_objs</span><span class="p">:</span>
-</span><span id="Player.prepare-242"><a href="#Player.prepare-242"><span class="linenos">242</span></a>                <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-</span><span id="Player.prepare-243"><a href="#Player.prepare-243"><span class="linenos">243</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-</span><span id="Player.prepare-244"><a href="#Player.prepare-244"><span class="linenos">244</span></a>        <span class="k">match</span> <span class="p">(</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">):</span>
-</span><span id="Player.prepare-245"><a href="#Player.prepare-245"><span class="linenos">245</span></a>            <span class="k">case</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
-</span><span id="Player.prepare-246"><a href="#Player.prepare-246"><span class="linenos">246</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">Direction</span><span class="o">.</span><span class="n">RIGHT</span>
-</span><span id="Player.prepare-247"><a href="#Player.prepare-247"><span class="linenos">247</span></a>            <span class="k">case</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
-</span><span id="Player.prepare-248"><a href="#Player.prepare-248"><span class="linenos">248</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">Direction</span><span class="o">.</span><span class="n">LEFT</span>
-</span><span id="Player.prepare-249"><a href="#Player.prepare-249"><span class="linenos">249</span></a>            <span class="k">case</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
-</span><span id="Player.prepare-250"><a href="#Player.prepare-250"><span class="linenos">250</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">Direction</span><span class="o">.</span><span class="n">DOWN</span>
-</span><span id="Player.prepare-251"><a href="#Player.prepare-251"><span class="linenos">251</span></a>            <span class="k">case</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
-</span><span id="Player.prepare-252"><a href="#Player.prepare-252"><span class="linenos">252</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">Direction</span><span class="o">.</span><span class="n">UP</span>
-</span><span id="Player.prepare-253"><a href="#Player.prepare-253"><span class="linenos">253</span></a>
-</span><span id="Player.prepare-254"><a href="#Player.prepare-254"><span class="linenos">254</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">new_x</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">dx</span><span class="p">)</span> <span class="o">%</span> <span class="n">MAX_X</span>
-</span><span id="Player.prepare-255"><a href="#Player.prepare-255"><span class="linenos">255</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">new_y</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">dy</span><span class="p">)</span> <span class="o">%</span> <span class="n">MAX_Y</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Player.prepare-253"><a href="#Player.prepare-253"><span class="linenos">253</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">near_objs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="Player.prepare-254"><a href="#Player.prepare-254"><span class="linenos">254</span></a>        <span class="n">dx</span> <span class="o">=</span> <span class="n">dy</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="Player.prepare-255"><a href="#Player.prepare-255"><span class="linenos">255</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_UP</span><span class="p">]:</span>
+</span><span id="Player.prepare-256"><a href="#Player.prepare-256"><span class="linenos">256</span></a>            <span class="n">dy</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+</span><span id="Player.prepare-257"><a href="#Player.prepare-257"><span class="linenos">257</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_DOWN</span><span class="p">]:</span>
+</span><span id="Player.prepare-258"><a href="#Player.prepare-258"><span class="linenos">258</span></a>            <span class="n">dy</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="Player.prepare-259"><a href="#Player.prepare-259"><span class="linenos">259</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_LEFT</span><span class="p">]:</span>
+</span><span id="Player.prepare-260"><a href="#Player.prepare-260"><span class="linenos">260</span></a>            <span class="n">dx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+</span><span id="Player.prepare-261"><a href="#Player.prepare-261"><span class="linenos">261</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_RIGHT</span><span class="p">]:</span>
+</span><span id="Player.prepare-262"><a href="#Player.prepare-262"><span class="linenos">262</span></a>            <span class="n">dx</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="Player.prepare-263"><a href="#Player.prepare-263"><span class="linenos">263</span></a>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">K_e</span><span class="p">]:</span>
+</span><span id="Player.prepare-264"><a href="#Player.prepare-264"><span class="linenos">264</span></a>            <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">near_objs</span><span class="p">:</span>
+</span><span id="Player.prepare-265"><a href="#Player.prepare-265"><span class="linenos">265</span></a>                <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="Player.prepare-266"><a href="#Player.prepare-266"><span class="linenos">266</span></a>                    <span class="bp">self</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+</span><span id="Player.prepare-267"><a href="#Player.prepare-267"><span class="linenos">267</span></a>        <span class="k">match</span> <span class="p">(</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">):</span>
+</span><span id="Player.prepare-268"><a href="#Player.prepare-268"><span class="linenos">268</span></a>            <span class="k">case</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+</span><span id="Player.prepare-269"><a href="#Player.prepare-269"><span class="linenos">269</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">Direction</span><span class="o">.</span><span class="n">RIGHT</span>
+</span><span id="Player.prepare-270"><a href="#Player.prepare-270"><span class="linenos">270</span></a>            <span class="k">case</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+</span><span id="Player.prepare-271"><a href="#Player.prepare-271"><span class="linenos">271</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">Direction</span><span class="o">.</span><span class="n">LEFT</span>
+</span><span id="Player.prepare-272"><a href="#Player.prepare-272"><span class="linenos">272</span></a>            <span class="k">case</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+</span><span id="Player.prepare-273"><a href="#Player.prepare-273"><span class="linenos">273</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">Direction</span><span class="o">.</span><span class="n">DOWN</span>
+</span><span id="Player.prepare-274"><a href="#Player.prepare-274"><span class="linenos">274</span></a>            <span class="k">case</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+</span><span id="Player.prepare-275"><a href="#Player.prepare-275"><span class="linenos">275</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">Direction</span><span class="o">.</span><span class="n">UP</span>
+</span><span id="Player.prepare-276"><a href="#Player.prepare-276"><span class="linenos">276</span></a>
+</span><span id="Player.prepare-277"><a href="#Player.prepare-277"><span class="linenos">277</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">new_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">dx</span>
+</span><span id="Player.prepare-278"><a href="#Player.prepare-278"><span class="linenos">278</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">new_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">dy</span>
 </span></pre></div>
 
 
@@ -2125,9 +2415,9 @@ inheritance.</p>
 
     </div>
     <a class="headerlink" href="#Player.update"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Player.update-257"><a href="#Player.update-257"><span class="linenos">257</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-</span><span id="Player.update-258"><a href="#Player.update-258"><span class="linenos">258</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_x</span>
-</span><span id="Player.update-259"><a href="#Player.update-259"><span class="linenos">259</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_y</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Player.update-280"><a href="#Player.update-280"><span class="linenos">280</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+</span><span id="Player.update-281"><a href="#Player.update-281"><span class="linenos">281</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_x</span>
+</span><span id="Player.update-282"><a href="#Player.update-282"><span class="linenos">282</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_y</span>
 </span></pre></div>
 
 
@@ -2145,12 +2435,12 @@ inheritance.</p>
 
     </div>
     <a class="headerlink" href="#Player.render"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Player.render-261"><a href="#Player.render-261"><span class="linenos">261</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
-</span><span id="Player.render-262"><a href="#Player.render-262"><span class="linenos">262</span></a>        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span>
-</span><span id="Player.render-263"><a href="#Player.render-263"><span class="linenos">263</span></a>            <span class="n">screen</span><span class="p">,</span>
-</span><span id="Player.render-264"><a href="#Player.render-264"><span class="linenos">264</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
-</span><span id="Player.render-265"><a href="#Player.render-265"><span class="linenos">265</span></a>            <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">),</span>
-</span><span id="Player.render-266"><a href="#Player.render-266"><span class="linenos">266</span></a>        <span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Player.render-284"><a href="#Player.render-284"><span class="linenos">284</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+</span><span id="Player.render-285"><a href="#Player.render-285"><span class="linenos">285</span></a>        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span>
+</span><span id="Player.render-286"><a href="#Player.render-286"><span class="linenos">286</span></a>            <span class="n">screen</span><span class="p">,</span>
+</span><span id="Player.render-287"><a href="#Player.render-287"><span class="linenos">287</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
+</span><span id="Player.render-288"><a href="#Player.render-288"><span class="linenos">288</span></a>            <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">),</span>
+</span><span id="Player.render-289"><a href="#Player.render-289"><span class="linenos">289</span></a>        <span class="p">)</span>
 </span></pre></div>
 
 
@@ -2188,6 +2478,8 @@ inheritance.</p>
                 <dd id="Player.last_render_time" class="variable"><a href="base_objects.html#GameObject.last_render_time">last_render_time</a></dd>
                 <dd id="Player.parent" class="variable"><a href="base_objects.html#GameObject.parent">parent</a></dd>
                 <dd id="Player.children" class="variable"><a href="base_objects.html#GameObject.children">children</a></dd>
+                <dd id="Player.sprite_size_x" class="variable"><a href="base_objects.html#GameObject.sprite_size_x">sprite_size_x</a></dd>
+                <dd id="Player.sprite_size_y" class="variable"><a href="base_objects.html#GameObject.sprite_size_y">sprite_size_y</a></dd>
                 <dd id="Player.distance" class="function"><a href="base_objects.html#GameObject.distance">distance</a></dd>
                 <dd id="Player.clone" class="function"><a href="base_objects.html#GameObject.clone">clone</a></dd>
 
