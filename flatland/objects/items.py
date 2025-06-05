@@ -14,6 +14,7 @@ from ..actions.actions import LimbControlMixin, MovementMixin, SpeechMixin
 from ..animations.animations import (
     AlwaysOnTopOfParent,
     MovementAnimationMixin,
+    PushAnimationMixin,
     StandingAnimationMixin,
 )
 from ..consts import TILE_SIZE, Direction
@@ -147,7 +148,7 @@ class Sword(ContactInteractionMixin, GameObject, AttachedToParentMixin, AlwaysOn
 
 
 @registry.register
-class Elf(
+class Goblin(
     ContactInteractionMixin,
     BaseNPC,
     MovementMixin,
@@ -155,6 +156,9 @@ class Elf(
     LimbControlMixin,
     SightSensorMixin,
     HearingSensorMixin,
+    PushAnimationMixin,
+    MovementAnimationMixin,
+    StandingAnimationMixin,
 ):
     def __init__(
         self,
@@ -172,13 +176,72 @@ class Elf(
         self.attractiveness = 3.1
         self.visible_size = 2.3
         self.z_level = 3.0
+        self.num_animations = 6
+        self.num_animations_push = 4
+        self.num_animations_standing = 1
 
-    def render(self, screen):
-        pygame.draw.rect(
-            screen,
-            self.color,
-            pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE),
-        )
+        # Load sprites
+        self.movement_sprites_locations = {
+            Direction.UP: [
+                f"assets/sprites/goblin/tile_2_{i}.png" for i in range(self.num_animations)
+            ],
+            Direction.DOWN: [
+                f"assets/sprites/goblin/tile_0_{i}.png" for i in range(self.num_animations)
+            ],
+            Direction.LEFT: [
+                f"assets/sprites/goblin/tile_3_{i}.png" for i in range(self.num_animations)
+            ],
+            Direction.RIGHT: [
+                f"assets/sprites/goblin/tile_1_{i}.png" for i in range(self.num_animations)
+            ],
+        }
+        self.create_movement_sprites()  # do not forget!
+        self.standing_sprites_locations = {
+            Direction.UP: [
+                f"assets/sprites/goblin/tile_2_{i+6}.png"
+                for i in range(self.num_animations_standing)
+            ],
+            Direction.DOWN: [
+                f"assets/sprites/goblin/tile_0_{i+6}.png"
+                for i in range(self.num_animations_standing)
+            ],
+            Direction.LEFT: [
+                f"assets/sprites/goblin/tile_3_{i+6}.png"
+                for i in range(self.num_animations_standing)
+            ],
+            Direction.RIGHT: [
+                f"assets/sprites/goblin/tile_1_{i+6}.png"
+                for i in range(self.num_animations_standing)
+            ],
+        }
+        self.create_standing_sprites()
+        self.push_sprites_locations = {
+            Direction.UP: [
+                f"assets/sprites/goblin/tile_2_{i+7}.png" for i in range(self.num_animations_push)
+            ],
+            Direction.DOWN: [
+                f"assets/sprites/goblin/tile_0_{i+7}.png" for i in range(self.num_animations_push)
+            ],
+            Direction.LEFT: [
+                f"assets/sprites/goblin/tile_3_{i+7}.png" for i in range(self.num_animations_push)
+            ],
+            Direction.RIGHT: [
+                f"assets/sprites/goblin/tile_1_{i+7}.png" for i in range(self.num_animations_push)
+            ],
+        }
+        self.create_push_sprites()
+
+    def render(self, screen: pygame.Surface) -> None:
+        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
+            self.render_movement(screen)
+        elif (
+            self.x == self.prev_x
+            and self.y == self.prev_y
+            and any("other" in kwargs for _, kwargs in self.volition.list_of_actions)
+        ):
+            self.render_push(screen)
+        else:
+            self.render_standing(screen)
 
 
 @registry.register

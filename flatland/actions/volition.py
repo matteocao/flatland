@@ -26,7 +26,7 @@ class VolitionEngine:
             self.list_of_actions.append(
                 (self.owner.speak, {"message": random.choice(["hello", "mooo"])})
             )
-        if hasattr(self.owner, "move") and random.random() > 0.5:
+        elif hasattr(self.owner, "move") and random.random() > 0.5:
             self.list_of_actions.append(
                 (
                     self.owner.move,
@@ -37,6 +37,22 @@ class VolitionEngine:
                     },
                 )
             )
+        elif hasattr(self.owner, "push") and random.random() > 0.5:
+            if self.owner.internal_state.time_history:
+                self.list_of_actions.append(
+                    (
+                        self.owner.push,
+                        {
+                            "other": random.choice(
+                                [
+                                    rep.source_object
+                                    for rep in self.owner.internal_state.time_history[-1]
+                                    if abs(rep.dx) < 1 and abs(rep.dy) < 1
+                                ]
+                            )
+                        },
+                    )
+                )
 
     def update(self):
         for fnc, kwargs in self.list_of_actions:

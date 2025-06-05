@@ -98,6 +98,38 @@ class StandingAnimationMixin:
         screen.blit(sprite, pos)
 
 
+class PushAnimationMixin:
+    logger = Logger()
+
+    def create_push_sprites(self: Any) -> None:
+        self.push_sprites = {
+            k: list(map(lambda x: pygame.image.load(x).convert_alpha(), lst_str))
+            for k, lst_str in self.push_sprites_locations.items()
+        }
+
+    def update_push_animation(self: Any):
+        self.push_animation_timer += 1
+        if self.push_animation_timer >= NEXT_ANIMATION_STEPS:
+            self.push_animation_timer = 0
+            self.push_animation_index = (self.push_animation_index + 1) % len(
+                self.push_sprites[self.direction]
+            )
+
+    def render_push(self: Any, screen: pygame.Surface) -> None:
+        now = pygame.time.get_ticks()
+        if self.is_update_just_done:
+            self.new_render_time = now
+        self.last_render_time = now
+        alpha = (self.last_render_time - self.new_render_time) / 1000 * self.actions_per_second
+        offset_x = self.sprite_size_x // 2 - TILE_SIZE // 2
+        offset_y = self.sprite_size_y // 2 - TILE_SIZE // 2
+        pos = (self.x * TILE_SIZE - offset_x, self.y * TILE_SIZE - offset_y)
+        self.update_push_animation()
+        sprite = self.push_sprites[self.direction][self.push_animation_index]
+        # TODO: here we will need to generalize with new animations and improve the logic
+        screen.blit(sprite, pos)
+
+
 class AlwaysOnTopOfParent:
     """
     Mixin to be used in case you want an object to always be on top of the parent object, like an armor or helmet

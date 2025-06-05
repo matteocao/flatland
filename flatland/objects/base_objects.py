@@ -43,6 +43,8 @@ class GameObject:
         self.animation_index = 0
         self.standing_animation_timer = 0
         self.standing_animation_index = 0
+        self.push_animation_timer = 0
+        self.push_animation_index = 0
         self.animation_timer = 0
         self.movement_sprites_locations: dict[Direction, list[str]] = {
             Direction.UP: [],
