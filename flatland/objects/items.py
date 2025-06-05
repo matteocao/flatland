@@ -35,6 +35,7 @@ class Stone(
     InertiaPrincipleWithFrictionEvolution,
     GameObject,
     MovementAnimationMixin,
+    StandingAnimationMixin,
 ):
     def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
         super().__init__(x, y, name, health)
@@ -44,6 +45,7 @@ class Stone(
         self.visible_size = 0.5
         self.z_level = 1.0
         self.num_animations = 4  # do nnot forget this when inheriting from MovementAnimationMixin
+        self.num_animations_standing = 1
         # Load sprites
         self.movement_sprites_locations = {
             Direction.UP: [
@@ -60,9 +62,28 @@ class Stone(
             ],
         }
         self.create_movement_sprites()  # do not forget!
+        self.standing_sprites_locations = {
+            Direction.UP: [
+                f"assets/sprites/boulder/up_{i}.png" for i in range(self.num_animations_standing)
+            ],
+            Direction.DOWN: [
+                f"assets/sprites/boulder/down_{i}.png" for i in range(self.num_animations_standing)
+            ],
+            Direction.LEFT: [
+                f"assets/sprites/boulder/left_{i}.png" for i in range(self.num_animations_standing)
+            ],
+            Direction.RIGHT: [
+                f"assets/sprites/boulder/right_{i}.png" for i in range(self.num_animations_standing)
+            ],
+        }
+
+        self.create_standing_sprites()
 
     def render(self, screen: pygame.Surface) -> None:
-        self.render_movement(screen)
+        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
+            self.render_movement(screen)
+        if self.x == self.prev_x and self.y == self.prev_y:
+            self.render_standing(screen)
 
 
 @registry.register
