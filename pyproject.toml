@@ -9,6 +9,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = ">=3.10,<4.0"
 pygame = "^2.1.0"
+pillow = "*"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.0"

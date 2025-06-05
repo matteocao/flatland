@@ -178,3 +178,6 @@ cython_debug/
 
 # Docs
 docs_html
+
+# script output
+tiles

@@ -11,7 +11,11 @@ pygame.init()
 pygame.display.set_mode((1, 1))
 
 from ..actions.actions import LimbControlMixin, MovementMixin, SpeechMixin
-from ..animations.animations import AlwaysOnTopOfParent, MovementAnimationMixin
+from ..animations.animations import (
+    AlwaysOnTopOfParent,
+    MovementAnimationMixin,
+    StandingAnimationMixin,
+)
 from ..consts import TILE_SIZE, Direction
 from ..interactions.evolution import InertiaPrincipleWithFrictionEvolution
 from ..interactions.interactions import (
@@ -166,6 +170,7 @@ class Cow(
     HearingSensorMixin,
     InertiaPrincipleWithFrictionEvolution,
     MovementAnimationMixin,
+    StandingAnimationMixin,
 ):
     def __init__(
         self,
@@ -184,24 +189,43 @@ class Cow(
         self.visible_size = 4.0
         self.internal_state = InternalState(owner=self)
         self.num_animations = 4
+        self.num_animations_standing = 6
         self.z_level = 2.0
         self.sprite_size_x: int = 128
         self.sprite_size_y: int = 128
 
         # Load sprites
         self.movement_sprites_locations = {
-            Direction.UP: [f"assets/sprites/cow/up_{i}.png" for i in range(self.num_animations)],
+            Direction.UP: [
+                f"assets/sprites/cow_move/up_{i}.png" for i in range(self.num_animations)
+            ],
             Direction.DOWN: [
-                f"assets/sprites/cow/down_{i}.png" for i in range(self.num_animations)
+                f"assets/sprites/cow_move/down_{i}.png" for i in range(self.num_animations)
             ],
             Direction.LEFT: [
-                f"assets/sprites/cow/left_{i}.png" for i in range(self.num_animations)
+                f"assets/sprites/cow_move/left_{i}.png" for i in range(self.num_animations)
             ],
             Direction.RIGHT: [
-                f"assets/sprites/cow/right_{i}.png" for i in range(self.num_animations)
+                f"assets/sprites/cow_move/right_{i}.png" for i in range(self.num_animations)
             ],
         }
         self.create_movement_sprites()  # do not forget!
+        self.standing_sprites_locations = {
+            Direction.UP: [
+                f"assets/sprites/cow_eat/up_{i}.png" for i in range(self.num_animations_standing)
+            ],
+            Direction.DOWN: [
+                f"assets/sprites/cow_eat/down_{i}.png" for i in range(self.num_animations_standing)
+            ],
+            Direction.LEFT: [
+                f"assets/sprites/cow_eat/left_{i}.png" for i in range(self.num_animations_standing)
+            ],
+            Direction.RIGHT: [
+                f"assets/sprites/cow_eat/right_{i}.png" for i in range(self.num_animations_standing)
+            ],
+        }
+
+        self.create_standing_sprites()
 
         # Load sound
         try:
@@ -210,9 +234,12 @@ class Cow(
             self.logger.info("Could not load sound. Probably mixer not initialised.")
 
     def render(self, screen: pygame.Surface) -> None:
-        self.render_movement(
-            screen
-        )  # NOTE: here add all the rendering and respective interaction logics
+        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
+            self.render_movement(
+                screen
+            )  # NOTE: here add all the rendering and respective interaction logics
+        if self.x == self.prev_x and self.y == self.prev_y:
+            self.render_standing(screen)
 
 
 @registry.register
