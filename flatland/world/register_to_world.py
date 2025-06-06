@@ -14,24 +14,7 @@ if TYPE_CHECKING:
 
 # Register objects
 def register_objects() -> None:
-    # TODO: this will create one instance per object, but this is not general
-    for cls_name in registry._registry:
-        if cls_name != "Ground" and cls_name != "Cow" and cls_name != "CowShadow":
-            rnd_name = cls_name + "".join(
-                random.choice(string.ascii_uppercase + string.digits) for _ in range(6)
-            )
-            obj = registry.create(
-                cls_name=cls_name,
-                x=random.randint(0, 9),
-                y=random.randint(0, 9),
-                name=rnd_name,
-                health=random.randint(3, 9),
-                vision_range=5,
-                hearing_range=3,
-                temperature=12.3,
-            )
 
-            world.register(obj)
     cow = registry.create(
         cls_name="Cow",
         x=random.randint(0, 9),
@@ -41,6 +24,13 @@ def register_objects() -> None:
         vision_range=5,
         hearing_range=3,
     )
+    stone = registry.create(
+        cls_name="Stone",
+        x=random.randint(0, 9),
+        y=random.randint(0, 9),
+        name="a rock",
+        health=50,
+    )
     cow_shadow = registry.create(
         cls_name="CowShadow",
         x=cow.x,
@@ -48,11 +38,34 @@ def register_objects() -> None:
         name="lola_shadow",
         health=100,
     )
+    player = registry.create(
+        cls_name="Player",
+        x=random.randint(0, 9),
+        y=random.randint(0, 9),
+        name="Matte",
+        health=10,
+        vision_range=5,
+        hearing_range=5,
+        temperature=36.3,
+    )
+    robe_torso = registry.create(
+        cls_name="RobeTorso",
+        x=player.x,
+        y=player.y,
+        name="robe",
+        health=100,
+    )
+    robe_torso.parent = player
+    robe_torso.actions_per_second = player.actions_per_second
+    player.children.append(robe_torso)
     cow_shadow.parent = cow
     cow.children.append(cow_shadow)
 
     world.register(cow)
     world.register(cow_shadow)
+    world.register(player)
+    world.register(stone)
+    world.register(robe_torso)
 
 
 # register terrain

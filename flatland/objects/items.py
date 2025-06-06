@@ -149,6 +149,68 @@ class Sword(ContactInteractionMixin, GameObject, AttachedToParentMixin, AlwaysOn
 
 
 @registry.register
+class RobeTorso(
+    GameObject,
+    AttachedToParentMixin,
+    AlwaysOnTopOfParent,
+    MovementAnimationMixin,
+    StandingAnimationMixin,
+):
+    def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
+        super().__init__(x, y, name, health)
+        self.noise_intensity = 0.1
+        self.attractiveness = 1.1
+        self.visible_size = 0.5
+        self.num_animations = 8
+        self.num_animations_standing = 1
+        self.scheduler.interval = 0.1  # NOTE: needed to keep on top of the player
+
+        # Load sprites
+        self.movement_sprites_locations = {
+            Direction.UP: [
+                f"assets/sprites/robe_torso/tile_0_{i+1}.png" for i in range(self.num_animations)
+            ],
+            Direction.DOWN: [
+                f"assets/sprites/robe_torso/tile_2_{i+1}.png" for i in range(self.num_animations)
+            ],
+            Direction.LEFT: [
+                f"assets/sprites/robe_torso/tile_1_{i+1}.png" for i in range(self.num_animations)
+            ],
+            Direction.RIGHT: [
+                f"assets/sprites/robe_torso/tile_3_{i+1}.png" for i in range(self.num_animations)
+            ],
+        }
+        self.create_movement_sprites()  # do not forget!
+        self.standing_sprites_locations = {
+            Direction.UP: [
+                f"assets/sprites/robe_torso/tile_0_{i}.png"
+                for i in range(self.num_animations_standing)
+            ],
+            Direction.DOWN: [
+                f"assets/sprites/robe_torso/tile_2_{i}.png"
+                for i in range(self.num_animations_standing)
+            ],
+            Direction.LEFT: [
+                f"assets/sprites/robe_torso/tile_1_{i}.png"
+                for i in range(self.num_animations_standing)
+            ],
+            Direction.RIGHT: [
+                f"assets/sprites/robe_torso/tile_3_{i}.png"
+                for i in range(self.num_animations_standing)
+            ],
+        }
+
+        self.create_standing_sprites()
+
+    def render(self, screen):
+        self.render_on_top()  # from AlwaysOnTopOfParent
+        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
+            self.render_movement(screen)
+        if self.x == self.prev_x and self.y == self.prev_y:
+            self.render_standing(screen)
+
+
+@registry.register
 class Goblin(
     ContactInteractionMixin,
     BaseNPC,
@@ -174,7 +236,7 @@ class Goblin(
         super().__init__(x, y, name, health, vision_range, hearing_range)
         self.color = (128, 0, 0)
         self.noise_intensity = 0.3
-        self.attractiveness = 3.1
+        self.attractiveness = 0.1
         self.visible_size = 2.3
         self.z_level = 3.0
         self.num_animations = 6
@@ -333,6 +395,7 @@ class CowShadow(GameObject, MovementAnimationMixin, AttachedToParentMixin):
         super().__init__(x, y, name, health)
         self.z_level = 1
         self.num_animations = 1
+        self.scheduler.interval = 0.1
         # Load sprites
         self.movement_sprites_locations = {
             Direction.UP: [f"assets/sprites/cow_shadow/up.png"],
@@ -369,15 +432,14 @@ class Player(
         **kwargs: Any,
     ):
         super().__init__(x, y, name, health, vision_range, hearing_range)
-        self.color = (0, 255, 0)
         self.noise_intensity = 1.1
         self.attractiveness = 2.1
         self.visible_size = 2.0
         self.z_level = 10.0
         self.actions_per_second = 3
+        self.keys = None
         self.num_animations = 8
         self.num_animations_standing = 1
-        self.keys = None
 
         # Load sprites
         self.movement_sprites_locations = {

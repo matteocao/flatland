@@ -21,6 +21,17 @@ def split_image_grid(image_path, rows, cols, output_folder):
             )
             tile = image.crop(box)
             tile.save(os.path.join(output_folder, f"tile_{row}_{col}.png"))
+    # Loop through all PNG files in the folder
+    for filename in os.listdir(output_folder):
+        if filename.lower().endswith(".png"):
+            full_path = os.path.join(output_folder, filename)
+
+            try:
+                img = Image.open(full_path)
+                img.save(full_path, icc_profile=None)
+                print(f"Cleaned: {filename}")
+            except Exception as e:
+                print(f"Failed to clean {filename}: {e}")
 
 
 if __name__ == "__main__":
