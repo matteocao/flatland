@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING, Any, Callable, Literal, Optional, Protocol, ru
 
 import pygame
 
-from ..consts import NEXT_ANIMATION_STEPS, TILE_SIZE, Direction
+from ..consts import TILE_SIZE, Direction
 from ..logger import Logger
 
 if TYPE_CHECKING:
@@ -41,12 +41,9 @@ class MovementAnimationMixin:
         }
 
     def update_movement_animation(self: HasMovementAttributes | Any):
-        self.animation_timer += 1
-        if self.animation_timer >= NEXT_ANIMATION_STEPS:
-            self.animation_timer = 0
-            self.animation_index = (self.animation_index + 1) % len(
-                self.movement_sprites[self.direction]
-            )
+        self.animation_index = (self.animation_index + 1) % len(
+            self.movement_sprites[self.direction]
+        )
 
     def render_movement(self: HasMovementAttributes | Any, screen: pygame.Surface) -> None:
         now = pygame.time.get_ticks()
@@ -76,12 +73,9 @@ class StandingAnimationMixin:
         }
 
     def update_standing_animation(self: Any):
-        self.standing_animation_timer += 1
-        if self.standing_animation_timer >= NEXT_ANIMATION_STEPS:
-            self.standing_animation_timer = 0
-            self.standing_animation_index = (self.standing_animation_index + 1) % len(
-                self.standing_sprites[self.direction]
-            )
+        self.standing_animation_index = (self.standing_animation_index + 1) % len(
+            self.standing_sprites[self.direction]
+        )
 
     def render_standing(self: Any, screen: pygame.Surface) -> None:
         now = pygame.time.get_ticks()
@@ -108,12 +102,9 @@ class PushAnimationMixin:
         }
 
     def update_push_animation(self: Any):
-        self.push_animation_timer += 1
-        if self.push_animation_timer >= NEXT_ANIMATION_STEPS:
-            self.push_animation_timer = 0
-            self.push_animation_index = (self.push_animation_index + 1) % len(
-                self.push_sprites[self.direction]
-            )
+        self.push_animation_index = (self.push_animation_index + 1) % len(
+            self.push_sprites[self.direction]
+        )
 
     def render_push(self: Any, screen: pygame.Surface) -> None:
         now = pygame.time.get_ticks()

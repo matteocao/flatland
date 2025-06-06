@@ -1,6 +1,8 @@
 import random
 from typing import TYPE_CHECKING, Any, Callable
 
+import pygame
+
 from ..consts import Direction
 from ..logger import Logger
 
@@ -20,9 +22,27 @@ class VolitionEngine:
         ``owner.internal_state -> self.list_of_actions``
         """
         self.list_of_actions = []
-        # temporarily a random thingy
 
-        if hasattr(self.owner, "speak") and random.random() > 0.9:
+        # check if this is the player
+        if hasattr(self.owner, "get_pressed_keys"):
+            if self.owner.keys:
+                if self.owner.keys[pygame.K_UP]:
+                    self.list_of_actions.append((self.owner.move, {"direction": Direction.UP}))
+                elif self.owner.keys[pygame.K_DOWN]:
+                    self.list_of_actions.append((self.owner.move, {"direction": Direction.DOWN}))
+                elif self.owner.keys[pygame.K_LEFT]:
+                    self.list_of_actions.append((self.owner.move, {"direction": Direction.LEFT}))
+                elif self.owner.keys[pygame.K_RIGHT]:
+                    self.list_of_actions.append((self.owner.move, {"direction": Direction.RIGHT}))
+                elif self.owner.keys[pygame.K_e]:
+                    for rep in self.owner.internal_state.time_history[-1]:
+                        if abs(rep.dx) < 1 and abs(rep.dy) < 1:
+                            self.list_of_actions.append(
+                                (self.owner.push, {"other": rep.source_object})
+                            )
+                self.owner.keys = None
+        # temporarily a random thingy=
+        elif hasattr(self.owner, "speak") and random.random() > 0.9:
             self.list_of_actions.append(
                 (self.owner.speak, {"message": random.choice(["hello", "mooo"])})
             )

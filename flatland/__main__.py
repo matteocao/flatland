@@ -37,7 +37,8 @@ def main():
         keys = pygame.key.get_pressed()
 
         # send keys to the user
-        world.send_keys_to_user(keys)
+        if any(keys):
+            world.send_keys_to_user(keys)
         near_objs = world._observers
         # logger.info(near_objs)
         world.prepare(near_objs)

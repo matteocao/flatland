@@ -13,19 +13,19 @@ from flatland.world.world import World
 
 
 def test_player_creation() -> None:
-    p = Player(x=1, y=2, name="John", health=10)
+    p = Player(x=1, y=2, name="John", health=10, vision_range=3, hearing_range=3)
     assert p.x == 1 and p.y == 2
 
 
 def test_stone_push() -> None:
     world = World()
-    player = Player(1, 1, "Mark", 2)
+    player = Player(1, 1, "Mark", 2, vision_range=3, hearing_range=3)
     stone = Stone(2, 1, "a rock", 15)
 
 
 def test_animal_vision_chase() -> None:
     animal = Cow(1, 1, "lola", 2, 2, 3)
-    player = Player(x=3, y=1, name="Matt", health=2)
+    player = Player(x=3, y=1, name="Matt", health=2, vision_range=3, hearing_range=3)
 
 
 def test_cow() -> None:

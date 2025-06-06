@@ -7,7 +7,7 @@ from typing import Any, Optional
 import pygame
 
 from ..actions.volition import VolitionEngine
-from ..consts import NEXT_ANIMATION_STEPS, TILE_SIZE, Direction
+from ..consts import TILE_SIZE, Direction
 from ..interactions.command import InteractionCommand
 from ..interactions.interactions import ContactInteractionMixin
 from ..interactions.scheduler import InteractionScheduler
@@ -67,7 +67,7 @@ class GameObject:
     def update(self, event: Any):
         now = pygame.time.get_ticks()
 
-        if (now - self.last_action_time) / 1000 >= 1 / self.actions_per_second:
+        if (now - self.last_action_time) / 1000 >= 1 / (self.actions_per_second + 0.0001):
             self.is_update_just_done = True
             self.prev_x = self.x
             self.prev_y = self.y

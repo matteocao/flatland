@@ -2,6 +2,7 @@
 ----------------- Prototype pattern for all of the items below ---------------------
 """
 
+from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
@@ -348,52 +349,74 @@ class CowShadow(GameObject, MovementAnimationMixin, AttachedToParentMixin):
 
 
 @registry.register
-class Player(GameObject, LimbControlMixin):
-    def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
-        super().__init__(x, y, name, health)
+class Player(
+    BaseNPC,
+    LimbControlMixin,
+    MovementAnimationMixin,
+    MovementMixin,
+    StandingAnimationMixin,
+    HearingSensorMixin,
+    SightSensorMixin,
+):
+    def __init__(
+        self,
+        x: int,
+        y: int,
+        name: str,
+        health: float,
+        vision_range: int,
+        hearing_range: int,
+        **kwargs: Any,
+    ):
+        super().__init__(x, y, name, health, vision_range, hearing_range)
         self.color = (0, 255, 0)
         self.noise_intensity = 1.1
         self.attractiveness = 2.1
         self.visible_size = 2.0
         self.z_level = 10.0
+        self.actions_per_second = 3
+        self.num_animations = 8
+        self.num_animations_standing = 1
+        self.keys = None
+
+        # Load sprites
+        self.movement_sprites_locations = {
+            Direction.UP: [
+                f"assets/sprites/man/tile_0_{i+1}.png" for i in range(self.num_animations)
+            ],
+            Direction.DOWN: [
+                f"assets/sprites/man/tile_2_{i+1}.png" for i in range(self.num_animations)
+            ],
+            Direction.LEFT: [
+                f"assets/sprites/man/tile_1_{i+1}.png" for i in range(self.num_animations)
+            ],
+            Direction.RIGHT: [
+                f"assets/sprites/man/tile_3_{i+1}.png" for i in range(self.num_animations)
+            ],
+        }
+        self.create_movement_sprites()  # do not forget!
+        self.standing_sprites_locations = {
+            Direction.UP: [
+                f"assets/sprites/man/tile_0_{i}.png" for i in range(self.num_animations_standing)
+            ],
+            Direction.DOWN: [
+                f"assets/sprites/man/tile_2_{i}.png" for i in range(self.num_animations_standing)
+            ],
+            Direction.LEFT: [
+                f"assets/sprites/man/tile_1_{i}.png" for i in range(self.num_animations_standing)
+            ],
+            Direction.RIGHT: [
+                f"assets/sprites/man/tile_3_{i}.png" for i in range(self.num_animations_standing)
+            ],
+        }
+
+        self.create_standing_sprites()
 
     def get_pressed_keys(self, keys) -> None:
         self.keys = keys
 
-    def prepare(self, near_objs: Any):
-        dx = dy = 0
-        if self.keys[pygame.K_UP]:
-            dy = -1
-        elif self.keys[pygame.K_DOWN]:
-            dy = 1
-        elif self.keys[pygame.K_LEFT]:
-            dx = -1
-        elif self.keys[pygame.K_RIGHT]:
-            dx = 1
-        elif self.keys[pygame.K_e]:
-            for obj in near_objs:
-                if obj.distance(self) < 1:
-                    self.push(obj)
-        match (dx, dy):
-            case (1, 0):
-                self.direction = Direction.RIGHT
-            case (-1, 0):
-                self.direction = Direction.LEFT
-            case (0, 1):
-                self.direction = Direction.DOWN
-            case (0, -1):
-                self.direction = Direction.UP
-
-        self.new_x = self.x + dx
-        self.new_y = self.y + dy
-
-    def update(self, event):
-        self.x = self.new_x
-        self.y = self.new_y
-
     def render(self, screen):
-        pygame.draw.rect(
-            screen,
-            self.color,
-            pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE),
-        )
+        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
+            self.render_movement(screen)
+        if self.x == self.prev_x and self.y == self.prev_y:
+            self.render_standing(screen)
