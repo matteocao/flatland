@@ -40,6 +40,12 @@ class VolitionEngine:
                             self.list_of_actions.append(
                                 (self.owner.push, {"other": rep.source_object})
                             )
+                elif self.owner.keys[pygame.K_q]:
+                    for rep in self.owner.internal_state.time_history[-1]:
+                        if abs(rep.dx) < 1 and abs(rep.dy) < 1:
+                            self.list_of_actions.append(
+                                (self.owner.grab, {"other": rep.source_object})
+                            )
                 self.owner.keys = None
         # temporarily a random thingy=
         elif hasattr(self.owner, "speak") and random.random() > 0.9:

@@ -211,6 +211,180 @@ class RobeTorso(
 
 
 @registry.register
+class Shoes(
+    GameObject,
+    AttachedToParentMixin,
+    AlwaysOnTopOfParent,
+    MovementAnimationMixin,
+    StandingAnimationMixin,
+):
+    def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
+        super().__init__(x, y, name, health)
+        self.noise_intensity = 0.1
+        self.attractiveness = 1.1
+        self.visible_size = 0.5
+        self.num_animations = 8
+        self.num_animations_standing = 1
+        self.scheduler.interval = 0.1  # NOTE: needed to keep on top of the player
+
+        # Load sprites
+        self.movement_sprites_locations = {
+            Direction.UP: [
+                f"assets/sprites/shoes/tile_0_{i+1}.png" for i in range(self.num_animations)
+            ],
+            Direction.DOWN: [
+                f"assets/sprites/shoes/tile_2_{i+1}.png" for i in range(self.num_animations)
+            ],
+            Direction.LEFT: [
+                f"assets/sprites/shoes/tile_1_{i+1}.png" for i in range(self.num_animations)
+            ],
+            Direction.RIGHT: [
+                f"assets/sprites/shoes/tile_3_{i+1}.png" for i in range(self.num_animations)
+            ],
+        }
+        self.create_movement_sprites()  # do not forget!
+        self.standing_sprites_locations = {
+            Direction.UP: [
+                f"assets/sprites/shoes/tile_0_{i}.png" for i in range(self.num_animations_standing)
+            ],
+            Direction.DOWN: [
+                f"assets/sprites/shoes/tile_2_{i}.png" for i in range(self.num_animations_standing)
+            ],
+            Direction.LEFT: [
+                f"assets/sprites/shoes/tile_1_{i}.png" for i in range(self.num_animations_standing)
+            ],
+            Direction.RIGHT: [
+                f"assets/sprites/shoes/tile_3_{i}.png" for i in range(self.num_animations_standing)
+            ],
+        }
+
+        self.create_standing_sprites()
+
+    def render(self, screen):
+        self.render_on_top()  # from AlwaysOnTopOfParent
+        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
+            self.render_movement(screen)
+        if self.x == self.prev_x and self.y == self.prev_y:
+            self.render_standing(screen)
+
+
+@registry.register
+class Hood(
+    GameObject,
+    AttachedToParentMixin,
+    AlwaysOnTopOfParent,
+    MovementAnimationMixin,
+    StandingAnimationMixin,
+):
+    def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
+        super().__init__(x, y, name, health)
+        self.noise_intensity = 0.1
+        self.attractiveness = 1.1
+        self.visible_size = 0.5
+        self.num_animations = 8
+        self.num_animations_standing = 1
+        self.scheduler.interval = 0.1  # NOTE: needed to keep on top of the player
+
+        # Load sprites
+        self.movement_sprites_locations = {
+            Direction.UP: [
+                f"assets/sprites/hood/tile_0_{i+1}.png" for i in range(self.num_animations)
+            ],
+            Direction.DOWN: [
+                f"assets/sprites/hood/tile_2_{i+1}.png" for i in range(self.num_animations)
+            ],
+            Direction.LEFT: [
+                f"assets/sprites/hood/tile_1_{i+1}.png" for i in range(self.num_animations)
+            ],
+            Direction.RIGHT: [
+                f"assets/sprites/hood/tile_3_{i+1}.png" for i in range(self.num_animations)
+            ],
+        }
+        self.create_movement_sprites()  # do not forget!
+        self.standing_sprites_locations = {
+            Direction.UP: [
+                f"assets/sprites/hood/tile_0_{i}.png" for i in range(self.num_animations_standing)
+            ],
+            Direction.DOWN: [
+                f"assets/sprites/hood/tile_2_{i}.png" for i in range(self.num_animations_standing)
+            ],
+            Direction.LEFT: [
+                f"assets/sprites/hood/tile_1_{i}.png" for i in range(self.num_animations_standing)
+            ],
+            Direction.RIGHT: [
+                f"assets/sprites/hood/tile_3_{i}.png" for i in range(self.num_animations_standing)
+            ],
+        }
+
+        self.create_standing_sprites()
+
+    def render(self, screen):
+        self.render_on_top()  # from AlwaysOnTopOfParent
+        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
+            self.render_movement(screen)
+        if self.x == self.prev_x and self.y == self.prev_y:
+            self.render_standing(screen)
+
+
+@registry.register
+class Skirt(
+    GameObject,
+    AttachedToParentMixin,
+    AlwaysOnTopOfParent,
+    MovementAnimationMixin,
+    StandingAnimationMixin,
+):
+    def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
+        super().__init__(x, y, name, health)
+        self.noise_intensity = 0.1
+        self.attractiveness = 1.1
+        self.visible_size = 0.5
+        self.num_animations = 8
+        self.num_animations_standing = 1
+        self.scheduler.interval = 0.1  # NOTE: needed to keep on top of the player
+
+        # Load sprites
+        self.movement_sprites_locations = {
+            Direction.UP: [
+                f"assets/sprites/skirt/tile_0_{i+1}.png" for i in range(self.num_animations)
+            ],
+            Direction.DOWN: [
+                f"assets/sprites/skirt/tile_2_{i+1}.png" for i in range(self.num_animations)
+            ],
+            Direction.LEFT: [
+                f"assets/sprites/skirt/tile_1_{i+1}.png" for i in range(self.num_animations)
+            ],
+            Direction.RIGHT: [
+                f"assets/sprites/skirt/tile_3_{i+1}.png" for i in range(self.num_animations)
+            ],
+        }
+        self.create_movement_sprites()  # do not forget!
+        self.standing_sprites_locations = {
+            Direction.UP: [
+                f"assets/sprites/skirt/tile_0_{i}.png" for i in range(self.num_animations_standing)
+            ],
+            Direction.DOWN: [
+                f"assets/sprites/skirt/tile_2_{i}.png" for i in range(self.num_animations_standing)
+            ],
+            Direction.LEFT: [
+                f"assets/sprites/skirt/tile_1_{i}.png" for i in range(self.num_animations_standing)
+            ],
+            Direction.RIGHT: [
+                f"assets/sprites/skirt/tile_3_{i}.png" for i in range(self.num_animations_standing)
+            ],
+        }
+
+        self.create_standing_sprites()
+
+    def render(self, screen):
+        self.render_on_top()  # from AlwaysOnTopOfParent
+        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
+            self.render_movement(screen)
+        if self.x == self.prev_x and self.y == self.prev_y:
+            self.render_standing(screen)
+
+
+@registry.register
 class Goblin(
     ContactInteractionMixin,
     BaseNPC,

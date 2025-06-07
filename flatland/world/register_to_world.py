@@ -24,6 +24,15 @@ def register_objects() -> None:
         vision_range=5,
         hearing_range=3,
     )
+    goblin = registry.create(
+        cls_name="Goblin",
+        x=random.randint(0, 9),
+        y=random.randint(0, 9),
+        name="ashpack",
+        health=9,
+        vision_range=3,
+        hearing_range=5,
+    )
     stone = registry.create(
         cls_name="Stone",
         x=random.randint(0, 9),
@@ -50,22 +59,48 @@ def register_objects() -> None:
     )
     robe_torso = registry.create(
         cls_name="RobeTorso",
-        x=player.x,
-        y=player.y,
+        x=random.randint(0, 9),
+        y=random.randint(0, 9),
         name="robe",
         health=100,
     )
-    robe_torso.parent = player
-    robe_torso.actions_per_second = player.actions_per_second
-    player.children.append(robe_torso)
+    shoes = registry.create(
+        cls_name="Shoes",
+        x=random.randint(0, 9),
+        y=random.randint(0, 9),
+        name="shoes",
+        health=100,
+    )
+    hood = registry.create(
+        cls_name="Hood",
+        x=random.randint(0, 9),
+        y=random.randint(0, 9),
+        name="hood",
+        health=100,
+    )
+    skirt = registry.create(
+        cls_name="Skirt",
+        x=random.randint(0, 9),
+        y=random.randint(0, 9),
+        name="skirt",
+        health=100,
+    )
+
     cow_shadow.parent = cow
     cow.children.append(cow_shadow)
 
     world.register(cow)
     world.register(cow_shadow)
-    world.register(player)
+
     world.register(stone)
+    world.register(goblin)
+
+    # player stuff
+    world.register(player)
     world.register(robe_torso)
+    world.register(shoes)
+    world.register(hood)
+    world.register(skirt)
 
 
 # register terrain

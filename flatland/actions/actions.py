@@ -47,8 +47,14 @@ class LimbControlMixin:
         else:
             self.logger.info(f"{self.__class__.__name__} does nothing.")
 
-    def grab(self):
-        self.logger.info(f"{self.__class__.__name__} grabs.")
+    def grab(self: Any, other: "GameObject"):
+        self.children.append(other)
+        other.parent = self
+        other.x = self.x
+        other.y = self.y
+        other.direction = self.direction
+        other.actions_per_second = self.actions_per_second
+        other.scheduler.interval = 0.1
 
     def throw(self):
         self.logger.info(f"{self.__class__.__name__} throws.")
