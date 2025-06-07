@@ -48,16 +48,17 @@ class LimbControlMixin:
             self.logger.info(f"{self.__class__.__name__} does nothing.")
 
     def grab(self: Any, other: "GameObject"):
-        self.children.append(other)
-        other.parent = self
-        other.x = self.x
-        other.y = self.y
-        other.direction = self.direction
-        other.actions_per_second = self.actions_per_second
-        other.scheduler.interval = 0.1
+        if other.is_grabbable:
+            self.children.append(other)
+            other.parent = self
+            other.x = self.x
+            other.y = self.y
+            other.direction = self.direction
+            other.actions_per_second = self.actions_per_second
+            other.scheduler.interval = 0.1
 
-    def throw(self):
-        self.logger.info(f"{self.__class__.__name__} throws.")
+    def cast_magic(self):
+        self.logger.info(f"{self.__class__.__name__} cast.")
 
     def push(self: Any, other: "GameObject") -> None:
         other.inertia += 1

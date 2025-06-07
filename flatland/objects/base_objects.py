@@ -63,6 +63,7 @@ class GameObject:
         self.z_level: float = 0
         self.sprite_size_x: int = 64
         self.sprite_size_y: int = 64
+        self.is_grabbable: bool = False
 
     def update(self, event: Any):
         now = pygame.time.get_ticks()

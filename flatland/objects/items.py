@@ -138,6 +138,7 @@ class Sword(ContactInteractionMixin, GameObject, AttachedToParentMixin, AlwaysOn
         self.attractiveness = 1.1
         self.z_level = 1.0
         self.visible_size = 0.5
+        self.is_grabbable = True
 
     def render(self, screen):
         self.render_on_top()  # from AlwaysOnTopOfParent
@@ -164,6 +165,7 @@ class RobeTorso(
         self.num_animations = 8
         self.num_animations_standing = 1
         self.scheduler.interval = 0.1  # NOTE: needed to keep on top of the player
+        self.is_grabbable = True
 
         # Load sprites
         self.movement_sprites_locations = {
@@ -226,6 +228,7 @@ class Shoes(
         self.num_animations = 8
         self.num_animations_standing = 1
         self.scheduler.interval = 0.1  # NOTE: needed to keep on top of the player
+        self.is_grabbable = True
 
         # Load sprites
         self.movement_sprites_locations = {
@@ -284,6 +287,7 @@ class Hood(
         self.num_animations = 8
         self.num_animations_standing = 1
         self.scheduler.interval = 0.1  # NOTE: needed to keep on top of the player
+        self.is_grabbable = True
 
         # Load sprites
         self.movement_sprites_locations = {
@@ -342,6 +346,7 @@ class Skirt(
         self.num_animations = 8
         self.num_animations_standing = 1
         self.scheduler.interval = 0.1  # NOTE: needed to keep on top of the player
+        self.is_grabbable = True
 
         # Load sprites
         self.movement_sprites_locations = {
