@@ -35,13 +35,13 @@ class VolitionEngine:
                 elif self.owner.keys[pygame.K_RIGHT]:
                     self.list_of_actions.append((self.owner.move, {"direction": Direction.RIGHT}))
                 elif self.owner.keys[pygame.K_e]:
-                    for rep in self.owner.internal_state.time_history[-1]:
+                    for rep in self.owner.internal_state.latest_perception():
                         if abs(rep.dx) < 1 and abs(rep.dy) < 1:
                             self.list_of_actions.append(
                                 (self.owner.push, {"other": rep.source_object})
                             )
                 elif self.owner.keys[pygame.K_q]:
-                    for rep in self.owner.internal_state.time_history[-1]:
+                    for rep in self.owner.internal_state.latest_perception():
                         if abs(rep.dx) < 1 and abs(rep.dy) < 1:
                             self.list_of_actions.append(
                                 (self.owner.grab, {"other": rep.source_object})
