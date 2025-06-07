@@ -84,13 +84,6 @@ class Stone(
         self.create_standing_sprites()
 
 
-#    def render(self, screen: pygame.Surface) -> None:
-#        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
-#            self.render_movement(screen)
-#        if self.x == self.prev_x and self.y == self.prev_y:
-#            self.render_standing(screen)
-
-
 @registry.register
 class Ground(GameObject, StandingAnimationMixin, RenderMixin):
     def __init__(self, x: int, y: int, name: str, health: float, tile_name: str, **kwargs: Any):
@@ -112,54 +105,6 @@ class Ground(GameObject, StandingAnimationMixin, RenderMixin):
         }
 
         self.create_standing_sprites()
-
-
-#    def render(self, screen):
-#        sprite = pygame.image.load(f"{self.tile_name}.png").convert_alpha()
-#        screen.blit(sprite, (self.x * TILE_SIZE, self.y * TILE_SIZE))
-
-
-# @registry.register
-# class HeatedStone(
-#    ContactInteractionMixin, HeatInteractionMixin, InertiaPrincipleWithFrictionEvolution, GameObject
-# ):
-#    def __init__(
-#        self, x: int, y: int, name: str, health: float, temperature: float, **kwargs: Any
-#    ) -> None:
-#        super().__init__(x, y, name, health)
-#        self.temperature = temperature
-#        self.noise_intensity = 0.1
-#        self.attractiveness = 0.1
-#        self.visible_size = 0.5
-#        self.z_level = 1.0
-#        self.color = (255, 0, 0)
-#
-#    def render(self, screen):
-#        pygame.draw.rect(
-#            screen,
-#            self.color,
-#            pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE),
-#        )
-#
-#
-# @registry.register
-# class Sword(ContactInteractionMixin, GameObject, AttachedToParentMixin, AlwaysOnTopOfParent):
-#    def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
-#        super().__init__(x, y, name, health)
-#        self.color = (128, 0, 128)
-#        self.noise_intensity = 0.1
-#        self.attractiveness = 1.1
-#        self.z_level = 1.0
-#        self.visible_size = 0.5
-#        self.is_grabbable = True
-#
-#    def render(self, screen):
-#        self.render_on_top()  # from AlwaysOnTopOfParent
-#        pygame.draw.rect(
-#            screen,
-#            self.color,
-#            pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE),
-#        )
 
 
 @registry.register
@@ -219,14 +164,6 @@ class RobeTorso(
         self.create_standing_sprites()
 
 
-#    def render(self, screen):
-#        self.render_on_top()  # from AlwaysOnTopOfParent
-#        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
-#            self.render_movement(screen)
-#        if self.x == self.prev_x and self.y == self.prev_y:
-#            self.render_standing(screen)
-
-
 @registry.register
 class Shoes(
     GameObject,
@@ -278,14 +215,6 @@ class Shoes(
         }
 
         self.create_standing_sprites()
-
-
-#    def render(self, screen):
-#        self.render_on_top()  # from AlwaysOnTopOfParent
-#        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
-#            self.render_movement(screen)
-#        if self.x == self.prev_x and self.y == self.prev_y:
-#            self.render_standing(screen)
 
 
 @registry.register
@@ -341,14 +270,6 @@ class Hood(
         self.create_standing_sprites()
 
 
-#    def render(self, screen):
-#        self.render_on_top()  # from AlwaysOnTopOfParent
-#        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
-#            self.render_movement(screen)
-#        if self.x == self.prev_x and self.y == self.prev_y:
-#            self.render_standing(screen)
-
-
 @registry.register
 class Skirt(
     GameObject,
@@ -400,14 +321,6 @@ class Skirt(
         }
 
         self.create_standing_sprites()
-
-
-#    def render(self, screen):
-#        self.render_on_top()  # from AlwaysOnTopOfParent
-#        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
-#            self.render_movement(screen)
-#        if self.x == self.prev_x and self.y == self.prev_y:
-#            self.render_standing(screen)
 
 
 @registry.register
@@ -496,19 +409,6 @@ class Goblin(
         self.create_push_sprites()
 
 
-#    def render(self, screen: pygame.Surface) -> None:
-#        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
-#            self.render_movement(screen)
-#        elif (
-#            self.x == self.prev_x
-#            and self.y == self.prev_y
-#            and any("other" in kwargs for _, kwargs in self.volition.list_of_actions)
-#        ):
-#            self.render_push(screen)
-#        else:
-#            self.render_standing(screen)
-
-
 @registry.register
 class Cow(
     ContactInteractionMixin,
@@ -584,15 +484,6 @@ class Cow(
             self.logger.info("Could not load sound. Probably mixer not initialised.")
 
 
-#    def render(self, screen: pygame.Surface) -> None:
-#        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
-#            self.render_movement(
-#                screen
-#            )  # NOTE: here add all the rendering and respective interaction logics
-#        if self.x == self.prev_x and self.y == self.prev_y:
-#            self.render_standing(screen)
-
-
 @registry.register
 class CowShadow(GameObject, MovementAnimationMixin, AttachedToParentMixin, RenderMixin):
     def __init__(self, x: int, y: int, name: str, health: int, **kwargs: Any):
@@ -610,10 +501,6 @@ class CowShadow(GameObject, MovementAnimationMixin, AttachedToParentMixin, Rende
         self.create_movement_sprites()  # do not forget!
         self.sprite_size_x: int = 128
         self.sprite_size_y: int = 128
-
-
-#    def render(self, screen: pygame.Surface) -> None:
-#        self.render_movement(screen)
 
 
 @registry.register
@@ -682,10 +569,3 @@ class Player(
 
     def get_pressed_keys(self, keys) -> None:
         self.keys = keys
-
-
-#    def render(self, screen):
-#        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
-#            self.render_movement(screen)
-#        if self.x == self.prev_x and self.y == self.prev_y:
-#            self.render_standing(screen)
