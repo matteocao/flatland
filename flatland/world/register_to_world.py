@@ -118,7 +118,12 @@ def register_terrain() -> None:
     terrain = build_tile_map(list_of_possible_tiles)
     for i, lst_obj in enumerate(terrain):
         for j, obj in enumerate(lst_obj):
-            new_obj = obj.clone()
-            new_obj.y = i
-            new_obj.x = j
+            new_obj: "Ground" = registry.create(  # type: ignore
+                cls_name=cls_name,
+                x=j,
+                y=i,
+                name=obj.tile_name,
+                health=obj.health,
+                tile_name=obj.tile_name,
+            )
             world.register(new_obj)

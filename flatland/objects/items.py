@@ -18,6 +18,7 @@ from ..animations.animations import (
     PushAnimationMixin,
     StandingAnimationMixin,
 )
+from ..animations.render import RenderMixin
 from ..consts import TILE_SIZE, Direction
 from ..interactions.evolution import InertiaPrincipleWithFrictionEvolution
 from ..interactions.interactions import (
@@ -38,6 +39,7 @@ class Stone(
     GameObject,
     MovementAnimationMixin,
     StandingAnimationMixin,
+    RenderMixin,
 ):
     def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
         super().__init__(x, y, name, health)
@@ -81,72 +83,83 @@ class Stone(
 
         self.create_standing_sprites()
 
-    def render(self, screen: pygame.Surface) -> None:
-        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
-            self.render_movement(screen)
-        if self.x == self.prev_x and self.y == self.prev_y:
-            self.render_standing(screen)
+
+#    def render(self, screen: pygame.Surface) -> None:
+#        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
+#            self.render_movement(screen)
+#        if self.x == self.prev_x and self.y == self.prev_y:
+#            self.render_standing(screen)
 
 
 @registry.register
-class Ground(GameObject):
+class Ground(GameObject, StandingAnimationMixin, RenderMixin):
     def __init__(self, x: int, y: int, name: str, health: float, tile_name: str, **kwargs: Any):
         super().__init__(x, y, name, health)
         self.z_level = 0.0
         self.tile_name = tile_name
+        self.num_animations_standing = 1
         # Extract NSWE neighbor tuple from the last 4 components of the name
         parts = self.tile_name.split("_")
         try:
             self.nswe_neigh = tuple(int(n) for n in parts[-4:])
         except ValueError:
             raise ValueError(f"Tile name '{tile_name}' does not end with four numeric components")
+        self.standing_sprites_locations = {
+            Direction.UP: [f"{self.tile_name}.png" for i in range(self.num_animations_standing)],
+            Direction.DOWN: [f"{self.tile_name}.png" for i in range(self.num_animations_standing)],
+            Direction.LEFT: [f"{self.tile_name}.png" for i in range(self.num_animations_standing)],
+            Direction.RIGHT: [f"{self.tile_name}.png" for i in range(self.num_animations_standing)],
+        }
 
-    def render(self, screen):
-        sprite = pygame.image.load(f"{self.tile_name}.png").convert_alpha()
-        screen.blit(sprite, (self.x * TILE_SIZE, self.y * TILE_SIZE))
-
-
-@registry.register
-class HeatedStone(
-    ContactInteractionMixin, HeatInteractionMixin, InertiaPrincipleWithFrictionEvolution, GameObject
-):
-    def __init__(
-        self, x: int, y: int, name: str, health: float, temperature: float, **kwargs: Any
-    ) -> None:
-        super().__init__(x, y, name, health)
-        self.temperature = temperature
-        self.noise_intensity = 0.1
-        self.attractiveness = 0.1
-        self.visible_size = 0.5
-        self.z_level = 1.0
-        self.color = (255, 0, 0)
-
-    def render(self, screen):
-        pygame.draw.rect(
-            screen,
-            self.color,
-            pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE),
-        )
+        self.create_standing_sprites()
 
 
-@registry.register
-class Sword(ContactInteractionMixin, GameObject, AttachedToParentMixin, AlwaysOnTopOfParent):
-    def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
-        super().__init__(x, y, name, health)
-        self.color = (128, 0, 128)
-        self.noise_intensity = 0.1
-        self.attractiveness = 1.1
-        self.z_level = 1.0
-        self.visible_size = 0.5
-        self.is_grabbable = True
+#    def render(self, screen):
+#        sprite = pygame.image.load(f"{self.tile_name}.png").convert_alpha()
+#        screen.blit(sprite, (self.x * TILE_SIZE, self.y * TILE_SIZE))
 
-    def render(self, screen):
-        self.render_on_top()  # from AlwaysOnTopOfParent
-        pygame.draw.rect(
-            screen,
-            self.color,
-            pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE),
-        )
+
+# @registry.register
+# class HeatedStone(
+#    ContactInteractionMixin, HeatInteractionMixin, InertiaPrincipleWithFrictionEvolution, GameObject
+# ):
+#    def __init__(
+#        self, x: int, y: int, name: str, health: float, temperature: float, **kwargs: Any
+#    ) -> None:
+#        super().__init__(x, y, name, health)
+#        self.temperature = temperature
+#        self.noise_intensity = 0.1
+#        self.attractiveness = 0.1
+#        self.visible_size = 0.5
+#        self.z_level = 1.0
+#        self.color = (255, 0, 0)
+#
+#    def render(self, screen):
+#        pygame.draw.rect(
+#            screen,
+#            self.color,
+#            pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE),
+#        )
+#
+#
+# @registry.register
+# class Sword(ContactInteractionMixin, GameObject, AttachedToParentMixin, AlwaysOnTopOfParent):
+#    def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
+#        super().__init__(x, y, name, health)
+#        self.color = (128, 0, 128)
+#        self.noise_intensity = 0.1
+#        self.attractiveness = 1.1
+#        self.z_level = 1.0
+#        self.visible_size = 0.5
+#        self.is_grabbable = True
+#
+#    def render(self, screen):
+#        self.render_on_top()  # from AlwaysOnTopOfParent
+#        pygame.draw.rect(
+#            screen,
+#            self.color,
+#            pygame.Rect(self.x * TILE_SIZE, self.y * TILE_SIZE, TILE_SIZE, TILE_SIZE),
+#        )
 
 
 @registry.register
@@ -156,6 +169,7 @@ class RobeTorso(
     AlwaysOnTopOfParent,
     MovementAnimationMixin,
     StandingAnimationMixin,
+    RenderMixin,
 ):
     def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
         super().__init__(x, y, name, health)
@@ -204,12 +218,13 @@ class RobeTorso(
 
         self.create_standing_sprites()
 
-    def render(self, screen):
-        self.render_on_top()  # from AlwaysOnTopOfParent
-        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
-            self.render_movement(screen)
-        if self.x == self.prev_x and self.y == self.prev_y:
-            self.render_standing(screen)
+
+#    def render(self, screen):
+#        self.render_on_top()  # from AlwaysOnTopOfParent
+#        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
+#            self.render_movement(screen)
+#        if self.x == self.prev_x and self.y == self.prev_y:
+#            self.render_standing(screen)
 
 
 @registry.register
@@ -219,6 +234,7 @@ class Shoes(
     AlwaysOnTopOfParent,
     MovementAnimationMixin,
     StandingAnimationMixin,
+    RenderMixin,
 ):
     def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
         super().__init__(x, y, name, health)
@@ -263,12 +279,13 @@ class Shoes(
 
         self.create_standing_sprites()
 
-    def render(self, screen):
-        self.render_on_top()  # from AlwaysOnTopOfParent
-        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
-            self.render_movement(screen)
-        if self.x == self.prev_x and self.y == self.prev_y:
-            self.render_standing(screen)
+
+#    def render(self, screen):
+#        self.render_on_top()  # from AlwaysOnTopOfParent
+#        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
+#            self.render_movement(screen)
+#        if self.x == self.prev_x and self.y == self.prev_y:
+#            self.render_standing(screen)
 
 
 @registry.register
@@ -278,6 +295,7 @@ class Hood(
     AlwaysOnTopOfParent,
     MovementAnimationMixin,
     StandingAnimationMixin,
+    RenderMixin,
 ):
     def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
         super().__init__(x, y, name, health)
@@ -322,12 +340,13 @@ class Hood(
 
         self.create_standing_sprites()
 
-    def render(self, screen):
-        self.render_on_top()  # from AlwaysOnTopOfParent
-        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
-            self.render_movement(screen)
-        if self.x == self.prev_x and self.y == self.prev_y:
-            self.render_standing(screen)
+
+#    def render(self, screen):
+#        self.render_on_top()  # from AlwaysOnTopOfParent
+#        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
+#            self.render_movement(screen)
+#        if self.x == self.prev_x and self.y == self.prev_y:
+#            self.render_standing(screen)
 
 
 @registry.register
@@ -337,6 +356,7 @@ class Skirt(
     AlwaysOnTopOfParent,
     MovementAnimationMixin,
     StandingAnimationMixin,
+    RenderMixin,
 ):
     def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
         super().__init__(x, y, name, health)
@@ -381,12 +401,13 @@ class Skirt(
 
         self.create_standing_sprites()
 
-    def render(self, screen):
-        self.render_on_top()  # from AlwaysOnTopOfParent
-        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
-            self.render_movement(screen)
-        if self.x == self.prev_x and self.y == self.prev_y:
-            self.render_standing(screen)
+
+#    def render(self, screen):
+#        self.render_on_top()  # from AlwaysOnTopOfParent
+#        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
+#            self.render_movement(screen)
+#        if self.x == self.prev_x and self.y == self.prev_y:
+#            self.render_standing(screen)
 
 
 @registry.register
@@ -401,6 +422,7 @@ class Goblin(
     PushAnimationMixin,
     MovementAnimationMixin,
     StandingAnimationMixin,
+    RenderMixin,
 ):
     def __init__(
         self,
@@ -473,17 +495,18 @@ class Goblin(
         }
         self.create_push_sprites()
 
-    def render(self, screen: pygame.Surface) -> None:
-        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
-            self.render_movement(screen)
-        elif (
-            self.x == self.prev_x
-            and self.y == self.prev_y
-            and any("other" in kwargs for _, kwargs in self.volition.list_of_actions)
-        ):
-            self.render_push(screen)
-        else:
-            self.render_standing(screen)
+
+#    def render(self, screen: pygame.Surface) -> None:
+#        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
+#            self.render_movement(screen)
+#        elif (
+#            self.x == self.prev_x
+#            and self.y == self.prev_y
+#            and any("other" in kwargs for _, kwargs in self.volition.list_of_actions)
+#        ):
+#            self.render_push(screen)
+#        else:
+#            self.render_standing(screen)
 
 
 @registry.register
@@ -497,6 +520,7 @@ class Cow(
     InertiaPrincipleWithFrictionEvolution,
     MovementAnimationMixin,
     StandingAnimationMixin,
+    RenderMixin,
 ):
     def __init__(
         self,
@@ -559,17 +583,18 @@ class Cow(
         except pygame.error:
             self.logger.info("Could not load sound. Probably mixer not initialised.")
 
-    def render(self, screen: pygame.Surface) -> None:
-        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
-            self.render_movement(
-                screen
-            )  # NOTE: here add all the rendering and respective interaction logics
-        if self.x == self.prev_x and self.y == self.prev_y:
-            self.render_standing(screen)
+
+#    def render(self, screen: pygame.Surface) -> None:
+#        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
+#            self.render_movement(
+#                screen
+#            )  # NOTE: here add all the rendering and respective interaction logics
+#        if self.x == self.prev_x and self.y == self.prev_y:
+#            self.render_standing(screen)
 
 
 @registry.register
-class CowShadow(GameObject, MovementAnimationMixin, AttachedToParentMixin):
+class CowShadow(GameObject, MovementAnimationMixin, AttachedToParentMixin, RenderMixin):
     def __init__(self, x: int, y: int, name: str, health: int, **kwargs: Any):
         super().__init__(x, y, name, health)
         self.z_level = 1
@@ -586,8 +611,9 @@ class CowShadow(GameObject, MovementAnimationMixin, AttachedToParentMixin):
         self.sprite_size_x: int = 128
         self.sprite_size_y: int = 128
 
-    def render(self, screen: pygame.Surface) -> None:
-        self.render_movement(screen)
+
+#    def render(self, screen: pygame.Surface) -> None:
+#        self.render_movement(screen)
 
 
 @registry.register
@@ -599,6 +625,7 @@ class Player(
     StandingAnimationMixin,
     HearingSensorMixin,
     SightSensorMixin,
+    RenderMixin,
 ):
     def __init__(
         self,
@@ -656,8 +683,9 @@ class Player(
     def get_pressed_keys(self, keys) -> None:
         self.keys = keys
 
-    def render(self, screen):
-        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
-            self.render_movement(screen)
-        if self.x == self.prev_x and self.y == self.prev_y:
-            self.render_standing(screen)
+
+#    def render(self, screen):
+#        if self.x - self.prev_x != 0 or self.y - self.prev_y != 0:
+#            self.render_movement(screen)
+#        if self.x == self.prev_x and self.y == self.prev_y:
+#            self.render_standing(screen)

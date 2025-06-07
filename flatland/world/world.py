@@ -59,7 +59,8 @@ class World:
 
     def render(self, screen) -> None:
         for obj in self.order_observers_by_z_level():
-            obj.render(screen)
+            if hasattr(obj, "render"):
+                obj.render(screen)
 
     def order_observers_by_z_level(self) -> list["GameObject"]:
         return sorted(self._observers, key=lambda obj: obj.z_level)

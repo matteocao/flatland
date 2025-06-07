@@ -29,6 +29,7 @@ class GameObject:
         self.health = health
         self.scheduler = InteractionScheduler(interval=1.0)
         self.logger = Logger()
+        self.volition = VolitionEngine(owner=self)
         self.direction: Direction = Direction.DOWN
         self.inertia: int = 0  # shall be >= 0. This is the current speed
         self.acceleration: int = 0  # shall be >= 0.
@@ -92,10 +93,6 @@ class GameObject:
     def clone(self) -> Any:
         return copy.deepcopy(self)
 
-    def render(self, screen: pygame.Surface) -> None:
-        self.logger.info(f"There is no rendering function for {self.__class__.__name__}")
-        pass
-
 
 class BaseAnimal(GameObject):
     def __init__(
@@ -108,8 +105,6 @@ class BaseAnimal(GameObject):
         hearing_range: int,
     ):
         super().__init__(x, y, name, health)
-        self.color = (255, 255, 0)
-        self.volition = VolitionEngine(owner=self)
         self.vision_range = vision_range
         self.hearing_range = hearing_range
         self.internal_state = InternalState(self)
