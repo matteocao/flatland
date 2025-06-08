@@ -58,7 +58,18 @@ class LimbControlMixin:
             other.scheduler.interval = 0.1
 
     def cast_magic(self):
-        self.logger.info(f"{self.__class__.__name__} cast.")
+        from ..objects.items_registry import registry
+        from ..world.world import world
+
+        fireball = registry.create(
+            cls_name="FireBall",
+            x=self.x,
+            y=self.y,
+            name="fireball",
+            health=5,
+        )
+        fireball.direction = self.direction
+        world.register(fireball)
 
     def push(self: Any, other: "GameObject") -> None:
         other.inertia += 1

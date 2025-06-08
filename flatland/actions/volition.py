@@ -46,6 +46,8 @@ class VolitionEngine:
                             self.list_of_actions.append(
                                 (self.owner.grab, {"other": rep.source_object})
                             )
+                elif self.owner.keys[pygame.K_SPACE]:
+                    self.list_of_actions.append((self.owner.cast_magic, {}))
                 self.owner.keys = None
         # temporarily a random thingy=
         elif hasattr(self.owner, "speak") and random.random() > 0.9:

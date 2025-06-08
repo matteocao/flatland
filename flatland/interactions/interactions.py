@@ -114,18 +114,6 @@ class ContactInteractionMixin(InteractionMixin):
         return []
 
 
-class DeathMixin(InteractionMixin):
-    def check_death(self):
-        if hasattr(self, "health"):
-            if health <= 0:
-                self.logger.info(f"{self.__class__.__name__} dies")
-                del self
-
-    def get_interaction_callables(self, other: "GameObject"):
-        return [lambda: self.check_death()]
-        return []
-
-
 class HeatInteractionMixin(InteractionMixin):
     def on_heat_transfer(self, other: "GameObject"):
         if (

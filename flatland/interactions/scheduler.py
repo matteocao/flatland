@@ -17,7 +17,7 @@ class InteractionScheduler:
 
     def update(self) -> None:
         current_time = pygame.time.get_ticks()
-        if current_time - self.last_execution >= self.interval:
+        if (current_time - self.last_execution) / 1000 >= self.interval:
             for command in self.queue:
                 command.execute()
             self.queue.clear()

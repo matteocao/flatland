@@ -20,6 +20,7 @@ class InertiaPrincipleWithFrictionEvolution(InteractionMixin):
             return  # No movement
 
         # Move in the current direction
+        print(self.direction, self.x, self.y)
         match self.direction:
             case Direction.UP:
                 self.y -= 1
@@ -39,4 +40,34 @@ class InertiaPrincipleWithFrictionEvolution(InteractionMixin):
         self.inertia = new_inertia  # this stabilises inertia till it does not move anymore
 
     def get_interaction_callables(self, other: "GameObject"):
-        return [lambda: self.keep_on_moving()]
+        # NOTE: this check is very important otherwise this function will be called once for every object in the area
+        if self is other:
+            return [lambda: self.keep_on_moving()]
+        return []
+
+
+class HealthDecreasesEvolution(InteractionMixin):
+    def keep_on_decreasing(self):
+        if getattr(self, "health", 0) <= 0:
+            return  # No decrease, death
+        self.health -= 1
+
+    def get_interaction_callables(self, other: "GameObject"):
+        if self is other:
+            return [lambda: self.keep_on_decreasing()]
+        return []
+
+
+class DeathMixin(InteractionMixin):
+    def check_death(self):
+        if hasattr(self, "health"):
+            if self.health <= 0:
+                self.logger.info(f"{self.__class__.__name__} dies")
+                from ..world.world import world
+
+                world.unregister(self)
+
+    def get_interaction_callables(self, other: "GameObject"):
+        if self is other:
+            return [lambda: self.check_death()]
+        return []

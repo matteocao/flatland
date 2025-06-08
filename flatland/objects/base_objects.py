@@ -70,6 +70,7 @@ class GameObject:
         now = pygame.time.get_ticks()
 
         if (now - self.last_action_time) / 1000 >= 1 / (self.actions_per_second + 0.0001):
+
             self.is_update_just_done = True
             self.prev_x = self.x
             self.prev_y = self.y

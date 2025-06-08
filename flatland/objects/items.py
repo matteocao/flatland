@@ -20,7 +20,11 @@ from ..animations.animations import (
 )
 from ..animations.render import RenderMixin
 from ..consts import TILE_SIZE, Direction
-from ..interactions.evolution import InertiaPrincipleWithFrictionEvolution
+from ..interactions.evolution import (
+    DeathMixin,
+    HealthDecreasesEvolution,
+    InertiaPrincipleWithFrictionEvolution,
+)
 from ..interactions.interactions import (
     AttachedToParentMixin,
     ContactInteractionMixin,
@@ -82,6 +86,42 @@ class Stone(
         }
 
         self.create_standing_sprites()
+
+
+@registry.register
+class FireBall(
+    InertiaPrincipleWithFrictionEvolution,
+    GameObject,
+    MovementAnimationMixin,
+    RenderMixin,
+    HealthDecreasesEvolution,
+    DeathMixin,
+):
+    def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
+        super().__init__(x, y, name, health)
+        self.friction_coefficient = 0
+        self.noise_intensity = 0.1
+        self.attractiveness = 0.1
+        self.visible_size = 0.5
+        self.inertia = 2
+        self.z_level = 1.0
+        self.num_animations = 16  # do nnot forget this when inheriting from MovementAnimationMixin
+        # Load sprites
+        self.movement_sprites_locations = {
+            Direction.UP: [
+                f"assets/sprites/fireball/up_{i}.png" for i in range(self.num_animations)
+            ],
+            Direction.DOWN: [
+                f"assets/sprites/fireball/down_{i}.png" for i in range(self.num_animations)
+            ],
+            Direction.LEFT: [
+                f"assets/sprites/fireball/left_{i}.png" for i in range(self.num_animations)
+            ],
+            Direction.RIGHT: [
+                f"assets/sprites/fireball/right_{i}.png" for i in range(self.num_animations)
+            ],
+        }
+        self.create_movement_sprites()  # do not forget!
 
 
 @registry.register
