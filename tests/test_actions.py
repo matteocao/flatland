@@ -17,43 +17,32 @@ class Movement(MovementMixin):
         self.y = y
         self.direction = None
 
-def test_move_up():
-    mover = Movement (0, 0)
-    mover.move(Direction.UP)
-    assert mover.x == 0
-    assert mover.y == -1
-    assert mover.direction == Direction.UP
+@pytest.mark.parametrize(
+    "initial_x, initial_y, direction, expected_x, expected_y",
+    [
+        (0, 0, Direction.UP, 0, -1),
+        (0, 0, Direction.DOWN, 0, 1),
+        (0, 0, Direction.LEFT, -1, 0),
+        (0, 0, Direction.RIGHT, 1, 0),
+    ]
+)
 
-def test_move_down():
-    mover = Movement (0, 0)
-    mover.move(Direction.DOWN)
-    assert mover.x == 0
-    assert mover.y == 1
-    assert mover.direction == Direction.DOWN
-
-def test_move_left():
-    mover = Movement (0, 0)
-    mover.move(Direction.LEFT)
-    assert mover.x == -1
-    assert mover.y == 0
-    assert mover.direction == Direction.LEFT
-
-def test_move_right():
-    mover = Movement (0, 0)
-    mover.move(Direction.RIGHT)
-    assert mover.x == +1
-    assert mover.y == 0
-    assert mover.direction == Direction.RIGHT
+def test_movements(initial_x, initial_y, direction, expected_x, expected_y):
+    mover = Movement(initial_x, initial_y)
+    mover.move(direction)
+    assert mover.x == expected_x
+    assert mover.y == expected_y
+    assert mover.direction == direction
 
 class SpeechTest(SpeechMixin):
     def __init__(self, phrase):
         self.message = phrase
 
 def test_speech_message():
-    TestPhrase = "Hello world!"
-    speecher = SpeechTest (TestPhrase)
-    speecher.speak(TestPhrase)
-    assert speecher.speech == TestPhrase
+    testphrase = "Hello world!"
+    speecher = SpeechTest (testphrase)
+    speecher.speak(testphrase)
+    assert speecher.speech == testphrase
 
 def test_speech_sound():
     class Dummy(SpeechMixin):
