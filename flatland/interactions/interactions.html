@@ -91,18 +91,6 @@
 
             </li>
             <li>
-                    <a class="class" href="#DeathMixin">DeathMixin</a>
-                            <ul class="memberlist">
-                        <li>
-                                <a class="function" href="#DeathMixin.check_death">check_death</a>
-                        </li>
-                        <li>
-                                <a class="function" href="#DeathMixin.get_interaction_callables">get_interaction_callables</a>
-                        </li>
-                </ul>
-
-            </li>
-            <li>
                     <a class="class" href="#HeatInteractionMixin">HeatInteractionMixin</a>
                             <ul class="memberlist">
                         <li>
@@ -254,37 +242,25 @@ The the evolutioners take care of evolving the system till a stable configuratio
 </span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>        <span class="k">return</span> <span class="p">[]</span>
 </span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>
 </span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>
-</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DeathMixin</span><span class="p">(</span><span class="n">InteractionMixin</span><span class="p">):</span>
-</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">check_death</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;health&quot;</span><span class="p">):</span>
-</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a>            <span class="k">if</span> <span class="n">health</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> dies&quot;</span><span class="p">)</span>
-</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a>                <span class="k">del</span> <span class="bp">self</span>
-</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a>
-</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_interaction_callables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;GameObject&quot;</span><span class="p">):</span>
-</span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a>        <span class="k">return</span> <span class="p">[</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_death</span><span class="p">()]</span>
-</span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a>        <span class="k">return</span> <span class="p">[]</span>
-</span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a>
-</span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a>
-</span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a><span class="k">class</span><span class="w"> </span><span class="nc">HeatInteractionMixin</span><span class="p">(</span><span class="n">InteractionMixin</span><span class="p">):</span>
-</span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">on_heat_transfer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;GameObject&quot;</span><span class="p">):</span>
-</span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a>        <span class="k">if</span> <span class="p">(</span>
-</span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a>            <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;temperature&quot;</span><span class="p">)</span>
-</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a>            <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s2">&quot;temperature&quot;</span><span class="p">)</span>
-</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a>            <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.1</span>
-</span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a>            <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span> <span class="ow">is</span> <span class="n">other</span>
-</span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a>        <span class="p">):</span>
-</span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a>            <span class="n">diff</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">temperature</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">temperature</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-</span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">temperature</span> <span class="o">-=</span> <span class="n">diff</span>
-</span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a>            <span class="n">other</span><span class="o">.</span><span class="n">temperature</span> <span class="o">+=</span> <span class="n">diff</span>
-</span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-</span><span id="L-141"><a href="#L-141"><span class="linenos">141</span></a>                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> transfers heat to </span><span class="si">{</span><span class="n">other</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a>            <span class="p">)</span>
-</span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a>
-</span><span id="L-144"><a href="#L-144"><span class="linenos">144</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_interaction_callables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;GameObject&quot;</span><span class="p">):</span>
-</span><span id="L-145"><a href="#L-145"><span class="linenos">145</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">HeatInteractionMixin</span><span class="p">):</span>
-</span><span id="L-146"><a href="#L-146"><span class="linenos">146</span></a>            <span class="k">return</span> <span class="p">[</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_heat_transfer</span><span class="p">(</span><span class="n">other</span><span class="p">)]</span>
-</span><span id="L-147"><a href="#L-147"><span class="linenos">147</span></a>        <span class="k">return</span> <span class="p">[]</span>
+</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a><span class="k">class</span><span class="w"> </span><span class="nc">HeatInteractionMixin</span><span class="p">(</span><span class="n">InteractionMixin</span><span class="p">):</span>
+</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">on_heat_transfer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;GameObject&quot;</span><span class="p">):</span>
+</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>        <span class="k">if</span> <span class="p">(</span>
+</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a>            <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;temperature&quot;</span><span class="p">)</span>
+</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>            <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s2">&quot;temperature&quot;</span><span class="p">)</span>
+</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a>            <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.1</span>
+</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a>            <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span> <span class="ow">is</span> <span class="n">other</span>
+</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a>        <span class="p">):</span>
+</span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a>            <span class="n">diff</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">temperature</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">temperature</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+</span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">temperature</span> <span class="o">-=</span> <span class="n">diff</span>
+</span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a>            <span class="n">other</span><span class="o">.</span><span class="n">temperature</span> <span class="o">+=</span> <span class="n">diff</span>
+</span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+</span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a>                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> transfers heat to </span><span class="si">{</span><span class="n">other</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a>            <span class="p">)</span>
+</span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a>
+</span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_interaction_callables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;GameObject&quot;</span><span class="p">):</span>
+</span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">HeatInteractionMixin</span><span class="p">):</span>
+</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a>            <span class="k">return</span> <span class="p">[</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_heat_transfer</span><span class="p">(</span><span class="n">other</span><span class="p">)]</span>
+</span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a>        <span class="k">return</span> <span class="p">[]</span>
 </span></pre></div>
 
 
@@ -743,90 +719,6 @@ inheritance.</p>
                                 </dl>
                             </div>
                 </section>
-                <section id="DeathMixin">
-                            <input id="DeathMixin-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
-<div class="attr class">
-            
-    <span class="def">class</span>
-    <span class="name">DeathMixin</span><wbr>(<span class="base"><a href="#InteractionMixin">InteractionMixin</a></span>):
-
-                <label class="view-source-button" for="DeathMixin-view-source"><span>View Source</span></label>
-
-    </div>
-    <a class="headerlink" href="#DeathMixin"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="DeathMixin-118"><a href="#DeathMixin-118"><span class="linenos">118</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DeathMixin</span><span class="p">(</span><span class="n">InteractionMixin</span><span class="p">):</span>
-</span><span id="DeathMixin-119"><a href="#DeathMixin-119"><span class="linenos">119</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">check_death</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="DeathMixin-120"><a href="#DeathMixin-120"><span class="linenos">120</span></a>        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;health&quot;</span><span class="p">):</span>
-</span><span id="DeathMixin-121"><a href="#DeathMixin-121"><span class="linenos">121</span></a>            <span class="k">if</span> <span class="n">health</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="DeathMixin-122"><a href="#DeathMixin-122"><span class="linenos">122</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> dies&quot;</span><span class="p">)</span>
-</span><span id="DeathMixin-123"><a href="#DeathMixin-123"><span class="linenos">123</span></a>                <span class="k">del</span> <span class="bp">self</span>
-</span><span id="DeathMixin-124"><a href="#DeathMixin-124"><span class="linenos">124</span></a>
-</span><span id="DeathMixin-125"><a href="#DeathMixin-125"><span class="linenos">125</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_interaction_callables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;GameObject&quot;</span><span class="p">):</span>
-</span><span id="DeathMixin-126"><a href="#DeathMixin-126"><span class="linenos">126</span></a>        <span class="k">return</span> <span class="p">[</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_death</span><span class="p">()]</span>
-</span><span id="DeathMixin-127"><a href="#DeathMixin-127"><span class="linenos">127</span></a>        <span class="k">return</span> <span class="p">[]</span>
-</span></pre></div>
-
-
-            <div class="docstring"><p>Helper class that provides a standard way to create an ABC using
-inheritance.</p>
-</div>
-
-
-                            <div id="DeathMixin.check_death" class="classattr">
-                                        <input id="DeathMixin.check_death-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
-<div class="attr function">
-            
-        <span class="def">def</span>
-        <span class="name">check_death</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">):</span></span>
-
-                <label class="view-source-button" for="DeathMixin.check_death-view-source"><span>View Source</span></label>
-
-    </div>
-    <a class="headerlink" href="#DeathMixin.check_death"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="DeathMixin.check_death-119"><a href="#DeathMixin.check_death-119"><span class="linenos">119</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">check_death</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="DeathMixin.check_death-120"><a href="#DeathMixin.check_death-120"><span class="linenos">120</span></a>        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;health&quot;</span><span class="p">):</span>
-</span><span id="DeathMixin.check_death-121"><a href="#DeathMixin.check_death-121"><span class="linenos">121</span></a>            <span class="k">if</span> <span class="n">health</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-</span><span id="DeathMixin.check_death-122"><a href="#DeathMixin.check_death-122"><span class="linenos">122</span></a>                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> dies&quot;</span><span class="p">)</span>
-</span><span id="DeathMixin.check_death-123"><a href="#DeathMixin.check_death-123"><span class="linenos">123</span></a>                <span class="k">del</span> <span class="bp">self</span>
-</span></pre></div>
-
-
-    
-
-                            </div>
-                            <div id="DeathMixin.get_interaction_callables" class="classattr">
-                                        <input id="DeathMixin.get_interaction_callables-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
-<div class="attr function">
-            
-        <span class="def">def</span>
-        <span class="name">get_interaction_callables</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">other</span><span class="p">:</span> <span class="n"><a href="../objects/base_objects.html#GameObject">flatland.objects.base_objects.GameObject</a></span></span><span class="return-annotation">):</span></span>
-
-                <label class="view-source-button" for="DeathMixin.get_interaction_callables-view-source"><span>View Source</span></label>
-
-    </div>
-    <a class="headerlink" href="#DeathMixin.get_interaction_callables"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="DeathMixin.get_interaction_callables-125"><a href="#DeathMixin.get_interaction_callables-125"><span class="linenos">125</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_interaction_callables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;GameObject&quot;</span><span class="p">):</span>
-</span><span id="DeathMixin.get_interaction_callables-126"><a href="#DeathMixin.get_interaction_callables-126"><span class="linenos">126</span></a>        <span class="k">return</span> <span class="p">[</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_death</span><span class="p">()]</span>
-</span><span id="DeathMixin.get_interaction_callables-127"><a href="#DeathMixin.get_interaction_callables-127"><span class="linenos">127</span></a>        <span class="k">return</span> <span class="p">[]</span>
-</span></pre></div>
-
-
-            <div class="docstring"><p>Return list of interaction callables relevant for this mixin</p>
-</div>
-
-
-                            </div>
-                            <div class="inherited">
-                                <h5>Inherited Members</h5>
-                                <dl>
-                                    <div><dt><a href="#InteractionMixin">InteractionMixin</a></dt>
-                                <dd id="DeathMixin.logger" class="variable"><a href="#InteractionMixin.logger">logger</a></dd>
-                <dd id="DeathMixin.reverse_direction" class="function"><a href="#InteractionMixin.reverse_direction">reverse_direction</a></dd>
-
-            </div>
-                                </dl>
-                            </div>
-                </section>
                 <section id="HeatInteractionMixin">
                             <input id="HeatInteractionMixin-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr class">
@@ -838,25 +730,25 @@ inheritance.</p>
 
     </div>
     <a class="headerlink" href="#HeatInteractionMixin"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="HeatInteractionMixin-130"><a href="#HeatInteractionMixin-130"><span class="linenos">130</span></a><span class="k">class</span><span class="w"> </span><span class="nc">HeatInteractionMixin</span><span class="p">(</span><span class="n">InteractionMixin</span><span class="p">):</span>
-</span><span id="HeatInteractionMixin-131"><a href="#HeatInteractionMixin-131"><span class="linenos">131</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">on_heat_transfer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;GameObject&quot;</span><span class="p">):</span>
-</span><span id="HeatInteractionMixin-132"><a href="#HeatInteractionMixin-132"><span class="linenos">132</span></a>        <span class="k">if</span> <span class="p">(</span>
-</span><span id="HeatInteractionMixin-133"><a href="#HeatInteractionMixin-133"><span class="linenos">133</span></a>            <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;temperature&quot;</span><span class="p">)</span>
-</span><span id="HeatInteractionMixin-134"><a href="#HeatInteractionMixin-134"><span class="linenos">134</span></a>            <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s2">&quot;temperature&quot;</span><span class="p">)</span>
-</span><span id="HeatInteractionMixin-135"><a href="#HeatInteractionMixin-135"><span class="linenos">135</span></a>            <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.1</span>
-</span><span id="HeatInteractionMixin-136"><a href="#HeatInteractionMixin-136"><span class="linenos">136</span></a>            <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span> <span class="ow">is</span> <span class="n">other</span>
-</span><span id="HeatInteractionMixin-137"><a href="#HeatInteractionMixin-137"><span class="linenos">137</span></a>        <span class="p">):</span>
-</span><span id="HeatInteractionMixin-138"><a href="#HeatInteractionMixin-138"><span class="linenos">138</span></a>            <span class="n">diff</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">temperature</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">temperature</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-</span><span id="HeatInteractionMixin-139"><a href="#HeatInteractionMixin-139"><span class="linenos">139</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">temperature</span> <span class="o">-=</span> <span class="n">diff</span>
-</span><span id="HeatInteractionMixin-140"><a href="#HeatInteractionMixin-140"><span class="linenos">140</span></a>            <span class="n">other</span><span class="o">.</span><span class="n">temperature</span> <span class="o">+=</span> <span class="n">diff</span>
-</span><span id="HeatInteractionMixin-141"><a href="#HeatInteractionMixin-141"><span class="linenos">141</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-</span><span id="HeatInteractionMixin-142"><a href="#HeatInteractionMixin-142"><span class="linenos">142</span></a>                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> transfers heat to </span><span class="si">{</span><span class="n">other</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span id="HeatInteractionMixin-143"><a href="#HeatInteractionMixin-143"><span class="linenos">143</span></a>            <span class="p">)</span>
-</span><span id="HeatInteractionMixin-144"><a href="#HeatInteractionMixin-144"><span class="linenos">144</span></a>
-</span><span id="HeatInteractionMixin-145"><a href="#HeatInteractionMixin-145"><span class="linenos">145</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_interaction_callables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;GameObject&quot;</span><span class="p">):</span>
-</span><span id="HeatInteractionMixin-146"><a href="#HeatInteractionMixin-146"><span class="linenos">146</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">HeatInteractionMixin</span><span class="p">):</span>
-</span><span id="HeatInteractionMixin-147"><a href="#HeatInteractionMixin-147"><span class="linenos">147</span></a>            <span class="k">return</span> <span class="p">[</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_heat_transfer</span><span class="p">(</span><span class="n">other</span><span class="p">)]</span>
-</span><span id="HeatInteractionMixin-148"><a href="#HeatInteractionMixin-148"><span class="linenos">148</span></a>        <span class="k">return</span> <span class="p">[]</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="HeatInteractionMixin-118"><a href="#HeatInteractionMixin-118"><span class="linenos">118</span></a><span class="k">class</span><span class="w"> </span><span class="nc">HeatInteractionMixin</span><span class="p">(</span><span class="n">InteractionMixin</span><span class="p">):</span>
+</span><span id="HeatInteractionMixin-119"><a href="#HeatInteractionMixin-119"><span class="linenos">119</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">on_heat_transfer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;GameObject&quot;</span><span class="p">):</span>
+</span><span id="HeatInteractionMixin-120"><a href="#HeatInteractionMixin-120"><span class="linenos">120</span></a>        <span class="k">if</span> <span class="p">(</span>
+</span><span id="HeatInteractionMixin-121"><a href="#HeatInteractionMixin-121"><span class="linenos">121</span></a>            <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;temperature&quot;</span><span class="p">)</span>
+</span><span id="HeatInteractionMixin-122"><a href="#HeatInteractionMixin-122"><span class="linenos">122</span></a>            <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s2">&quot;temperature&quot;</span><span class="p">)</span>
+</span><span id="HeatInteractionMixin-123"><a href="#HeatInteractionMixin-123"><span class="linenos">123</span></a>            <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.1</span>
+</span><span id="HeatInteractionMixin-124"><a href="#HeatInteractionMixin-124"><span class="linenos">124</span></a>            <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span> <span class="ow">is</span> <span class="n">other</span>
+</span><span id="HeatInteractionMixin-125"><a href="#HeatInteractionMixin-125"><span class="linenos">125</span></a>        <span class="p">):</span>
+</span><span id="HeatInteractionMixin-126"><a href="#HeatInteractionMixin-126"><span class="linenos">126</span></a>            <span class="n">diff</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">temperature</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">temperature</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+</span><span id="HeatInteractionMixin-127"><a href="#HeatInteractionMixin-127"><span class="linenos">127</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">temperature</span> <span class="o">-=</span> <span class="n">diff</span>
+</span><span id="HeatInteractionMixin-128"><a href="#HeatInteractionMixin-128"><span class="linenos">128</span></a>            <span class="n">other</span><span class="o">.</span><span class="n">temperature</span> <span class="o">+=</span> <span class="n">diff</span>
+</span><span id="HeatInteractionMixin-129"><a href="#HeatInteractionMixin-129"><span class="linenos">129</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+</span><span id="HeatInteractionMixin-130"><a href="#HeatInteractionMixin-130"><span class="linenos">130</span></a>                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> transfers heat to </span><span class="si">{</span><span class="n">other</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="HeatInteractionMixin-131"><a href="#HeatInteractionMixin-131"><span class="linenos">131</span></a>            <span class="p">)</span>
+</span><span id="HeatInteractionMixin-132"><a href="#HeatInteractionMixin-132"><span class="linenos">132</span></a>
+</span><span id="HeatInteractionMixin-133"><a href="#HeatInteractionMixin-133"><span class="linenos">133</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_interaction_callables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;GameObject&quot;</span><span class="p">):</span>
+</span><span id="HeatInteractionMixin-134"><a href="#HeatInteractionMixin-134"><span class="linenos">134</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">HeatInteractionMixin</span><span class="p">):</span>
+</span><span id="HeatInteractionMixin-135"><a href="#HeatInteractionMixin-135"><span class="linenos">135</span></a>            <span class="k">return</span> <span class="p">[</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_heat_transfer</span><span class="p">(</span><span class="n">other</span><span class="p">)]</span>
+</span><span id="HeatInteractionMixin-136"><a href="#HeatInteractionMixin-136"><span class="linenos">136</span></a>        <span class="k">return</span> <span class="p">[]</span>
 </span></pre></div>
 
 
@@ -876,19 +768,19 @@ inheritance.</p>
 
     </div>
     <a class="headerlink" href="#HeatInteractionMixin.on_heat_transfer"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="HeatInteractionMixin.on_heat_transfer-131"><a href="#HeatInteractionMixin.on_heat_transfer-131"><span class="linenos">131</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">on_heat_transfer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;GameObject&quot;</span><span class="p">):</span>
-</span><span id="HeatInteractionMixin.on_heat_transfer-132"><a href="#HeatInteractionMixin.on_heat_transfer-132"><span class="linenos">132</span></a>        <span class="k">if</span> <span class="p">(</span>
-</span><span id="HeatInteractionMixin.on_heat_transfer-133"><a href="#HeatInteractionMixin.on_heat_transfer-133"><span class="linenos">133</span></a>            <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;temperature&quot;</span><span class="p">)</span>
-</span><span id="HeatInteractionMixin.on_heat_transfer-134"><a href="#HeatInteractionMixin.on_heat_transfer-134"><span class="linenos">134</span></a>            <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s2">&quot;temperature&quot;</span><span class="p">)</span>
-</span><span id="HeatInteractionMixin.on_heat_transfer-135"><a href="#HeatInteractionMixin.on_heat_transfer-135"><span class="linenos">135</span></a>            <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.1</span>
-</span><span id="HeatInteractionMixin.on_heat_transfer-136"><a href="#HeatInteractionMixin.on_heat_transfer-136"><span class="linenos">136</span></a>            <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span> <span class="ow">is</span> <span class="n">other</span>
-</span><span id="HeatInteractionMixin.on_heat_transfer-137"><a href="#HeatInteractionMixin.on_heat_transfer-137"><span class="linenos">137</span></a>        <span class="p">):</span>
-</span><span id="HeatInteractionMixin.on_heat_transfer-138"><a href="#HeatInteractionMixin.on_heat_transfer-138"><span class="linenos">138</span></a>            <span class="n">diff</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">temperature</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">temperature</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-</span><span id="HeatInteractionMixin.on_heat_transfer-139"><a href="#HeatInteractionMixin.on_heat_transfer-139"><span class="linenos">139</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">temperature</span> <span class="o">-=</span> <span class="n">diff</span>
-</span><span id="HeatInteractionMixin.on_heat_transfer-140"><a href="#HeatInteractionMixin.on_heat_transfer-140"><span class="linenos">140</span></a>            <span class="n">other</span><span class="o">.</span><span class="n">temperature</span> <span class="o">+=</span> <span class="n">diff</span>
-</span><span id="HeatInteractionMixin.on_heat_transfer-141"><a href="#HeatInteractionMixin.on_heat_transfer-141"><span class="linenos">141</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-</span><span id="HeatInteractionMixin.on_heat_transfer-142"><a href="#HeatInteractionMixin.on_heat_transfer-142"><span class="linenos">142</span></a>                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> transfers heat to </span><span class="si">{</span><span class="n">other</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span id="HeatInteractionMixin.on_heat_transfer-143"><a href="#HeatInteractionMixin.on_heat_transfer-143"><span class="linenos">143</span></a>            <span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="HeatInteractionMixin.on_heat_transfer-119"><a href="#HeatInteractionMixin.on_heat_transfer-119"><span class="linenos">119</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">on_heat_transfer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;GameObject&quot;</span><span class="p">):</span>
+</span><span id="HeatInteractionMixin.on_heat_transfer-120"><a href="#HeatInteractionMixin.on_heat_transfer-120"><span class="linenos">120</span></a>        <span class="k">if</span> <span class="p">(</span>
+</span><span id="HeatInteractionMixin.on_heat_transfer-121"><a href="#HeatInteractionMixin.on_heat_transfer-121"><span class="linenos">121</span></a>            <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;temperature&quot;</span><span class="p">)</span>
+</span><span id="HeatInteractionMixin.on_heat_transfer-122"><a href="#HeatInteractionMixin.on_heat_transfer-122"><span class="linenos">122</span></a>            <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s2">&quot;temperature&quot;</span><span class="p">)</span>
+</span><span id="HeatInteractionMixin.on_heat_transfer-123"><a href="#HeatInteractionMixin.on_heat_transfer-123"><span class="linenos">123</span></a>            <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.1</span>
+</span><span id="HeatInteractionMixin.on_heat_transfer-124"><a href="#HeatInteractionMixin.on_heat_transfer-124"><span class="linenos">124</span></a>            <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span> <span class="ow">is</span> <span class="n">other</span>
+</span><span id="HeatInteractionMixin.on_heat_transfer-125"><a href="#HeatInteractionMixin.on_heat_transfer-125"><span class="linenos">125</span></a>        <span class="p">):</span>
+</span><span id="HeatInteractionMixin.on_heat_transfer-126"><a href="#HeatInteractionMixin.on_heat_transfer-126"><span class="linenos">126</span></a>            <span class="n">diff</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">temperature</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">temperature</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+</span><span id="HeatInteractionMixin.on_heat_transfer-127"><a href="#HeatInteractionMixin.on_heat_transfer-127"><span class="linenos">127</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">temperature</span> <span class="o">-=</span> <span class="n">diff</span>
+</span><span id="HeatInteractionMixin.on_heat_transfer-128"><a href="#HeatInteractionMixin.on_heat_transfer-128"><span class="linenos">128</span></a>            <span class="n">other</span><span class="o">.</span><span class="n">temperature</span> <span class="o">+=</span> <span class="n">diff</span>
+</span><span id="HeatInteractionMixin.on_heat_transfer-129"><a href="#HeatInteractionMixin.on_heat_transfer-129"><span class="linenos">129</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+</span><span id="HeatInteractionMixin.on_heat_transfer-130"><a href="#HeatInteractionMixin.on_heat_transfer-130"><span class="linenos">130</span></a>                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> transfers heat to </span><span class="si">{</span><span class="n">other</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span id="HeatInteractionMixin.on_heat_transfer-131"><a href="#HeatInteractionMixin.on_heat_transfer-131"><span class="linenos">131</span></a>            <span class="p">)</span>
 </span></pre></div>
 
 
@@ -906,10 +798,10 @@ inheritance.</p>
 
     </div>
     <a class="headerlink" href="#HeatInteractionMixin.get_interaction_callables"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="HeatInteractionMixin.get_interaction_callables-145"><a href="#HeatInteractionMixin.get_interaction_callables-145"><span class="linenos">145</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_interaction_callables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;GameObject&quot;</span><span class="p">):</span>
-</span><span id="HeatInteractionMixin.get_interaction_callables-146"><a href="#HeatInteractionMixin.get_interaction_callables-146"><span class="linenos">146</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">HeatInteractionMixin</span><span class="p">):</span>
-</span><span id="HeatInteractionMixin.get_interaction_callables-147"><a href="#HeatInteractionMixin.get_interaction_callables-147"><span class="linenos">147</span></a>            <span class="k">return</span> <span class="p">[</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_heat_transfer</span><span class="p">(</span><span class="n">other</span><span class="p">)]</span>
-</span><span id="HeatInteractionMixin.get_interaction_callables-148"><a href="#HeatInteractionMixin.get_interaction_callables-148"><span class="linenos">148</span></a>        <span class="k">return</span> <span class="p">[]</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="HeatInteractionMixin.get_interaction_callables-133"><a href="#HeatInteractionMixin.get_interaction_callables-133"><span class="linenos">133</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_interaction_callables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;GameObject&quot;</span><span class="p">):</span>
+</span><span id="HeatInteractionMixin.get_interaction_callables-134"><a href="#HeatInteractionMixin.get_interaction_callables-134"><span class="linenos">134</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">HeatInteractionMixin</span><span class="p">):</span>
+</span><span id="HeatInteractionMixin.get_interaction_callables-135"><a href="#HeatInteractionMixin.get_interaction_callables-135"><span class="linenos">135</span></a>            <span class="k">return</span> <span class="p">[</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_heat_transfer</span><span class="p">(</span><span class="n">other</span><span class="p">)]</span>
+</span><span id="HeatInteractionMixin.get_interaction_callables-136"><a href="#HeatInteractionMixin.get_interaction_callables-136"><span class="linenos">136</span></a>        <span class="k">return</span> <span class="p">[]</span>
 </span></pre></div>
 
 
