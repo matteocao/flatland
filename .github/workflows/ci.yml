@@ -35,7 +35,7 @@ jobs:
         run: make install
 
       - name: Run linting and tests
-        run: make test
+        run: make check
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4

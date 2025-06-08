@@ -7,6 +7,12 @@ test:
 	poetry run mypy .
 	poetry run pytest -vs --cov=. --cov-report=html
 
+check:
+	poetry run black --check .
+	poetry run isort --check .
+	poetry run mypy .
+	poetry run pytest -vs --cov=. --cov-report=html
+
 run:
 	poetry run python3 -m flatland
 
