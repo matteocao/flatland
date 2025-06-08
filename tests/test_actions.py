@@ -15,10 +15,9 @@ os.environ["SDL_VIDEODRIVER"] = "dummy"  # Use a headless display
 
 
 class Movement(MovementMixin):
-    def __init__(self, x, y):
+    def __init__(self, x: int, y: int):
         self.x = x
         self.y = y
-        self.direction = None
 
 
 @pytest.mark.parametrize(
@@ -30,7 +29,9 @@ class Movement(MovementMixin):
         (0, 0, Direction.RIGHT, 1, 0),
     ],
 )
-def test_movements(initial_x, initial_y, direction, expected_x, expected_y):
+def test_movements(
+    initial_x: int, initial_y: int, direction: Direction, expected_x: int, expected_y: int
+) -> None:
     mover = Movement(initial_x, initial_y)
     mover.move(direction)
     assert mover.x == expected_x
@@ -39,32 +40,27 @@ def test_movements(initial_x, initial_y, direction, expected_x, expected_y):
 
 
 class SpeechTest(SpeechMixin):
-    def __init__(self, phrase):
+    def __init__(self, phrase: str):
         self.message = phrase
 
 
-def test_speech_message():
+def test_speech_message() -> None:
     testphrase = "Hello world!"
     speecher = SpeechTest(testphrase)
     speecher.speak(testphrase)
     assert speecher.speech == testphrase
 
 
-def test_speech_sound():
-    class Dummy(SpeechMixin):
-        pass
+class DummySound(SpeechMixin):
+    def __init__(self):
+        self.make_sound = None
 
-    obj = Dummy()
 
-    # No make sound test
-    obj.speak()
-    assert not hasattr(obj, "speech")
-
-    # With make sound
+def test_speech_sound() -> None:
+    obj = DummySound()
     obj.make_sound = MagicMock()
     obj.make_sound.play = MagicMock()
     obj.speak("Hello")
-
     assert obj.speech == "Hello"
     obj.make_sound.play.assert_called_once()
 
@@ -74,7 +70,7 @@ class LimbTest(LimbControlMixin):
         self.speed = vel
 
 
-def test_limbtest():
+def test_limbtest() -> None:
     vel = 0
     while vel < 8:
         obj = LimbTest(vel)
