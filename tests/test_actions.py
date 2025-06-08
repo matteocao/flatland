@@ -40,7 +40,7 @@ class SpeechTest(SpeechMixin):
 
 def test_speech_message():
     testphrase = "Hello world!"
-    speecher = SpeechTest (testphrase)
+    speecher = SpeechTest(testphrase)
     speecher.speak(testphrase)
     assert speecher.speech == testphrase
 
