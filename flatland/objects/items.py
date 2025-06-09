@@ -525,7 +525,9 @@ class Cow(
 
 
 @registry.register
-class CowShadow(GameObject, MovementAnimationMixin, AttachedToParentMixin, RenderMixin, StandingAnimationMixin):
+class CowShadow(
+    GameObject, MovementAnimationMixin, AttachedToParentMixin, RenderMixin, StandingAnimationMixin
+):
     def __init__(self, x: int, y: int, name: str, health: int, **kwargs: Any):
         super().__init__(x, y, name, health)
         self.z_level = 1
