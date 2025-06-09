@@ -36,12 +36,12 @@ class GameObject:
         self.temperature: float = 36.5
         self.charge: float = 0
         self.actions_per_second: int = 1
-        self.last_action_time: float = 0.0
         self.wetness: float = 0.0
         self.mass: float = 2.2
         self.height: float = 1.0
         self.friction_coefficient: int = 1
         self.animation_index = 0
+        self.last_tick: int = 0
         self.standing_animation_timer = 0
         self.standing_animation_index = 0
         self.push_animation_timer = 0
@@ -59,7 +59,7 @@ class GameObject:
         self.new_render_time = 0
         self.last_render_time = 0
         self.parent: Optional["GameObject"] = None
-        self.children: list[Optional["GameObject"]] = [None]
+        self.children: list["GameObject"] = []
         # this is the value that decides the rendering order: the higher, the later it will be rendered.
         self.z_level: float = 0
         self.sprite_size_x: int = 64
@@ -67,14 +67,15 @@ class GameObject:
         self.is_grabbable: bool = False
 
     def update(self, event: Any):
-        now = pygame.time.get_ticks()
+        now = pygame.time.get_ticks()  # in ms
+        interval = 1000 / self.actions_per_second
+        tick = int(now // interval)
 
-        if (now - self.last_action_time) / 1000 >= 1 / (self.actions_per_second + 0.0001):
-
+        if tick != self.last_tick:
+            self.last_tick = tick
             self.is_update_just_done = True
             self.prev_x = self.x
             self.prev_y = self.y
-            self.last_action_time = now
             self.logger.info(f"Update for {self.__class__.__name__}")
             self.scheduler.update()  # x, y may be changed here
 

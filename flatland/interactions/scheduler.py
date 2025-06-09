@@ -11,14 +11,15 @@ class InteractionScheduler:
         self.queue: list["InteractionCommand"] = []
         self.last_execution = pygame.time.get_ticks()
         self.interval = interval
+        self.last_tick_up: int = 0
 
     def add(self, command: "InteractionCommand") -> None:
         self.queue.append(command)
 
     def update(self) -> None:
-        current_time = pygame.time.get_ticks()
-        if (current_time - self.last_execution) / 1000 >= self.interval:
+        tick = int(pygame.time.get_ticks() // (self.interval * 1000))
+        if tick != self.last_tick_up:
             for command in self.queue:
                 command.execute()
             self.queue.clear()
-            self.last_execution = current_time
+            self.last_tick_up = tick

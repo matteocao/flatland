@@ -20,7 +20,7 @@ class InertiaPrincipleWithFrictionEvolution(InteractionMixin):
             return  # No movement
 
         # Move in the current direction
-        print(self.direction, self.x, self.y)
+
         match self.direction:
             case Direction.UP:
                 self.y -= 1
