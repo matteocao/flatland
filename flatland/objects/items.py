@@ -53,7 +53,7 @@ class Stone(
 ):
     def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
         super().__init__(x, y, name, health)
-        self.color = (128, 128, 128)
+        self.friction_coefficient = 1
         self.noise_intensity = 0.1
         self.inertia_threshold_to_hurt = 1
         self.attractiveness = 0.1

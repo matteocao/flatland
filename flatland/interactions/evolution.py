@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 
 class InertiaPrincipleWithFrictionEvolution(InteractionMixin):
     def keep_on_moving(self):
-        if getattr(self, "inertia", 0) <= 0:
+        if getattr(self, "inertia", 0) <= 0.1:
             return  # No movement
 
         # Move in the current direction
@@ -81,8 +81,8 @@ class DamageHealthByTemperature(InteractionMixin):
 class DamageHealthByInertia(InteractionMixin):
     def damage_by_inertia(self: Any):
         if self.inertia > self.inertia_threshold_to_hurt:
-            self.health -= 1
-        self.inertia -= 1  # decrease inertia
+            self.health -= 1.0
+        self.inertia = max(0, self.inertia - 1.0)  # decrease inertia
 
     def get_interaction_callables(self, other: "GameObject"):
         if self is other:
@@ -93,7 +93,7 @@ class DamageHealthByInertia(InteractionMixin):
 class DeathMixin(InteractionMixin):
     def check_death(self):
         if hasattr(self, "health"):
-            if self.health <= 0:
+            if self.health < 0.001:
                 self.logger.info(f"{self.__class__.__name__} dies")
                 from ..world.world import world
 

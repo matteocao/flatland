@@ -10,8 +10,8 @@ from flatland.objects.items import Stone
 def test_interaction() -> None:
     stone = Stone(1, 1, "stone1", 10)
     stone2 = Stone(1, 1, "stone2", 9)
-    stone2.inertia = 4
-    stone.inertia = 2
+    stone2.inertia = 4.0
+    stone.inertia = 2.0
     health_stone = stone.health
     health_stone2 = stone2.health
 

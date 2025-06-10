@@ -31,7 +31,7 @@ class GameObject:
         self.logger = Logger()
         self.volition = VolitionEngine(owner=self)
         self.direction: Direction = Direction.DOWN
-        self.inertia: int = 0  # shall be >= 0. This is the current speed
+        self.inertia: float = 0.0  # shall be >= 0. This is the current speed
         self.acceleration: int = 0  # shall be >= 0.
         self.temperature: float = 36.5
         self.charge: float = 0

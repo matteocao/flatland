@@ -48,7 +48,7 @@ class AttachedToParentMixin(InteractionMixin):
 
 
 class ContactInteractionMixin(InteractionMixin):
-    inertia: int
+    inertia: float
 
     def on_contact(self: Any, other: "GameObject") -> None:
         if (
@@ -62,14 +62,14 @@ class ContactInteractionMixin(InteractionMixin):
     def contact_effect(self: Any, other: "GameObject") -> None:
         # Simple elastic collision logic: exchange inertia based on mass
 
-        tup1: tuple[float, int] = self.mass, self.inertia
-        tup2: tuple[float, int] = other.mass, other.inertia
+        tup1: tuple[float, float] = self.mass, self.inertia
+        tup2: tuple[float, float] = other.mass, other.inertia
         m1, v1 = tup1
         m2, v2 = tup2
 
         # Use 1D elastic collision formulas
-        new_v1 = int(((m1 - m2) / (m1 + m2)) * v1 + ((2 * m2) / (m1 + m2)) * v2)
-        new_v2 = int(((2 * m1) / (m1 + m2)) * v1 + ((m2 - m1) / (m1 + m2)) * v2)
+        new_v1 = ((m1 - m2) / (m1 + m2)) * v1 + ((2 * m2) / (m1 + m2)) * v2
+        new_v2 = ((2 * m1) / (m1 + m2)) * v1 + ((m2 - m1) / (m1 + m2)) * v2
 
         self.logger.info(
             f"Collision! {self.name} (mass={m1}, inertia={v1}) ↔ {other.name} (mass={m2}, inertia={v2})"
