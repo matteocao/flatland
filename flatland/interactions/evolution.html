@@ -90,6 +90,18 @@
                 </ul>
 
             </li>
+            <li>
+                    <a class="class" href="#ParentDeathIDie">ParentDeathIDie</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#ParentDeathIDie.check_parent_death">check_parent_death</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#ParentDeathIDie.get_interaction_callables">get_interaction_callables</a>
+                        </li>
+                </ul>
+
+            </li>
     </ul>
 
 
@@ -219,6 +231,20 @@ is out of equilibrium, e.g. having non zero inertia (given that we assume fricti
 </span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>        <span class="k">if</span> <span class="bp">self</span> <span class="ow">is</span> <span class="n">other</span><span class="p">:</span>
 </span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>            <span class="k">return</span> <span class="p">[</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_death</span><span class="p">()]</span>
 </span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>        <span class="k">return</span> <span class="p">[]</span>
+</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>
+</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>
+</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a><span class="k">class</span><span class="w"> </span><span class="nc">ParentDeathIDie</span><span class="p">(</span><span class="n">InteractionMixin</span><span class="p">):</span>
+</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">check_parent_death</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">health</span> <span class="o">&lt;</span> <span class="mf">0.001</span><span class="p">:</span>
+</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> dies because of parent&quot;</span><span class="p">)</span>
+</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>            <span class="kn">from</span><span class="w"> </span><span class="nn">..world.world</span><span class="w"> </span><span class="kn">import</span> <span class="n">world</span>
+</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>
+</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>            <span class="n">world</span><span class="o">.</span><span class="n">unregister</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>
+</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_interaction_callables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;GameObject&quot;</span><span class="p">):</span>
+</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>        <span class="k">if</span> <span class="bp">self</span> <span class="ow">is</span> <span class="n">other</span><span class="p">:</span>
+</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>            <span class="k">return</span> <span class="p">[</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_parent_death</span><span class="p">()]</span>
+</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>        <span class="k">return</span> <span class="p">[]</span>
 </span></pre></div>
 
 
@@ -695,6 +721,94 @@ inheritance.</p>
                                     <div><dt><a href="interactions.html#InteractionMixin">flatland.interactions.interactions.InteractionMixin</a></dt>
                                 <dd id="DeathMixin.logger" class="variable"><a href="interactions.html#InteractionMixin.logger">logger</a></dd>
                 <dd id="DeathMixin.reverse_direction" class="function"><a href="interactions.html#InteractionMixin.reverse_direction">reverse_direction</a></dd>
+
+            </div>
+                                </dl>
+                            </div>
+                </section>
+                <section id="ParentDeathIDie">
+                            <input id="ParentDeathIDie-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">ParentDeathIDie</span><wbr>(<span class="base"><a href="interactions.html#InteractionMixin">flatland.interactions.interactions.InteractionMixin</a></span>):
+
+                <label class="view-source-button" for="ParentDeathIDie-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#ParentDeathIDie"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ParentDeathIDie-109"><a href="#ParentDeathIDie-109"><span class="linenos">109</span></a><span class="k">class</span><span class="w"> </span><span class="nc">ParentDeathIDie</span><span class="p">(</span><span class="n">InteractionMixin</span><span class="p">):</span>
+</span><span id="ParentDeathIDie-110"><a href="#ParentDeathIDie-110"><span class="linenos">110</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">check_parent_death</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ParentDeathIDie-111"><a href="#ParentDeathIDie-111"><span class="linenos">111</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">health</span> <span class="o">&lt;</span> <span class="mf">0.001</span><span class="p">:</span>
+</span><span id="ParentDeathIDie-112"><a href="#ParentDeathIDie-112"><span class="linenos">112</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> dies because of parent&quot;</span><span class="p">)</span>
+</span><span id="ParentDeathIDie-113"><a href="#ParentDeathIDie-113"><span class="linenos">113</span></a>            <span class="kn">from</span><span class="w"> </span><span class="nn">..world.world</span><span class="w"> </span><span class="kn">import</span> <span class="n">world</span>
+</span><span id="ParentDeathIDie-114"><a href="#ParentDeathIDie-114"><span class="linenos">114</span></a>
+</span><span id="ParentDeathIDie-115"><a href="#ParentDeathIDie-115"><span class="linenos">115</span></a>            <span class="n">world</span><span class="o">.</span><span class="n">unregister</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</span><span id="ParentDeathIDie-116"><a href="#ParentDeathIDie-116"><span class="linenos">116</span></a>
+</span><span id="ParentDeathIDie-117"><a href="#ParentDeathIDie-117"><span class="linenos">117</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_interaction_callables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;GameObject&quot;</span><span class="p">):</span>
+</span><span id="ParentDeathIDie-118"><a href="#ParentDeathIDie-118"><span class="linenos">118</span></a>        <span class="k">if</span> <span class="bp">self</span> <span class="ow">is</span> <span class="n">other</span><span class="p">:</span>
+</span><span id="ParentDeathIDie-119"><a href="#ParentDeathIDie-119"><span class="linenos">119</span></a>            <span class="k">return</span> <span class="p">[</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_parent_death</span><span class="p">()]</span>
+</span><span id="ParentDeathIDie-120"><a href="#ParentDeathIDie-120"><span class="linenos">120</span></a>        <span class="k">return</span> <span class="p">[]</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p>
+</div>
+
+
+                            <div id="ParentDeathIDie.check_parent_death" class="classattr">
+                                        <input id="ParentDeathIDie.check_parent_death-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">check_parent_death</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">):</span></span>
+
+                <label class="view-source-button" for="ParentDeathIDie.check_parent_death-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#ParentDeathIDie.check_parent_death"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ParentDeathIDie.check_parent_death-110"><a href="#ParentDeathIDie.check_parent_death-110"><span class="linenos">110</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">check_parent_death</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ParentDeathIDie.check_parent_death-111"><a href="#ParentDeathIDie.check_parent_death-111"><span class="linenos">111</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">health</span> <span class="o">&lt;</span> <span class="mf">0.001</span><span class="p">:</span>
+</span><span id="ParentDeathIDie.check_parent_death-112"><a href="#ParentDeathIDie.check_parent_death-112"><span class="linenos">112</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> dies because of parent&quot;</span><span class="p">)</span>
+</span><span id="ParentDeathIDie.check_parent_death-113"><a href="#ParentDeathIDie.check_parent_death-113"><span class="linenos">113</span></a>            <span class="kn">from</span><span class="w"> </span><span class="nn">..world.world</span><span class="w"> </span><span class="kn">import</span> <span class="n">world</span>
+</span><span id="ParentDeathIDie.check_parent_death-114"><a href="#ParentDeathIDie.check_parent_death-114"><span class="linenos">114</span></a>
+</span><span id="ParentDeathIDie.check_parent_death-115"><a href="#ParentDeathIDie.check_parent_death-115"><span class="linenos">115</span></a>            <span class="n">world</span><span class="o">.</span><span class="n">unregister</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</span></pre></div>
+
+
+    
+
+                            </div>
+                            <div id="ParentDeathIDie.get_interaction_callables" class="classattr">
+                                        <input id="ParentDeathIDie.get_interaction_callables-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">get_interaction_callables</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">other</span><span class="p">:</span> <span class="n"><a href="../objects/base_objects.html#GameObject">flatland.objects.base_objects.GameObject</a></span></span><span class="return-annotation">):</span></span>
+
+                <label class="view-source-button" for="ParentDeathIDie.get_interaction_callables-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#ParentDeathIDie.get_interaction_callables"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ParentDeathIDie.get_interaction_callables-117"><a href="#ParentDeathIDie.get_interaction_callables-117"><span class="linenos">117</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_interaction_callables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;GameObject&quot;</span><span class="p">):</span>
+</span><span id="ParentDeathIDie.get_interaction_callables-118"><a href="#ParentDeathIDie.get_interaction_callables-118"><span class="linenos">118</span></a>        <span class="k">if</span> <span class="bp">self</span> <span class="ow">is</span> <span class="n">other</span><span class="p">:</span>
+</span><span id="ParentDeathIDie.get_interaction_callables-119"><a href="#ParentDeathIDie.get_interaction_callables-119"><span class="linenos">119</span></a>            <span class="k">return</span> <span class="p">[</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_parent_death</span><span class="p">()]</span>
+</span><span id="ParentDeathIDie.get_interaction_callables-120"><a href="#ParentDeathIDie.get_interaction_callables-120"><span class="linenos">120</span></a>        <span class="k">return</span> <span class="p">[]</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Return list of interaction callables relevant for this mixin</p>
+</div>
+
+
+                            </div>
+                            <div class="inherited">
+                                <h5>Inherited Members</h5>
+                                <dl>
+                                    <div><dt><a href="interactions.html#InteractionMixin">flatland.interactions.interactions.InteractionMixin</a></dt>
+                                <dd id="ParentDeathIDie.logger" class="variable"><a href="interactions.html#InteractionMixin.logger">logger</a></dd>
+                <dd id="ParentDeathIDie.reverse_direction" class="function"><a href="interactions.html#InteractionMixin.reverse_direction">reverse_direction</a></dd>
 
             </div>
                                 </dl>
