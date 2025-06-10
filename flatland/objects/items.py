@@ -26,6 +26,7 @@ from ..interactions.evolution import (
     DeathMixin,
     HealthDecreasesEvolution,
     InertiaPrincipleWithFrictionEvolution,
+    ParentDeathIDie,
 )
 from ..interactions.interactions import (
     AttachedToParentMixin,
@@ -391,6 +392,9 @@ class Goblin(
     StandingAnimationMixin,
     RenderMixin,
     DamageHealthByTemperature,
+    DamageHealthByInertia,
+    HeatInteractionMixin,
+    DeathMixin,
 ):
     def __init__(
         self,
@@ -475,7 +479,11 @@ class Cow(
     InertiaPrincipleWithFrictionEvolution,
     MovementAnimationMixin,
     StandingAnimationMixin,
+    DamageHealthByTemperature,
+    DamageHealthByInertia,
+    HeatInteractionMixin,
     RenderMixin,
+    DeathMixin,
 ):
     def __init__(
         self,
@@ -488,9 +496,8 @@ class Cow(
         **kwargs: Any,
     ):
         super().__init__(x, y, name, health, vision_range, hearing_range)
-        self.color = (128, 255, 128)
         self.noise_intensity = 3.1
-        self.attractiveness = 0.1
+        self.attractiveness = 0.6
         self.visible_size = 4.0
         self.internal_state = InternalState(owner=self)
         self.num_animations = 4
@@ -541,7 +548,12 @@ class Cow(
 
 @registry.register
 class CowShadow(
-    GameObject, MovementAnimationMixin, AttachedToParentMixin, RenderMixin, StandingAnimationMixin
+    GameObject,
+    MovementAnimationMixin,
+    AttachedToParentMixin,
+    RenderMixin,
+    StandingAnimationMixin,
+    ParentDeathIDie,
 ):
     def __init__(self, x: int, y: int, name: str, health: int, **kwargs: Any):
         super().__init__(x, y, name, health)

@@ -103,3 +103,17 @@ class DeathMixin(InteractionMixin):
         if self is other:
             return [lambda: self.check_death()]
         return []
+
+
+class ParentDeathIDie(InteractionMixin):
+    def check_parent_death(self):
+        if self.parent.health < 0.001:
+            self.logger.info(f"{self.__class__.__name__} dies because of parent")
+            from ..world.world import world
+
+            world.unregister(self)
+
+    def get_interaction_callables(self, other: "GameObject"):
+        if self is other:
+            return [lambda: self.check_parent_death()]
+        return []
