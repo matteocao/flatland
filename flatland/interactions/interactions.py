@@ -48,14 +48,9 @@ class AttachedToParentMixin(InteractionMixin):
 
 
 class ContactInteractionMixin(InteractionMixin):
-    x: int
-    y: int
-    name: str
-    health: float
-    mass: float
     inertia: int
 
-    def on_contact(self, other: "GameObject") -> None:
+    def on_contact(self: Any, other: "GameObject") -> None:
         if (
             isinstance(other, ContactInteractionMixin)
             and other.distance(self) < 0.1
@@ -64,10 +59,8 @@ class ContactInteractionMixin(InteractionMixin):
             self.logger.info(f"{self.__class__.__name__} contacts {other.__class__.__name__}")
             self.contact_effect(other)
 
-    def contact_effect(self, other: "GameObject") -> None:
+    def contact_effect(self: Any, other: "GameObject") -> None:
         # Simple elastic collision logic: exchange inertia based on mass
-        if not hasattr(self, "inertia") or not hasattr(other, "inertia"):
-            return
 
         tup1: tuple[float, int] = self.mass, self.inertia
         tup2: tuple[float, int] = other.mass, other.inertia
@@ -85,12 +78,6 @@ class ContactInteractionMixin(InteractionMixin):
         # Apply new inertia (velocity)
         self.inertia = max(0, new_v1)
         other.inertia = max(0, new_v2)
-
-        # Optional: apply a health penalty
-        impulse = abs(v1 - v2) * min(m1, m2)
-        damage = impulse * 0.1  # arbitrary scaling
-        self.health -= damage
-        other.health -= damage
 
         # 🔄 Update directions
         if v1 > 0 and v2 > 0:
@@ -115,16 +102,19 @@ class ContactInteractionMixin(InteractionMixin):
 
 
 class HeatInteractionMixin(InteractionMixin):
-    def on_heat_transfer(self, other: "GameObject"):
+    temperature: float
+
+    def on_heat_transfer(self: Any, other: "GameObject"):
         if (
-            hasattr(self, "temperature")
-            and hasattr(other, "temperature")
+            isinstance(other, HeatInteractionMixin)
             and other.distance(self) < 0.1
             and not self is other
         ):
-            diff = (self.temperature - other.temperature) / 2
-            self.temperature -= diff
-            other.temperature += diff
+            avg_temp = (self.temperature * self.mass + other.temperature * other.mass) / (
+                self.mass + other.mass
+            )
+            self.temperature = avg_temp
+            other.temperature = avg_temp
             self.logger.info(
                 f"{self.__class__.__name__} transfers heat to {other.__class__.__name__}"
             )

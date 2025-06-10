@@ -9,14 +9,19 @@ from flatland.objects.items import Stone
 
 def test_interaction() -> None:
     stone = Stone(1, 1, "stone1", 10)
-    sword = Stone(1, 1, "stone2", 9)
-    sword.inertia = 4
-    stone.inertia = 0
+    stone2 = Stone(1, 1, "stone2", 9)
+    stone2.inertia = 4
+    stone.inertia = 2
     health_stone = stone.health
-    health_sword = sword.health
+    health_stone2 = stone2.health
 
-    stone.on_contact(sword)
-    sword.on_contact(stone)
+    stone.on_contact(stone2)
+    stone2.on_contact(stone)
+    assert stone.health == health_stone
+    assert stone2.health == health_stone2
+
+    stone.damage_by_inertia()
+    stone2.damage_by_inertia()
 
     assert stone.health < health_stone
-    assert sword.health < health_sword
+    assert stone2.health < health_stone2

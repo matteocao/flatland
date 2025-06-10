@@ -4,7 +4,7 @@ is out of equilibrium, e.g. having non zero inertia (given that we assume fricti
 """
 
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Callable
+from typing import TYPE_CHECKING, Any, Callable
 
 from ..consts import Direction
 from ..logger import Logger
@@ -47,6 +47,10 @@ class InertiaPrincipleWithFrictionEvolution(InteractionMixin):
 
 
 class HealthDecreasesEvolution(InteractionMixin):
+    """
+    This mixing decreases health as time goes by. Used to remove spawned objects like an evocation.
+    """
+
     def keep_on_decreasing(self):
         if getattr(self, "health", 0) <= 0:
             return  # No decrease, death
@@ -55,6 +59,34 @@ class HealthDecreasesEvolution(InteractionMixin):
     def get_interaction_callables(self, other: "GameObject"):
         if self is other:
             return [lambda: self.keep_on_decreasing()]
+        return []
+
+
+class DamageHealthByTemperature(InteractionMixin):
+    def damage_by_temperature(self: Any):
+        if self.temperature > self.temperature_threshold_to_hurt_upper:
+            self.health -= 1
+        if self.temperature < self.temperature_threshold_to_hurt_lower:
+            self.health -= 1
+        self.temperature -= (
+            self.temperature - self.equilibrium_temperature
+        ) / 2  # decrease temperature
+
+    def get_interaction_callables(self, other: "GameObject"):
+        if self is other:
+            return [lambda: self.damage_by_temperature()]
+        return []
+
+
+class DamageHealthByInertia(InteractionMixin):
+    def damage_by_inertia(self: Any):
+        if self.inertia > self.inertia_threshold_to_hurt:
+            self.health -= 1
+        self.inertia -= 1  # decrease inertia
+
+    def get_interaction_callables(self, other: "GameObject"):
+        if self is other:
+            return [lambda: self.damage_by_inertia()]
         return []
 
 

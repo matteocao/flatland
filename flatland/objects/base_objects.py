@@ -65,6 +65,10 @@ class GameObject:
         self.sprite_size_x: int = 64
         self.sprite_size_y: int = 64
         self.is_grabbable: bool = False
+        self.inertia_threshold_to_hurt: float = 10.0
+        self.temperature_threshold_to_hurt_upper: float = 100.0
+        self.temperature_threshold_to_hurt_lower: float = -100.0
+        self.equilibrium_temperature: float = 30
 
     def update(self, event: Any):
         now = pygame.time.get_ticks()  # in ms

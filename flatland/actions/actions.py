@@ -74,4 +74,4 @@ class LimbControlMixin:
     def push(self: Any, other: "GameObject") -> None:
         other.inertia += 1
         other.direction = self.direction
-        self.logger.info(f"{self.__class__.__name__} pushes.")
+        self.logger.info(f"{self.__class__.__name__} pushes {other.__class__.__name__}.")

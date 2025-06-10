@@ -21,6 +21,8 @@ from ..animations.animations import (
 from ..animations.render import RenderMixin
 from ..consts import TILE_SIZE, Direction
 from ..interactions.evolution import (
+    DamageHealthByInertia,
+    DamageHealthByTemperature,
     DeathMixin,
     HealthDecreasesEvolution,
     InertiaPrincipleWithFrictionEvolution,
@@ -43,15 +45,22 @@ class Stone(
     GameObject,
     MovementAnimationMixin,
     StandingAnimationMixin,
+    DamageHealthByTemperature,
+    DamageHealthByInertia,
+    HeatInteractionMixin,
     RenderMixin,
+    DeathMixin,
 ):
     def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
         super().__init__(x, y, name, health)
         self.color = (128, 128, 128)
         self.noise_intensity = 0.1
+        self.inertia_threshold_to_hurt = 1
         self.attractiveness = 0.1
         self.visible_size = 0.5
         self.z_level = 1.0
+        self.mass = 200
+        self.health = 10
         self.num_animations = 4  # do nnot forget this when inheriting from MovementAnimationMixin
         self.num_animations_standing = 1
         # Load sprites
@@ -94,7 +103,8 @@ class FireBall(
     GameObject,
     MovementAnimationMixin,
     RenderMixin,
-    HealthDecreasesEvolution,
+    DamageHealthByTemperature,
+    HeatInteractionMixin,
     DeathMixin,
 ):
     def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
@@ -102,7 +112,11 @@ class FireBall(
         self.friction_coefficient = 0
         self.noise_intensity = 0.1
         self.attractiveness = 0.1
+        self.temperature_threshold_to_hurt_lower = 500
+        self.temperature_threshold_to_hurt_upper = 10000000
         self.visible_size = 0.5
+        self.temperature = 10000
+        self.health = 1
         self.inertia = 2
         self.z_level = 1.0
         self.num_animations = 16  # do nnot forget this when inheriting from MovementAnimationMixin
@@ -376,6 +390,7 @@ class Goblin(
     MovementAnimationMixin,
     StandingAnimationMixin,
     RenderMixin,
+    DamageHealthByTemperature,
 ):
     def __init__(
         self,
