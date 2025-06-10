@@ -525,12 +525,17 @@ class Cow(
 
 
 @registry.register
-class CowShadow(GameObject, MovementAnimationMixin, AttachedToParentMixin, RenderMixin):
+class CowShadow(
+    GameObject, MovementAnimationMixin, AttachedToParentMixin, RenderMixin, StandingAnimationMixin
+):
     def __init__(self, x: int, y: int, name: str, health: int, **kwargs: Any):
         super().__init__(x, y, name, health)
         self.z_level = 1
         self.num_animations = 1
         self.scheduler.interval = 0.1
+        self.sprite_size_x: int = 128
+        self.sprite_size_y: int = 128
+
         # Load sprites
         self.movement_sprites_locations = {
             Direction.UP: [f"assets/sprites/cow_shadow/up.png"],
@@ -539,8 +544,13 @@ class CowShadow(GameObject, MovementAnimationMixin, AttachedToParentMixin, Rende
             Direction.RIGHT: [f"assets/sprites/cow_shadow/right.png"],
         }
         self.create_movement_sprites()  # do not forget!
-        self.sprite_size_x: int = 128
-        self.sprite_size_y: int = 128
+        self.standing_sprites_locations = {
+            Direction.UP: [f"assets/sprites/cow_shadow/up.png"],
+            Direction.DOWN: [f"assets/sprites/cow_shadow/down.png"],
+            Direction.LEFT: [f"assets/sprites/cow_shadow/left.png"],
+            Direction.RIGHT: [f"assets/sprites/cow_shadow/right.png"],
+        }
+        self.create_standing_sprites()
 
 
 @registry.register
