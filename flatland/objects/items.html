@@ -37,7 +37,7 @@
                                 <a class="function" href="#Stone.__init__">Stone</a>
                         </li>
                         <li>
-                                <a class="variable" href="#Stone.color">color</a>
+                                <a class="variable" href="#Stone.friction_coefficient">friction_coefficient</a>
                         </li>
                         <li>
                                 <a class="variable" href="#Stone.noise_intensity">noise_intensity</a>
@@ -507,7 +507,7 @@
 </span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a><span class="p">):</span>
 </span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">health</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
 </span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">)</span>
-</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">friction_coefficient</span> <span class="o">=</span> <span class="mi">1</span>
 </span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">noise_intensity</span> <span class="o">=</span> <span class="mf">0.1</span>
 </span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">inertia_threshold_to_hurt</span> <span class="o">=</span> <span class="mi">1</span>
 </span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">attractiveness</span> <span class="o">=</span> <span class="mf">0.1</span>
@@ -1119,7 +1119,7 @@
 </span><span id="Stone-54"><a href="#Stone-54"><span class="linenos">54</span></a><span class="p">):</span>
 </span><span id="Stone-55"><a href="#Stone-55"><span class="linenos">55</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">health</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
 </span><span id="Stone-56"><a href="#Stone-56"><span class="linenos">56</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">)</span>
-</span><span id="Stone-57"><a href="#Stone-57"><span class="linenos">57</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+</span><span id="Stone-57"><a href="#Stone-57"><span class="linenos">57</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">friction_coefficient</span> <span class="o">=</span> <span class="mi">1</span>
 </span><span id="Stone-58"><a href="#Stone-58"><span class="linenos">58</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">noise_intensity</span> <span class="o">=</span> <span class="mf">0.1</span>
 </span><span id="Stone-59"><a href="#Stone-59"><span class="linenos">59</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">inertia_threshold_to_hurt</span> <span class="o">=</span> <span class="mi">1</span>
 </span><span id="Stone-60"><a href="#Stone-60"><span class="linenos">60</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">attractiveness</span> <span class="o">=</span> <span class="mf">0.1</span>
@@ -1181,7 +1181,7 @@ inheritance.</p>
     <a class="headerlink" href="#Stone.__init__"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="Stone.__init__-55"><a href="#Stone.__init__-55"><span class="linenos">55</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">health</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
 </span><span id="Stone.__init__-56"><a href="#Stone.__init__-56"><span class="linenos">56</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">)</span>
-</span><span id="Stone.__init__-57"><a href="#Stone.__init__-57"><span class="linenos">57</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+</span><span id="Stone.__init__-57"><a href="#Stone.__init__-57"><span class="linenos">57</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">friction_coefficient</span> <span class="o">=</span> <span class="mi">1</span>
 </span><span id="Stone.__init__-58"><a href="#Stone.__init__-58"><span class="linenos">58</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">noise_intensity</span> <span class="o">=</span> <span class="mf">0.1</span>
 </span><span id="Stone.__init__-59"><a href="#Stone.__init__-59"><span class="linenos">59</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">inertia_threshold_to_hurt</span> <span class="o">=</span> <span class="mi">1</span>
 </span><span id="Stone.__init__-60"><a href="#Stone.__init__-60"><span class="linenos">60</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">attractiveness</span> <span class="o">=</span> <span class="mf">0.1</span>
@@ -1231,13 +1231,13 @@ inheritance.</p>
 
 
                             </div>
-                            <div id="Stone.color" class="classattr">
+                            <div id="Stone.friction_coefficient" class="classattr">
                                 <div class="attr variable">
-            <span class="name">color</span>
+            <span class="name">friction_coefficient</span>
 
         
     </div>
-    <a class="headerlink" href="#Stone.color"></a>
+    <a class="headerlink" href="#Stone.friction_coefficient"></a>
     
     
 
@@ -1393,7 +1393,6 @@ inheritance.</p>
                 <dd id="Stone.actions_per_second" class="variable"><a href="base_objects.html#GameObject.actions_per_second">actions_per_second</a></dd>
                 <dd id="Stone.wetness" class="variable"><a href="base_objects.html#GameObject.wetness">wetness</a></dd>
                 <dd id="Stone.height" class="variable"><a href="base_objects.html#GameObject.height">height</a></dd>
-                <dd id="Stone.friction_coefficient" class="variable"><a href="base_objects.html#GameObject.friction_coefficient">friction_coefficient</a></dd>
                 <dd id="Stone.animation_index" class="variable"><a href="base_objects.html#GameObject.animation_index">animation_index</a></dd>
                 <dd id="Stone.last_tick" class="variable"><a href="base_objects.html#GameObject.last_tick">last_tick</a></dd>
                 <dd id="Stone.standing_animation_timer" class="variable"><a href="base_objects.html#GameObject.standing_animation_timer">standing_animation_timer</a></dd>
