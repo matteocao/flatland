@@ -69,6 +69,9 @@
                         <li>
                                 <a class="function" href="#Level.schedule_to_unregister">schedule_to_unregister</a>
                         </li>
+                        <li>
+                                <a class="function" href="#Level.get_serializable_state">get_serializable_state</a>
+                        </li>
                 </ul>
 
             </li>
@@ -176,6 +179,21 @@
 </span><span id="L-79"><a href="#L-79"><span class="linenos">79</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">schedule_to_unregister</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">timer_ms</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="L-80"><a href="#L-80"><span class="linenos">80</span></a>        <span class="n">now</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">get_ticks</span><span class="p">()</span>
 </span><span id="L-81"><a href="#L-81"><span class="linenos">81</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_scheduled_to_die</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">obj</span><span class="p">,</span> <span class="n">timer_ms</span><span class="p">,</span> <span class="n">now</span><span class="p">))</span>
+</span><span id="L-82"><a href="#L-82"><span class="linenos">82</span></a>
+</span><span id="L-83"><a href="#L-83"><span class="linenos">83</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_serializable_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-84"><a href="#L-84"><span class="linenos">84</span></a>        <span class="n">objs</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="L-85"><a href="#L-85"><span class="linenos">85</span></a>        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_observers</span><span class="p">:</span>
+</span><span id="L-86"><a href="#L-86"><span class="linenos">86</span></a>            <span class="n">obj_state</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="L-87"><a href="#L-87"><span class="linenos">87</span></a>                <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+</span><span id="L-88"><a href="#L-88"><span class="linenos">88</span></a>                <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+</span><span id="L-89"><a href="#L-89"><span class="linenos">89</span></a>                <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;z_level&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+</span><span id="L-90"><a href="#L-90"><span class="linenos">90</span></a>                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+</span><span id="L-91"><a href="#L-91"><span class="linenos">91</span></a>            <span class="p">}</span>
+</span><span id="L-92"><a href="#L-92"><span class="linenos">92</span></a>            <span class="c1"># optionally send facing direction for animations</span>
+</span><span id="L-93"><a href="#L-93"><span class="linenos">93</span></a>            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;direction&quot;</span><span class="p">):</span>
+</span><span id="L-94"><a href="#L-94"><span class="linenos">94</span></a>                <span class="n">obj_state</span><span class="p">[</span><span class="s2">&quot;direction&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">direction</span><span class="o">.</span><span class="n">value</span>  <span class="c1"># assuming direction is Enum</span>
+</span><span id="L-95"><a href="#L-95"><span class="linenos">95</span></a>            <span class="n">objs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj_state</span><span class="p">)</span>
+</span><span id="L-96"><a href="#L-96"><span class="linenos">96</span></a>        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;objects&quot;</span><span class="p">:</span> <span class="n">objs</span><span class="p">}</span>
 </span></pre></div>
 
 
@@ -255,6 +273,21 @@
 </span><span id="Level-80"><a href="#Level-80"><span class="linenos">80</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">schedule_to_unregister</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">timer_ms</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="Level-81"><a href="#Level-81"><span class="linenos">81</span></a>        <span class="n">now</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">get_ticks</span><span class="p">()</span>
 </span><span id="Level-82"><a href="#Level-82"><span class="linenos">82</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_scheduled_to_die</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">obj</span><span class="p">,</span> <span class="n">timer_ms</span><span class="p">,</span> <span class="n">now</span><span class="p">))</span>
+</span><span id="Level-83"><a href="#Level-83"><span class="linenos">83</span></a>
+</span><span id="Level-84"><a href="#Level-84"><span class="linenos">84</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_serializable_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Level-85"><a href="#Level-85"><span class="linenos">85</span></a>        <span class="n">objs</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="Level-86"><a href="#Level-86"><span class="linenos">86</span></a>        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_observers</span><span class="p">:</span>
+</span><span id="Level-87"><a href="#Level-87"><span class="linenos">87</span></a>            <span class="n">obj_state</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="Level-88"><a href="#Level-88"><span class="linenos">88</span></a>                <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+</span><span id="Level-89"><a href="#Level-89"><span class="linenos">89</span></a>                <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+</span><span id="Level-90"><a href="#Level-90"><span class="linenos">90</span></a>                <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;z_level&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+</span><span id="Level-91"><a href="#Level-91"><span class="linenos">91</span></a>                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+</span><span id="Level-92"><a href="#Level-92"><span class="linenos">92</span></a>            <span class="p">}</span>
+</span><span id="Level-93"><a href="#Level-93"><span class="linenos">93</span></a>            <span class="c1"># optionally send facing direction for animations</span>
+</span><span id="Level-94"><a href="#Level-94"><span class="linenos">94</span></a>            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;direction&quot;</span><span class="p">):</span>
+</span><span id="Level-95"><a href="#Level-95"><span class="linenos">95</span></a>                <span class="n">obj_state</span><span class="p">[</span><span class="s2">&quot;direction&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">direction</span><span class="o">.</span><span class="n">value</span>  <span class="c1"># assuming direction is Enum</span>
+</span><span id="Level-96"><a href="#Level-96"><span class="linenos">96</span></a>            <span class="n">objs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj_state</span><span class="p">)</span>
+</span><span id="Level-97"><a href="#Level-97"><span class="linenos">97</span></a>        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;objects&quot;</span><span class="p">:</span> <span class="n">objs</span><span class="p">}</span>
 </span></pre></div>
 
 
@@ -498,6 +531,37 @@ Via the observer method, the world loops through the objects and updates them.</
             <div class="pdoc-code codehilite"><pre><span></span><span id="Level.schedule_to_unregister-80"><a href="#Level.schedule_to_unregister-80"><span class="linenos">80</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">schedule_to_unregister</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">timer_ms</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="Level.schedule_to_unregister-81"><a href="#Level.schedule_to_unregister-81"><span class="linenos">81</span></a>        <span class="n">now</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">get_ticks</span><span class="p">()</span>
 </span><span id="Level.schedule_to_unregister-82"><a href="#Level.schedule_to_unregister-82"><span class="linenos">82</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_scheduled_to_die</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">obj</span><span class="p">,</span> <span class="n">timer_ms</span><span class="p">,</span> <span class="n">now</span><span class="p">))</span>
+</span></pre></div>
+
+
+    
+
+                            </div>
+                            <div id="Level.get_serializable_state" class="classattr">
+                                        <input id="Level.get_serializable_state-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">get_serializable_state</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">):</span></span>
+
+                <label class="view-source-button" for="Level.get_serializable_state-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#Level.get_serializable_state"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Level.get_serializable_state-84"><a href="#Level.get_serializable_state-84"><span class="linenos">84</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_serializable_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="Level.get_serializable_state-85"><a href="#Level.get_serializable_state-85"><span class="linenos">85</span></a>        <span class="n">objs</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="Level.get_serializable_state-86"><a href="#Level.get_serializable_state-86"><span class="linenos">86</span></a>        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_observers</span><span class="p">:</span>
+</span><span id="Level.get_serializable_state-87"><a href="#Level.get_serializable_state-87"><span class="linenos">87</span></a>            <span class="n">obj_state</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="Level.get_serializable_state-88"><a href="#Level.get_serializable_state-88"><span class="linenos">88</span></a>                <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+</span><span id="Level.get_serializable_state-89"><a href="#Level.get_serializable_state-89"><span class="linenos">89</span></a>                <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+</span><span id="Level.get_serializable_state-90"><a href="#Level.get_serializable_state-90"><span class="linenos">90</span></a>                <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;z_level&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+</span><span id="Level.get_serializable_state-91"><a href="#Level.get_serializable_state-91"><span class="linenos">91</span></a>                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+</span><span id="Level.get_serializable_state-92"><a href="#Level.get_serializable_state-92"><span class="linenos">92</span></a>            <span class="p">}</span>
+</span><span id="Level.get_serializable_state-93"><a href="#Level.get_serializable_state-93"><span class="linenos">93</span></a>            <span class="c1"># optionally send facing direction for animations</span>
+</span><span id="Level.get_serializable_state-94"><a href="#Level.get_serializable_state-94"><span class="linenos">94</span></a>            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;direction&quot;</span><span class="p">):</span>
+</span><span id="Level.get_serializable_state-95"><a href="#Level.get_serializable_state-95"><span class="linenos">95</span></a>                <span class="n">obj_state</span><span class="p">[</span><span class="s2">&quot;direction&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">direction</span><span class="o">.</span><span class="n">value</span>  <span class="c1"># assuming direction is Enum</span>
+</span><span id="Level.get_serializable_state-96"><a href="#Level.get_serializable_state-96"><span class="linenos">96</span></a>            <span class="n">objs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj_state</span><span class="p">)</span>
+</span><span id="Level.get_serializable_state-97"><a href="#Level.get_serializable_state-97"><span class="linenos">97</span></a>        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;objects&quot;</span><span class="p">:</span> <span class="n">objs</span><span class="p">}</span>
 </span></pre></div>
 
 
