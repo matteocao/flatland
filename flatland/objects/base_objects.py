@@ -42,7 +42,7 @@ class GameObject:
         self.wetness: float = 0.0
         self.mass: float = 2.2
         self.height: float = 1.0
-        self.friction_coefficient: int = 1
+        self.friction_coefficient: float = 1.0
         self.animation_index = 0
         self.last_tick: int = 0
         self.standing_animation_timer = 0
