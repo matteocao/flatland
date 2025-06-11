@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 
 
 # Register objects
-def register_objects(level: Level) -> Level:
+def register_objects(level: Level, number: int = 1) -> Level:
 
     cow = registry.create(
         cls_name="Cow",
@@ -47,15 +47,12 @@ def register_objects(level: Level) -> Level:
         name="lola_shadow",
         health=100,
     )
-    player = registry.create(
-        cls_name="Player",
-        x=random.randint(0, 9),
-        y=random.randint(0, 9),
-        name="Matte",
-        health=10,
-        vision_range=5,
-        hearing_range=5,
-        temperature=36.3,
+    portal = registry.create(
+        cls_name="Portal",
+        x=4,
+        y=4,
+        name="portal",
+        health=200,
     )
     robe_torso = registry.create(
         cls_name="RobeTorso",
@@ -85,6 +82,25 @@ def register_objects(level: Level) -> Level:
         name="skirt",
         health=100,
     )
+
+    if number == 0:
+        player = registry.create(
+            cls_name="Player",
+            x=portal.x,
+            y=portal.y,
+            name="Matte",
+            health=10,
+            vision_range=5,
+            hearing_range=5,
+            temperature=36.3,
+        )
+        level.register(player)
+        # player stuff
+        level.register(robe_torso)
+        level.register(shoes)
+        level.register(hood)
+        level.register(skirt)
+
     orangetree = registry.create(
         cls_name="OrangeTreeOne",
         x=random.randint(0, 9),
@@ -92,6 +108,8 @@ def register_objects(level: Level) -> Level:
         name="orangetree",
         health=200,
     )
+
+    portal.level_key = f"level_{(number+1)%3}"  # type: ignore
 
     cow_shadow.parent = cow
     cow.children.append(cow_shadow)
@@ -102,13 +120,8 @@ def register_objects(level: Level) -> Level:
     level.register(stone)
     level.register(goblin)
 
-    # player stuff
-    level.register(player)
-    level.register(robe_torso)
-    level.register(shoes)
-    level.register(hood)
-    level.register(skirt)
     level.register(orangetree)
+    level.register(portal)
     return level
 
 

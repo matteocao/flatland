@@ -88,14 +88,28 @@ class DamageHealthByTemperature(InteractionMixin):
         return []
 
 
+class HeatDissipation(InteractionMixin):
+    def dissipation(self: Any):
+        self.temperature -= (
+            self.temperature - self.equilibrium_temperature
+        ) / 2  # decrease temperature
+
+    def get_interaction_callables(
+        self, other: "GameObject", game: "Game"
+    ) -> list[Callable[[], None]]:
+        if self is other:
+            return [lambda: self.dissipation()]
+        return []
+
+
 class DamageHealthByInertia(InteractionMixin):
     def damage_by_inertia(self: Any):
         if self.inertia > self.inertia_threshold_to_hurt_upper:
             self.health -= 1.0
-            self.inertia -= 1
+            # self.inertia -= 1
         if self.inertia < self.inertia_threshold_to_hurt_lower:
             self.health -= 1.0
-            self.inertia += 1
+            # self.inertia += 1
 
     def get_interaction_callables(
         self, other: "GameObject", game: "Game"

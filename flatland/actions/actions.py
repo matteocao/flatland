@@ -52,6 +52,9 @@ class LimbControlMixin:
 
     def grab(self: Any, other: "GameObject") -> None:
         if other.is_grabbable:
+            if hasattr(other, "enter_portal"):
+                other.enter_portal()
+                return
             self.children.append(other)
             other.parent = self
             other.x = self.x

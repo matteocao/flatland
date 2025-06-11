@@ -26,6 +26,7 @@ from ..interactions.evolution import (
     DamageHealthByTemperature,
     DeathMixin,
     HealthDecreasesEvolution,
+    HeatDissipation,
     InertiaPrincipleWithFrictionEvolution,
     ParentDeathIDie,
 )
@@ -129,6 +130,7 @@ class OrangeTreeOne(
     GameObject,
     StandingAnimationMixin,
     DamageHealthByTemperature,
+    HeatDissipation,
     DamageHealthByInertia,
     HeatInteractionMixin,
     RenderMixin,
@@ -177,6 +179,7 @@ class FireBall(
     MovementAnimationMixin,
     RenderMixin,
     DamageHealthByTemperature,
+    HeatDissipation,
     DamageHealthByInertia,
     HeatInteractionMixin,
     DeathMixin,
@@ -489,9 +492,11 @@ class Goblin(
     StandingAnimationMixin,
     RenderMixin,
     DamageHealthByTemperature,
+    HeatDissipation,
     DamageHealthByInertia,
     HeatInteractionMixin,
     DeathMixin,
+    InertiaPrincipleWithFrictionEvolution,
 ):
     def __init__(
         self,
@@ -504,7 +509,7 @@ class Goblin(
         **kwargs: Any,
     ):
         super().__init__(x, y, name, health, vision_range, hearing_range)
-        self.color = (128, 0, 0)
+        self.friction_coefficient = 1.0
         self.noise_intensity = 0.3
         self.attractiveness = 0.1
         self.visible_size = 2.3
@@ -512,7 +517,7 @@ class Goblin(
         self.num_animations = 6
         self.num_animations_push = 4
         self.num_animations_standing = 1
-        self.inertia_threshold_to_hurt_upper = 3.0
+        self.inertia_threshold_to_hurt_upper = 2.0
         self.inertia_threshold_to_hurt_lower = -1.0
 
         # Load sprites
@@ -579,6 +584,7 @@ class Cow(
     MovementAnimationMixin,
     StandingAnimationMixin,
     DamageHealthByTemperature,
+    HeatDissipation,
     DamageHealthByInertia,
     HeatInteractionMixin,
     RenderMixin,
@@ -745,3 +751,50 @@ class Player(
 
     def get_pressed_keys(self, keys) -> None:
         self.keys = keys
+
+
+@registry.register
+class Portal(
+    GameObject,
+    StandingAnimationMixin,
+    RenderMixin,
+):
+    def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
+        super().__init__(x, y, name, health)
+        self.friction_coefficient = 1
+        self.noise_intensity = 0.8
+        self.attractiveness = 1.1
+        self.visible_size = 1.5
+        self.z_level = 2.0
+        self.mass = 4
+        self.health = 200
+        self.is_encumbrant = False
+        self.num_animations_standing = 64
+        self.sprite_size_x: int = 80
+        self.sprite_size_y: int = 60
+        self.is_grabbable = True
+        self.level_key = ""
+        # Load sprites
+        self.standing_sprites_locations = {
+            Direction.UP: [
+                f"assets/sprites/portal_1/portal{i+1}.png"
+                for i in range(self.num_animations_standing)
+            ],
+            Direction.DOWN: [
+                f"assets/sprites/portal_1/portal{i+1}.png"
+                for i in range(self.num_animations_standing)
+            ],
+            Direction.LEFT: [
+                f"assets/sprites/portal_1/portal{i+1}.png"
+                for i in range(self.num_animations_standing)
+            ],
+            Direction.RIGHT: [
+                f"assets/sprites/portal_1/portal{i+1}.png"
+                for i in range(self.num_animations_standing)
+            ],
+        }
+
+        self.create_standing_sprites()
+
+    def enter_portal(self) -> None:
+        pygame.event.post(pygame.event.Event(pygame.USEREVENT, code=self.level_key))

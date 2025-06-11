@@ -52,8 +52,33 @@ class Game:
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    print("got quit event")
                     running = False
+                if event.type == pygame.USEREVENT:
+                    level_key = event.code
+                    print(event, level_key)
+                    # get player
+                    player = [
+                        obj
+                        for obj in self.current_level._observers
+                        if obj.__class__.__name__ == "Player"
+                    ][0]
+                    # unregister
+                    self.current_level.unregister(player)
+                    for obj in player.children:
+                        self.current_level.unregister(obj)
+                    # change level
+                    self.current_level = self.world[level_key]
+                    portal = [
+                        obj
+                        for obj in self.current_level._observers
+                        if obj.__class__.__name__ == "Portal"
+                    ][0]
+                    player.x = portal.x
+                    player.y = portal.y
+                    self.current_level.register(player)
+                    for obj in player.children:
+                        self.current_level.register(obj)
+                    self.current_level.get_ground_objs(self)
             self.screen.fill((0, 0, 0))  # to cancel previous state
             self.current_level.reset_is_walkable()  # reset tiles to walkable: they will be changed when they are encumbered by objects
 
