@@ -85,6 +85,13 @@ def register_objects() -> None:
         name="skirt",
         health=100,
     )
+    orangetree = registry.create(
+        cls_name="OrangeTreeOne",
+        x=random.randint(0, 9),
+        y=random.randint(0, 9),
+        name="orangetree",
+        health=200,
+    )
 
     cow_shadow.parent = cow
     cow.children.append(cow_shadow)
@@ -101,6 +108,7 @@ def register_objects() -> None:
     world.register(shoes)
     world.register(hood)
     world.register(skirt)
+    world.register(orangetree)
 
 
 # register terrain

@@ -124,6 +124,54 @@ class Stone(
 
 
 @registry.register
+class OrangeTreeOne(
+    ContactInteractionMixin,
+    GameObject,
+    StandingAnimationMixin,
+    DamageHealthByTemperature,
+    DamageHealthByInertia,
+    HeatInteractionMixin,
+    RenderMixin,
+    DeathMixin,
+):
+    def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
+        super().__init__(x, y, name, health)
+        self.friction_coefficient = 1
+        self.noise_intensity = 0.1
+        self.inertia_threshold_to_hurt = 1
+        self.attractiveness = 0.1
+        self.visible_size = 2.5
+        self.z_level = 11.0
+        self.mass = 200
+        self.health = 20
+        self.is_encumbrant = True
+        self.num_animations_standing = 1
+        self.sprite_size_x: int = 128
+        self.sprite_size_y: int = 186
+        # Load sprites
+        self.standing_sprites_locations = {
+            Direction.UP: [
+                f"assets/sprites/trees/orangetree_{i+1}.png"
+                for i in range(self.num_animations_standing)
+            ],
+            Direction.DOWN: [
+                f"assets/sprites/trees/orangetree_{i+1}.png"
+                for i in range(self.num_animations_standing)
+            ],
+            Direction.LEFT: [
+                f"assets/sprites/trees/orangetree_{i+1}.png"
+                for i in range(self.num_animations_standing)
+            ],
+            Direction.RIGHT: [
+                f"assets/sprites/trees/orangetree_{i+1}.png"
+                for i in range(self.num_animations_standing)
+            ],
+        }
+
+        self.create_standing_sprites()
+
+
+@registry.register
 class FireBall(
     InertiaPrincipleWithFrictionEvolution,
     GameObject,
