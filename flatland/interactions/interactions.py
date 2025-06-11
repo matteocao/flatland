@@ -10,7 +10,7 @@ from ..consts import Direction
 from ..logger import Logger
 
 if TYPE_CHECKING:
-    from ..__main__ import Game
+    from ..game import Game
     from ..objects.base_objects import GameObject
 
 

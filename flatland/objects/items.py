@@ -177,6 +177,7 @@ class FireBall(
     MovementAnimationMixin,
     RenderMixin,
     DamageHealthByTemperature,
+    DamageHealthByInertia,
     HeatInteractionMixin,
     DeathMixin,
     DeathAnimationMixin,
@@ -184,15 +185,16 @@ class FireBall(
 ):
     def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
         super().__init__(x, y, name, health)
-        self.friction_coefficient = 0
+        self.friction_coefficient = 0.0
         self.noise_intensity = 0.1
         self.attractiveness = 0.1
         self.temperature_threshold_to_hurt_lower = 500
         self.temperature_threshold_to_hurt_upper = 10000000
+        self.inertia_threshold_to_hurt_lower = 1
         self.visible_size = 0.5
         self.temperature = 10000
         self.health = 1
-        self.inertia = 2
+        self.inertia = 2.0
         self.z_level = 1.0
         self.ignore_walkable = True
         self.num_animations = 16  # do nnot forget this when inheriting from MovementAnimationMixin

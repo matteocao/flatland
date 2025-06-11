@@ -8,10 +8,11 @@ from typing import TYPE_CHECKING, Any, Callable
 
 from ..consts import Direction
 from ..logger import Logger
+from ..utils import move_in
 from .interactions import InteractionMixin
 
 if TYPE_CHECKING:
-    from ..__main__ import Game
+    from ..game import Game
     from ..objects.base_objects import GameObject
     from ..objects.items import Ground
 
@@ -31,27 +32,7 @@ class InertiaPrincipleWithFrictionEvolution(InteractionMixin):
 
         # Move in the current direction
 
-        match self.direction:
-            case Direction.DOWN:
-                (dx, dy) = (0, 1)
-            case Direction.UP:
-                (dx, dy) = (0, -1)
-            case Direction.RIGHT:
-                (dx, dy) = (1, 0)
-            case Direction.LEFT:
-                (dx, dy) = (-1, 0)
-        try:
-            grd = [
-                ground
-                for ground in self.ground_objs_list
-                if ground.x == self.x + dx and ground.y == self.y + dy
-            ][0]
-        except IndexError:
-            self.logger.info(f"{self.__class__.__name__} cannot move outside ground")
-            return
-        if grd.is_walkable or self.ignore_walkable:
-            self.x = self.x + dx
-            self.y = self.y + dy
+        if move_in(self, self.direction):
             # Apply friction
             new_inertia = max(0, self.inertia - self.friction_coefficient)
             self.logger.info(
@@ -113,7 +94,6 @@ class DamageHealthByInertia(InteractionMixin):
             self.health -= 1.0
         if self.inertia < self.inertia_threshold_to_hurt_lower:
             self.health -= 1.0
-        self.inertia = max(0, self.inertia - 1.0)  # decrease inertia
 
     def get_interaction_callables(
         self, other: "GameObject", game: "Game"

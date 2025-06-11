@@ -3,9 +3,10 @@ from typing import TYPE_CHECKING, Any, Literal, Optional
 from ..consts import Direction
 from ..logger import Logger
 from ..objects.items_registry import registry
+from ..utils import move_in
 
 if TYPE_CHECKING:
-    from ..__main__ import Game
+    from ..game import Game
     from ..objects.base_objects import GameObject
     from ..objects.items import Ground
 
@@ -23,32 +24,7 @@ class MovementMixin:
 
     def move(self: Any, direction: Direction) -> None:
         if self.direction == direction:
-            match direction:
-                case Direction.DOWN:
-                    (dx, dy) = (0, 1)
-                case Direction.UP:
-                    (dx, dy) = (0, -1)
-                case Direction.RIGHT:
-                    (dx, dy) = (1, 0)
-                case Direction.LEFT:
-                    (dx, dy) = (-1, 0)
-            try:
-                grd = [
-                    ground
-                    for ground in self.ground_objs_list
-                    if ground.x == self.x + dx and ground.y == self.y + dy
-                ][0]
-            except IndexError:
-                self.logger.info(f"{self.__class__.__name__} cannot move outside ground")
-                return
-            if grd.is_walkable or self.ignore_walkable:
-                self.x: int = self.x + dx
-                self.y: int = self.y + dy
-                self.logger.info(f"{self.__class__.__name__} moves to ({self.x}, {self.y})")
-            else:
-                self.logger.info(
-                    f"{self.__class__.__name__} cannot walk to ({self.x+dx}, {self.y+dy})"
-                )
+            move_in(self, direction)
         else:
             self.direction = direction
 

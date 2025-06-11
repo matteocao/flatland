@@ -9,6 +9,7 @@ from . import (
     actions,
     animations,
     consts,
+    game,
     interactions,
     internal,
     llm_stub,
