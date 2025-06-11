@@ -13,6 +13,7 @@ from . import (
     interactions,
     internal,
     llm_stub,
+    multiplayer,
     objects,
     sensors,
     world,

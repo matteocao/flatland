@@ -18,3 +18,9 @@ run:
 
 doc:
 	poetry run pdoc -o docs_html flatland
+
+client:
+	poetry run python3 -m flatland.multiplayer
+
+server:
+	poetry run python3 flatland/run_server.py

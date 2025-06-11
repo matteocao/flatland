@@ -79,3 +79,18 @@ class Level:
     def schedule_to_unregister(self, obj, timer_ms: int = 1000) -> None:
         now = pygame.time.get_ticks()
         self._scheduled_to_die.append((obj, timer_ms, now))
+
+    def get_serializable_state(self):
+        objs = []
+        for obj in self._observers:
+            obj_state = {
+                "x": obj.x,
+                "y": obj.y,
+                "z": getattr(obj, "z_level", 0),
+                "type": obj.__class__.__name__,
+            }
+            # optionally send facing direction for animations
+            if hasattr(obj, "direction"):
+                obj_state["direction"] = obj.direction.value  # assuming direction is Enum
+            objs.append(obj_state)
+        return {"objects": objs}
