@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 
 
 # Register objects
-def register_objects(level: Level, number: int = 1) -> Level:
+def register_objects(level: Level, number: int = 0) -> Level:
 
     cow = registry.create(
         cls_name="Cow",
@@ -101,13 +101,15 @@ def register_objects(level: Level, number: int = 1) -> Level:
         level.register(hood)
         level.register(skirt)
 
-    orangetree = registry.create(
-        cls_name="OrangeTreeOne",
-        x=random.randint(0, 9),
-        y=random.randint(0, 9),
-        name="orangetree",
-        health=200,
-    )
+    for _ in range(number + 1):
+        orangetree = registry.create(
+            cls_name="OrangeTreeOne",
+            x=random.randint(0, 9),
+            y=random.randint(0, 9),
+            name="orangetree",
+            health=200,
+        )
+        level.register(orangetree)
 
     portal.level_key = f"level_{(number+1)%3}"  # type: ignore
 
@@ -120,7 +122,6 @@ def register_objects(level: Level, number: int = 1) -> Level:
     level.register(stone)
     level.register(goblin)
 
-    level.register(orangetree)
     level.register(portal)
     return level
 
