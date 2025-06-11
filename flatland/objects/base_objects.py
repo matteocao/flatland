@@ -147,4 +147,3 @@ class BaseNPC(BaseAnimal):
         hearing_range: int,
     ):
         super().__init__(x, y, name, health, vision_range, hearing_range)
-        self.color = (0, 0, 255)

@@ -1,3 +1,4 @@
+import os
 import warnings
 from typing import Any
 
@@ -7,7 +8,8 @@ from .consts import MAX_X, MAX_Y, TILE_SIZE
 from .logger import Logger
 from .objects import items
 from .world.level import Level
-from .world.world import world
+
+os.environ["SDL_VIDEODRIVER"] = "dummy"  # Use a headless display
 
 # initialise pygame for CI tests
 pygame.init()
@@ -27,19 +29,19 @@ class Game:
             cls._instance = super(Game, cls).__new__(cls)
         return cls._instance
 
-    def __init__(self) -> None:
+    def __init__(self, world: dict[str, Level], screen: pygame.Surface) -> None:
         if not hasattr(self, "current_level"):  # these checks are needed for the singleton
             self.current_level: Level = Level()
         if not hasattr(self, "world"):
             self.world = world
         if not hasattr(self, "screen"):
-            self.screen = pygame.display.set_mode((MAX_X * TILE_SIZE, MAX_Y * TILE_SIZE))
+            self.screen = screen
         if not hasattr(self, "clock"):
             self.clock = pygame.time.Clock()
         if not hasattr(self, "logger"):
             self.logger = Logger()
 
-    def main(self) -> None:
+    def main(self, stop_event: Any = None) -> None:
 
         pygame.display.set_caption("Flatland")
 
@@ -50,6 +52,7 @@ class Game:
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    print("got quit event")
                     running = False
             self.screen.fill((0, 0, 0))  # to cancel previous state
             self.current_level.reset_is_walkable()  # reset tiles to walkable: they will be changed when they are encumbered by objects
@@ -67,5 +70,8 @@ class Game:
             self.current_level.render(self.screen)
             pygame.display.flip()
             self.clock.tick(10)
+
+            if stop_event is not None and stop_event.is_set():
+                running = False
 
         pygame.quit()

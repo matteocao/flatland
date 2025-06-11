@@ -26,3 +26,6 @@ class InteractionCommand:
                         callables.extend(calls)
             for call in callables:
                 call()
+
+    def __repr__(self) -> str:
+        return "(" + str(self.initiator) + ", " + str(self.target) + ")"

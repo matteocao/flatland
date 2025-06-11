@@ -18,6 +18,7 @@ mypy = "*"
 black = "*"
 isort = "*"
 pdoc = "*"
+multiprocess = "*"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

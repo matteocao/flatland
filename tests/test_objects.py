@@ -2,11 +2,9 @@ import os
 from typing import Any
 
 import pygame
-
-os.environ["SDL_VIDEODRIVER"] = "dummy"  # Use a headless display
-
 import pytest
 
+from flatland.consts import MAX_X, MAX_Y, TILE_SIZE
 from flatland.llm_stub import LLMNPCBrain
 from flatland.objects.items import Cow, Player, Stone
 from flatland.world.world import world

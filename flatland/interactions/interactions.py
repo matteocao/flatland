@@ -73,6 +73,10 @@ class EncumbranceMixin(InteractionMixin):
 
 
 class ContactInteractionMixin(InteractionMixin):
+    """
+    This mixin takes care of collisions. This does not affect health, only inertia and directions.
+    """
+
     inertia: float
 
     def on_contact(self: Any, other: "GameObject") -> None:
@@ -92,17 +96,13 @@ class ContactInteractionMixin(InteractionMixin):
         m1, v1 = tup1
         m2, v2 = tup2
 
-        # Use 1D elastic collision formulas
-        new_v1 = ((m1 - m2) / (m1 + m2)) * v1 + ((2 * m2) / (m1 + m2)) * v2
-        new_v2 = ((2 * m1) / (m1 + m2)) * v1 + ((m2 - m1) / (m1 + m2)) * v2
+        # Use 1D linear formulas
+        self.inertia = abs((m1 * v1 + m2 * v2) / (m1 + m2))
+        other.inertia = abs((m1 * v1 + m2 * v2) / (m1 + m2))
 
         self.logger.info(
             f"Collision! {self.name} (mass={m1}, inertia={v1}) ↔ {other.name} (mass={m2}, inertia={v2})"
         )
-
-        # Apply new inertia (velocity)
-        self.inertia = max(0, new_v1)
-        other.inertia = max(0, new_v2)
 
         # 🔄 Update directions
         if v1 > 0 and v2 > 0:

@@ -512,6 +512,8 @@ class Goblin(
         self.num_animations = 6
         self.num_animations_push = 4
         self.num_animations_standing = 1
+        self.inertia_threshold_to_hurt_upper = 3.0
+        self.inertia_threshold_to_hurt_lower = -1.0
 
         # Load sprites
         self.movement_sprites_locations = {

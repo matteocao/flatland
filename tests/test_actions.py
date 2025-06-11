@@ -1,4 +1,3 @@
-import os
 from typing import TYPE_CHECKING
 from unittest.mock import MagicMock
 
@@ -11,8 +10,6 @@ from flatland.world.world import world
 
 if TYPE_CHECKING:
     from flatland.objects.base_objects import GameObject
-
-os.environ["SDL_VIDEODRIVER"] = "dummy"  # Use a headless display
 
 
 class SpeechTest(SpeechMixin):

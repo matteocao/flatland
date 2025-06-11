@@ -1,13 +1,14 @@
 import os
 import warnings
+from typing import Any
 
-os.environ["SDL_VIDEODRIVER"] = "dummy"  # headless video
+import pygame
+import pytest
 
-from flatland.consts import MAX_X, MAX_Y
 from flatland.objects.items import Stone
 
 
-def test_interaction() -> None:
+def test_interaction(display) -> None:
     stone = Stone(1, 1, "stone1", 10)
     stone2 = Stone(1, 1, "stone2", 9)
     stone2.inertia = 4.0

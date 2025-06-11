@@ -92,8 +92,10 @@ class DamageHealthByInertia(InteractionMixin):
     def damage_by_inertia(self: Any):
         if self.inertia > self.inertia_threshold_to_hurt_upper:
             self.health -= 1.0
+            self.inertia -= 1
         if self.inertia < self.inertia_threshold_to_hurt_lower:
             self.health -= 1.0
+            self.inertia += 1
 
     def get_interaction_callables(
         self, other: "GameObject", game: "Game"
