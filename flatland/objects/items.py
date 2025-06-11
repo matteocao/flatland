@@ -14,6 +14,7 @@ pygame.display.set_mode((1, 1))
 from ..actions.actions import LimbControlMixin, MovementMixin, SpeechMixin
 from ..animations.animations import (
     AlwaysOnTopOfParent,
+    DeathAnimationMixin,
     MovementAnimationMixin,
     PushAnimationMixin,
     StandingAnimationMixin,
@@ -31,6 +32,8 @@ from ..interactions.evolution import (
 from ..interactions.interactions import (
     AttachedToParentMixin,
     ContactInteractionMixin,
+    EncumbranceMixin,
+    ExplodeAtTouch,
     HeatInteractionMixin,
 )
 from ..internal.state import InternalState
@@ -51,6 +54,7 @@ class Stone(
     HeatInteractionMixin,
     RenderMixin,
     DeathMixin,
+    DeathAnimationMixin,
 ):
     def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
         super().__init__(x, y, name, health)
@@ -62,8 +66,10 @@ class Stone(
         self.z_level = 1.0
         self.mass = 200
         self.health = 10
+        self.is_encumbrant = True
         self.num_animations = 4  # do nnot forget this when inheriting from MovementAnimationMixin
         self.num_animations_standing = 1
+        self.num_animations_dying = 8
         # Load sprites
         self.movement_sprites_locations = {
             Direction.UP: [
@@ -80,6 +86,25 @@ class Stone(
             ],
         }
         self.create_movement_sprites()  # do not forget!
+        self.dying_sprites_locations = {
+            Direction.UP: [
+                f"assets/sprites/boulder/rock_crumble_{i+1}.png"
+                for i in range(self.num_animations_dying)
+            ],
+            Direction.DOWN: [
+                f"assets/sprites/boulder/rock_crumble_{i+1}.png"
+                for i in range(self.num_animations_dying)
+            ],
+            Direction.LEFT: [
+                f"assets/sprites/boulder/rock_crumble_{i+1}.png"
+                for i in range(self.num_animations_dying)
+            ],
+            Direction.RIGHT: [
+                f"assets/sprites/boulder/rock_crumble_{i+1}.png"
+                for i in range(self.num_animations_dying)
+            ],
+        }
+        self.create_dying_sprites()  # do not forget!
         self.standing_sprites_locations = {
             Direction.UP: [
                 f"assets/sprites/boulder/up_{i}.png" for i in range(self.num_animations_standing)
@@ -107,6 +132,8 @@ class FireBall(
     DamageHealthByTemperature,
     HeatInteractionMixin,
     DeathMixin,
+    DeathAnimationMixin,
+    ExplodeAtTouch,
 ):
     def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
         super().__init__(x, y, name, health)
@@ -121,6 +148,7 @@ class FireBall(
         self.inertia = 2
         self.z_level = 1.0
         self.num_animations = 16  # do nnot forget this when inheriting from MovementAnimationMixin
+        self.num_animations_dying = 7
         # Load sprites
         self.movement_sprites_locations = {
             Direction.UP: [
@@ -137,15 +165,34 @@ class FireBall(
             ],
         }
         self.create_movement_sprites()  # do not forget!
+        self.dying_sprites_locations = {
+            Direction.UP: [
+                f"assets/sprites/explosion/tile_0_{i}.png" for i in range(self.num_animations_dying)
+            ],
+            Direction.DOWN: [
+                f"assets/sprites/explosion/tile_0_{i}.png" for i in range(self.num_animations_dying)
+            ],
+            Direction.LEFT: [
+                f"assets/sprites/explosion/tile_0_{i}.png" for i in range(self.num_animations_dying)
+            ],
+            Direction.RIGHT: [
+                f"assets/sprites/explosion/tile_0_{i}.png" for i in range(self.num_animations_dying)
+            ],
+        }
+        self.create_dying_sprites()  # do not forget!
 
 
 @registry.register
-class Ground(GameObject, StandingAnimationMixin, RenderMixin):
+class Ground(GameObject, StandingAnimationMixin, RenderMixin, EncumbranceMixin):
     def __init__(self, x: int, y: int, name: str, health: float, tile_name: str, **kwargs: Any):
         super().__init__(x, y, name, health)
         self.z_level = 0.0
         self.tile_name = tile_name
         self.num_animations_standing = 1
+        self.scheduler.interval = 0.01
+        self.actions_per_second = 9  # should be high, more than the player at least
+        self.is_walkable = True  # used for encumbrance
+
         # Extract NSWE neighbor tuple from the last 4 components of the name
         parts = self.tile_name.split("_")
         try:

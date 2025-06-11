@@ -26,6 +26,7 @@ def main():
     logger = Logger()
     register_terrain()
     register_objects()
+    world.get_ground_objs()
 
     running = True
     while running:
@@ -33,6 +34,7 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
         screen.fill((0, 0, 0))  # to cancel previous state
+        world.reset_is_walkable()  # reset tiles to walkable: they will be changed when they are encumbered by objects
 
         keys = pygame.key.get_pressed()
 

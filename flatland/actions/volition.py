@@ -7,14 +7,34 @@ from ..consts import Direction
 from ..logger import Logger
 
 if TYPE_CHECKING:
+    from ..internal.representation import ObjectRepresentation
     from ..objects.base_objects import GameObject
 
 
 class VolitionEngine:
+
     def __init__(self, owner: "GameObject"):
         self.list_of_actions: list[tuple[Callable[[Any], Any], dict[str, Any]]] = []
         self.owner = owner
         self.logger = Logger()
+
+    def _object_is_in_front(self, rep: "ObjectRepresentation"):
+        if rep.dx is not None and rep.dy is not None:
+            match self.owner.direction:
+                case Direction.UP:
+                    if abs(rep.dx) < 1 and rep.dy >= -1:
+                        return True
+                case Direction.DOWN:
+                    if abs(rep.dx) < 1 and rep.dy <= 1:
+                        return True
+                case Direction.LEFT:
+                    if abs(rep.dy) < 1 and rep.dx >= -1:
+                        return True
+                case Direction.RIGHT:
+                    if abs(rep.dy) < 1 and rep.dx <= 1:
+                        return True
+
+            return False
 
     def prepare(self):
         """
@@ -36,7 +56,7 @@ class VolitionEngine:
                     self.list_of_actions.append((self.owner.move, {"direction": Direction.RIGHT}))
                 elif self.owner.keys[pygame.K_e]:
                     for rep in self.owner.internal_state.latest_perception():
-                        if abs(rep.dx) < 1 and abs(rep.dy) < 1:
+                        if abs(rep.dx) < 1 and abs(rep.dy) < 1 or self._object_is_in_front(rep):
                             self.list_of_actions.append(
                                 (self.owner.push, {"other": rep.source_object})
                             )
@@ -75,7 +95,9 @@ class VolitionEngine:
                                 [
                                     rep.source_object
                                     for rep in self.owner.internal_state.time_history[-1]
-                                    if abs(rep.dx) < 1 and abs(rep.dy) < 1
+                                    if abs(rep.dx) < 1
+                                    and abs(rep.dy) < 1
+                                    or self._object_is_in_front(rep)
                                 ]
                             )
                         },

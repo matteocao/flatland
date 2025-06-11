@@ -46,6 +46,8 @@ class GameObject:
         self.standing_animation_index = 0
         self.push_animation_timer = 0
         self.push_animation_index = 0
+        self.dying_animation_timer = 0
+        self.dying_animation_index = 0
         self.animation_timer = 0
         self.movement_sprites_locations: dict[Direction, list[str]] = {
             Direction.UP: [],
@@ -69,6 +71,7 @@ class GameObject:
         self.temperature_threshold_to_hurt_upper: float = 100.0
         self.temperature_threshold_to_hurt_lower: float = -100.0
         self.equilibrium_temperature: float = 30
+        self.is_encumbrant: bool = False
 
     def update(self, event: Any):
         now = pygame.time.get_ticks()  # in ms

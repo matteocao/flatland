@@ -47,6 +47,24 @@ class AttachedToParentMixin(InteractionMixin):
         return []
 
 
+class EncumbranceMixin(InteractionMixin):
+    """
+    This mixin prevent movements in the location of self. This has to be attached to the Ground objects.
+    """
+
+    def reset_is_walkable(self) -> None:
+        self.is_walkable = True
+
+    def prevent_movement(self: Any, other) -> None:
+        if self.distance(other) < 1 and other.is_encumbrant:
+            self.is_walkable = False
+
+    def get_interaction_callables(self: Any, other: "GameObject") -> list[Callable[[], None]]:
+        if other.__class__.__name__ != "Ground":
+            return [lambda: self.prevent_movement(other)]
+        return []
+
+
 class ContactInteractionMixin(InteractionMixin):
     inertia: float
 
@@ -98,6 +116,25 @@ class ContactInteractionMixin(InteractionMixin):
     def get_interaction_callables(self, other: "GameObject"):
         if isinstance(other, ContactInteractionMixin):
             return [lambda: self.on_contact(other)]
+        return []
+
+
+class ExplodeAtTouch(InteractionMixin):
+    health: float
+    inertia: float
+
+    def explode(self, other: "GameObject"):
+        if (
+            isinstance(other, HeatInteractionMixin)
+            and other.distance(self) < 0.1
+            and not self is other
+        ):
+            self.health = 0
+            self.inertia = 0
+
+    def get_interaction_callables(self, other: "GameObject"):
+        if isinstance(other, HeatInteractionMixin):
+            return [lambda: self.explode(other)]
         return []
 
 

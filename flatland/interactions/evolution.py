@@ -91,13 +91,15 @@ class DamageHealthByInertia(InteractionMixin):
 
 
 class DeathMixin(InteractionMixin):
+    inertia: float
+
     def check_death(self):
         if hasattr(self, "health"):
             if self.health < 0.001:
                 self.logger.info(f"{self.__class__.__name__} dies")
                 from ..world.world import world
 
-                world.unregister(self)
+                world.schedule_to_unregister(self)
 
     def get_interaction_callables(self, other: "GameObject"):
         if self is other:

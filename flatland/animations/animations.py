@@ -92,6 +92,35 @@ class StandingAnimationMixin:
         screen.blit(sprite, pos)
 
 
+class DeathAnimationMixin:
+    logger = Logger()
+
+    def create_dying_sprites(self: Any) -> None:
+        self.dying_sprites = {
+            k: list(map(lambda x: pygame.image.load(x).convert_alpha(), lst_str))
+            for k, lst_str in self.dying_sprites_locations.items()
+        }
+
+    def update_dying_animation(self: Any):
+        self.dying_animation_index = min(
+            self.dying_animation_index + 1, len(self.dying_sprites[self.direction]) - 1
+        )
+
+    def render_dying(self: Any, screen: pygame.Surface) -> None:
+        now = pygame.time.get_ticks()
+        if self.is_update_just_done:
+            self.new_render_time = now
+        self.last_render_time = now
+        alpha = (self.last_render_time - self.new_render_time) / 1000 * self.actions_per_second
+        offset_x = self.sprite_size_x // 2 - TILE_SIZE // 2
+        offset_y = self.sprite_size_y // 2 - TILE_SIZE // 2
+        pos = (self.x * TILE_SIZE - offset_x, self.y * TILE_SIZE - offset_y)
+        self.update_dying_animation()
+        sprite = self.dying_sprites[self.direction][self.dying_animation_index]
+        # TODO: here we will need to generalize with new animations and improve the logic
+        screen.blit(sprite, pos)
+
+
 class PushAnimationMixin:
     logger = Logger()
 
