@@ -6,14 +6,14 @@ from typing import TYPE_CHECKING
 from ..consts import MAX_X, MAX_Y, TILE_SIZE
 from ..objects.items_registry import registry
 from .build_tile_map import build_tile_map
-from .world import world
+from .level import Level
 
 if TYPE_CHECKING:
     from ..objects.items import Ground
 
 
 # Register objects
-def register_objects() -> None:
+def register_objects(level: Level) -> Level:
 
     cow = registry.create(
         cls_name="Cow",
@@ -96,23 +96,24 @@ def register_objects() -> None:
     cow_shadow.parent = cow
     cow.children.append(cow_shadow)
 
-    world.register(cow)
-    world.register(cow_shadow)
+    level.register(cow)
+    level.register(cow_shadow)
 
-    world.register(stone)
-    world.register(goblin)
+    level.register(stone)
+    level.register(goblin)
 
     # player stuff
-    world.register(player)
-    world.register(robe_torso)
-    world.register(shoes)
-    world.register(hood)
-    world.register(skirt)
-    world.register(orangetree)
+    level.register(player)
+    level.register(robe_torso)
+    level.register(shoes)
+    level.register(hood)
+    level.register(skirt)
+    level.register(orangetree)
+    return level
 
 
 # register terrain
-def register_terrain() -> None:
+def register_terrain(level: Level, width: int, height: int) -> Level:
     cls_name = "Ground"
     list_of_possible_tiles: list["Ground"] = []
     png_files = glob.glob("assets/sprites/terrain/*.png")
@@ -123,7 +124,7 @@ def register_terrain() -> None:
             cls_name=cls_name, x=0, y=0, name=tile_name, health=10, tile_name=tile_name
         )
         list_of_possible_tiles.append(obj)
-    terrain = build_tile_map(list_of_possible_tiles)
+    terrain = build_tile_map(list_of_possible_tiles, width, height)
     for i, lst_obj in enumerate(terrain):
         for j, obj in enumerate(lst_obj):
             new_obj: "Ground" = registry.create(  # type: ignore
@@ -134,4 +135,5 @@ def register_terrain() -> None:
                 health=obj.health,
                 tile_name=obj.tile_name,
             )
-            world.register(new_obj)
+            level.register(new_obj)
+    return level

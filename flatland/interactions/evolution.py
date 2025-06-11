@@ -11,35 +11,60 @@ from ..logger import Logger
 from .interactions import InteractionMixin
 
 if TYPE_CHECKING:
+    from ..__main__ import Game
     from ..objects.base_objects import GameObject
+    from ..objects.items import Ground
 
 
 class InertiaPrincipleWithFrictionEvolution(InteractionMixin):
-    def keep_on_moving(self):
+    ground_objs_list: list["Ground"]
+
+    def get_ground_objs(self, game: "Game") -> None:
+
+        self.ground_objs_list: list["Ground"] = [
+            obj for obj in game.current_level._observers if obj.__class__.__name__ == "Ground"  # type: ignore
+        ]
+
+    def keep_on_moving(self: Any) -> None:
         if getattr(self, "inertia", 0) <= 0.1:
             return  # No movement
 
         # Move in the current direction
 
         match self.direction:
-            case Direction.UP:
-                self.y -= 1
             case Direction.DOWN:
-                self.y += 1
-            case Direction.LEFT:
-                self.x -= 1
+                (dx, dy) = (0, 1)
+            case Direction.UP:
+                (dx, dy) = (0, -1)
             case Direction.RIGHT:
-                self.x += 1
+                (dx, dy) = (1, 0)
+            case Direction.LEFT:
+                (dx, dy) = (-1, 0)
+        try:
+            grd = [
+                ground
+                for ground in self.ground_objs_list
+                if ground.x == self.x + dx and ground.y == self.y + dy
+            ][0]
+        except IndexError:
+            self.logger.info(f"{self.__class__.__name__} cannot move outside ground")
+            return
+        if grd.is_walkable or self.ignore_walkable:
+            self.x = self.x + dx
+            self.y = self.y + dy
+            # Apply friction
+            new_inertia = max(0, self.inertia - self.friction_coefficient)
+            self.logger.info(
+                f"{self.name} moves {self.direction.name}, inertia: {self.inertia:.2f} → {new_inertia:.2f}, "
+                f"position: ({self.x}, {self.y})"
+            )
+            self.inertia = new_inertia  # this stabilises inertia till it does not move anymore
+        else:
+            self.inertia -= 1
 
-        # Apply friction
-        new_inertia = max(0, self.inertia - self.friction_coefficient)
-        self.logger.info(
-            f"{self.name} moves {self.direction.name}, inertia: {self.inertia:.2f} → {new_inertia:.2f}, "
-            f"position: ({self.x}, {self.y})"
-        )
-        self.inertia = new_inertia  # this stabilises inertia till it does not move anymore
-
-    def get_interaction_callables(self, other: "GameObject"):
+    def get_interaction_callables(
+        self, other: "GameObject", game: "Game"
+    ) -> list[Callable[[], None]]:
         # NOTE: this check is very important otherwise this function will be called once for every object in the area
         if self is other:
             return [lambda: self.keep_on_moving()]
@@ -56,7 +81,9 @@ class HealthDecreasesEvolution(InteractionMixin):
             return  # No decrease, death
         self.health -= 1
 
-    def get_interaction_callables(self, other: "GameObject"):
+    def get_interaction_callables(
+        self, other: "GameObject", game: "Game"
+    ) -> list[Callable[[], None]]:
         if self is other:
             return [lambda: self.keep_on_decreasing()]
         return []
@@ -72,7 +99,9 @@ class DamageHealthByTemperature(InteractionMixin):
             self.temperature - self.equilibrium_temperature
         ) / 2  # decrease temperature
 
-    def get_interaction_callables(self, other: "GameObject"):
+    def get_interaction_callables(
+        self, other: "GameObject", game: "Game"
+    ) -> list[Callable[[], None]]:
         if self is other:
             return [lambda: self.damage_by_temperature()]
         return []
@@ -80,11 +109,15 @@ class DamageHealthByTemperature(InteractionMixin):
 
 class DamageHealthByInertia(InteractionMixin):
     def damage_by_inertia(self: Any):
-        if self.inertia > self.inertia_threshold_to_hurt:
+        if self.inertia > self.inertia_threshold_to_hurt_upper:
+            self.health -= 1.0
+        if self.inertia < self.inertia_threshold_to_hurt_lower:
             self.health -= 1.0
         self.inertia = max(0, self.inertia - 1.0)  # decrease inertia
 
-    def get_interaction_callables(self, other: "GameObject"):
+    def get_interaction_callables(
+        self, other: "GameObject", game: "Game"
+    ) -> list[Callable[[], None]]:
         if self is other:
             return [lambda: self.damage_by_inertia()]
         return []
@@ -93,29 +126,29 @@ class DamageHealthByInertia(InteractionMixin):
 class DeathMixin(InteractionMixin):
     inertia: float
 
-    def check_death(self):
+    def check_death(self, game: "Game") -> None:
         if hasattr(self, "health"):
             if self.health < 0.001:
                 self.logger.info(f"{self.__class__.__name__} dies")
-                from ..world.world import world
+                game.current_level.schedule_to_unregister(self)
 
-                world.schedule_to_unregister(self)
-
-    def get_interaction_callables(self, other: "GameObject"):
+    def get_interaction_callables(
+        self, other: "GameObject", game: "Game"
+    ) -> list[Callable[[], None]]:
         if self is other:
-            return [lambda: self.check_death()]
+            return [lambda: self.check_death(game)]
         return []
 
 
 class ParentDeathIDie(InteractionMixin):
-    def check_parent_death(self):
+    def check_parent_death(self: Any, game: "Game") -> None:
         if self.parent.health < 0.001:
             self.logger.info(f"{self.__class__.__name__} dies because of parent")
-            from ..world.world import world
+            game.current_level.schedule_to_unregister(self)
 
-            world.unregister(self)
-
-    def get_interaction_callables(self, other: "GameObject"):
+    def get_interaction_callables(
+        self, other: "GameObject", game: "Game"
+    ) -> list[Callable[[], None]]:
         if self is other:
-            return [lambda: self.check_parent_death()]
+            return [lambda: self.check_parent_death(game)]
         return []

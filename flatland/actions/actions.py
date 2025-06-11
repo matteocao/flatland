@@ -2,8 +2,10 @@ from typing import TYPE_CHECKING, Any, Literal, Optional
 
 from ..consts import Direction
 from ..logger import Logger
+from ..objects.items_registry import registry
 
 if TYPE_CHECKING:
+    from ..__main__ import Game
     from ..objects.base_objects import GameObject
     from ..objects.items import Ground
 
@@ -13,14 +15,13 @@ class MovementMixin:
     direction: Direction
     ground_objs_list: list["Ground"]
 
-    def get_ground_objs(self):
-        from ..world.world import world
+    def get_ground_objs(self, game: "Game") -> None:
 
         self.ground_objs_list: list["Ground"] = [
-            obj for obj in world._observers if obj.__class__.__name__ == "Ground"
+            obj for obj in game.current_level._observers if obj.__class__.__name__ == "Ground"  # type: ignore
         ]
 
-    def move(self, direction: Direction):
+    def move(self: Any, direction: Direction) -> None:
         if self.direction == direction:
             match direction:
                 case Direction.DOWN:
@@ -40,7 +41,7 @@ class MovementMixin:
             except IndexError:
                 self.logger.info(f"{self.__class__.__name__} cannot move outside ground")
                 return
-            if grd.is_walkable:
+            if grd.is_walkable or self.ignore_walkable:
                 self.x: int = self.x + dx
                 self.y: int = self.y + dy
                 self.logger.info(f"{self.__class__.__name__} moves to ({self.x}, {self.y})")
@@ -73,7 +74,7 @@ class LimbControlMixin:
         else:
             self.logger.info(f"{self.__class__.__name__} does nothing.")
 
-    def grab(self: Any, other: "GameObject"):
+    def grab(self: Any, other: "GameObject") -> None:
         if other.is_grabbable:
             self.children.append(other)
             other.parent = self
@@ -83,10 +84,7 @@ class LimbControlMixin:
             other.actions_per_second = self.actions_per_second
             other.scheduler.interval = 0.1
 
-    def cast_magic(self):
-        from ..objects.items_registry import registry
-        from ..world.world import world
-
+    def cast_magic(self: Any, game: "Game") -> None:
         fireball = registry.create(
             cls_name="FireBall",
             x=self.x,
@@ -95,7 +93,8 @@ class LimbControlMixin:
             health=5,
         )
         fireball.direction = self.direction
-        world.register(fireball)
+        game.current_level.register(fireball)
+        game.current_level.get_ground_objs(game)
 
     def push(self: Any, other: "GameObject") -> None:
         other.inertia += 2

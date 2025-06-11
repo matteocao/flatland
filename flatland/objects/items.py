@@ -60,14 +60,14 @@ class Stone(
         super().__init__(x, y, name, health)
         self.friction_coefficient = 1
         self.noise_intensity = 0.1
-        self.inertia_threshold_to_hurt = 1
+        self.inertia_threshold_to_hurt_upper = 1
         self.attractiveness = 0.1
         self.visible_size = 0.5
         self.z_level = 1.0
         self.mass = 200
         self.health = 10
         self.is_encumbrant = True
-        self.num_animations = 4  # do nnot forget this when inheriting from MovementAnimationMixin
+        self.num_animations = 4  # do not forget this when inheriting from MovementAnimationMixin
         self.num_animations_standing = 1
         self.num_animations_dying = 8
         # Load sprites
@@ -138,7 +138,6 @@ class OrangeTreeOne(
         super().__init__(x, y, name, health)
         self.friction_coefficient = 1
         self.noise_intensity = 0.1
-        self.inertia_threshold_to_hurt = 1
         self.attractiveness = 0.1
         self.visible_size = 2.5
         self.z_level = 11.0
@@ -195,6 +194,7 @@ class FireBall(
         self.health = 1
         self.inertia = 2
         self.z_level = 1.0
+        self.ignore_walkable = True
         self.num_animations = 16  # do nnot forget this when inheriting from MovementAnimationMixin
         self.num_animations_dying = 7
         # Load sprites

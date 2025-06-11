@@ -9,7 +9,7 @@ import pytest
 
 from flatland.llm_stub import LLMNPCBrain
 from flatland.objects.items import Cow, Player, Stone
-from flatland.world.world import World
+from flatland.world.world import world
 
 
 def test_player_creation() -> None:
@@ -18,7 +18,6 @@ def test_player_creation() -> None:
 
 
 def test_stone_push() -> None:
-    world = World()
     player = Player(1, 1, "Mark", 2, vision_range=3, hearing_range=3)
     stone = Stone(2, 1, "a rock", 15)
 

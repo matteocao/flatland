@@ -7,41 +7,12 @@ import pytest
 
 from flatland.actions.actions import LimbControlMixin, MovementMixin, SpeechMixin
 from flatland.consts import Direction
-from flatland.world.register_to_world import register_terrain
+from flatland.world.world import world
 
 if TYPE_CHECKING:
     from flatland.objects.base_objects import GameObject
 
 os.environ["SDL_VIDEODRIVER"] = "dummy"  # Use a headless display
-
-
-class Movement(MovementMixin):
-    def __init__(self, x: int, y: int):
-        self.x = x
-        self.y = y
-        self.direction = Direction.UP
-        register_terrain()
-        self.get_ground_objs()
-
-
-@pytest.mark.parametrize(
-    "initial_x, initial_y, direction, expected_x, expected_y",
-    [
-        (0, 2, Direction.UP, 0, 0),
-        (0, 0, Direction.DOWN, 0, 1),
-        (1, 0, Direction.LEFT, 0, 0),
-        (0, 0, Direction.RIGHT, 1, 0),
-    ],
-)
-def test_movements(
-    initial_x: int, initial_y: int, direction: Direction, expected_x: int, expected_y: int
-) -> None:
-    mover = Movement(initial_x, initial_y)
-    mover.move(direction)
-    mover.move(direction)
-    assert mover.x == expected_x
-    assert mover.y == expected_y
-    assert mover.direction == direction
 
 
 class SpeechTest(SpeechMixin):

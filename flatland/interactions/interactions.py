@@ -10,6 +10,7 @@ from ..consts import Direction
 from ..logger import Logger
 
 if TYPE_CHECKING:
+    from ..__main__ import Game
     from ..objects.base_objects import GameObject
 
 
@@ -17,7 +18,9 @@ class InteractionMixin(ABC):
     logger = Logger()
 
     @abstractmethod
-    def get_interaction_callables(self, other: "GameObject") -> list[Callable[[], None]]:
+    def get_interaction_callables(
+        self, other: "GameObject", game: "Game"
+    ) -> list[Callable[[], None]]:
         """Return list of interaction callables relevant for this mixin"""
         pass
 
@@ -41,7 +44,9 @@ class AttachedToParentMixin(InteractionMixin):
         self.y: int = self.parent.y
         self.direction: Direction = self.parent.direction
 
-    def get_interaction_callables(self: Any, other: "GameObject") -> list[Callable[[], None]]:
+    def get_interaction_callables(
+        self: Any, other: "GameObject", game: "Game"
+    ) -> list[Callable[[], None]]:
         if other is self.parent:
             return [lambda: self.location_as_parent()]
         return []
@@ -59,7 +64,9 @@ class EncumbranceMixin(InteractionMixin):
         if self.distance(other) < 1 and other.is_encumbrant:
             self.is_walkable = False
 
-    def get_interaction_callables(self: Any, other: "GameObject") -> list[Callable[[], None]]:
+    def get_interaction_callables(
+        self: Any, other: "GameObject", game: "Game"
+    ) -> list[Callable[[], None]]:
         if other.__class__.__name__ != "Ground":
             return [lambda: self.prevent_movement(other)]
         return []
@@ -113,7 +120,9 @@ class ContactInteractionMixin(InteractionMixin):
             f"{other.name} new inertia: {other.inertia:.2f}, health: {other.health:.1f}"
         )
 
-    def get_interaction_callables(self, other: "GameObject"):
+    def get_interaction_callables(
+        self, other: "GameObject", game: "Game"
+    ) -> list[Callable[[], None]]:
         if isinstance(other, ContactInteractionMixin):
             return [lambda: self.on_contact(other)]
         return []
@@ -132,7 +141,9 @@ class ExplodeAtTouch(InteractionMixin):
             self.health = 0
             self.inertia = 0
 
-    def get_interaction_callables(self, other: "GameObject"):
+    def get_interaction_callables(
+        self, other: "GameObject", game: "Game"
+    ) -> list[Callable[[], None]]:
         if isinstance(other, HeatInteractionMixin):
             return [lambda: self.explode(other)]
         return []
@@ -156,7 +167,9 @@ class HeatInteractionMixin(InteractionMixin):
                 f"{self.__class__.__name__} transfers heat to {other.__class__.__name__}"
             )
 
-    def get_interaction_callables(self, other: "GameObject"):
+    def get_interaction_callables(
+        self, other: "GameObject", game: "Game"
+    ) -> list[Callable[[], None]]:
         if isinstance(other, HeatInteractionMixin):
             return [lambda: self.on_heat_transfer(other)]
         return []

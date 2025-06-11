@@ -2,7 +2,7 @@ import copy
 import math
 import random
 from abc import ABC, abstractmethod
-from typing import Any, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 import pygame
 
@@ -13,6 +13,9 @@ from ..interactions.interactions import ContactInteractionMixin
 from ..interactions.scheduler import InteractionScheduler
 from ..internal.state import InternalState
 from ..logger import Logger
+
+if TYPE_CHECKING:
+    from ..__main__ import Game
 
 
 # ---------- composite pattern ------------
@@ -67,11 +70,13 @@ class GameObject:
         self.sprite_size_x: int = 64
         self.sprite_size_y: int = 64
         self.is_grabbable: bool = False
-        self.inertia_threshold_to_hurt: float = 10.0
+        self.inertia_threshold_to_hurt_upper: float = 10.0
+        self.inertia_threshold_to_hurt_lower: float = -1.0
         self.temperature_threshold_to_hurt_upper: float = 100.0
         self.temperature_threshold_to_hurt_lower: float = -100.0
         self.equilibrium_temperature: float = 30
         self.is_encumbrant: bool = False
+        self.ignore_walkable: bool = False
 
     def update(self, event: Any):
         now = pygame.time.get_ticks()  # in ms
@@ -86,13 +91,13 @@ class GameObject:
             self.logger.info(f"Update for {self.__class__.__name__}")
             self.scheduler.update()  # x, y may be changed here
 
-    def prepare(self, near_objs: Any) -> bool:
+    def prepare(self, near_objs: Any, game: "Game") -> bool:
         if self.is_update_just_done:
             self.is_update_just_done = False
             self.logger.info(f"Preparation for {self.__class__.__name__}")
             # prepare interactions
             for near_obj in near_objs:
-                self.scheduler.add(InteractionCommand(self, near_obj))
+                self.scheduler.add(InteractionCommand(self, near_obj, game))
             return True
         return False
 
@@ -124,10 +129,10 @@ class BaseAnimal(GameObject):
         if self.is_update_just_done:
             self.volition.update()
 
-    def prepare(self, near_objs: Any):
-        check = super().prepare(near_objs)
+    def prepare(self, near_objs: Any, game: "Game"):
+        check = super().prepare(near_objs, game)
         if check:
-            self.volition.prepare()
+            self.volition.prepare(game)
             self.internal_state.update(near_objs)
 
 

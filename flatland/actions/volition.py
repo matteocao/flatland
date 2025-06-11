@@ -36,7 +36,7 @@ class VolitionEngine:
 
             return False
 
-    def prepare(self):
+    def prepare(self, game):
         """
         this is the stage in which the LLM thinks what to do
         ``owner.internal_state -> self.list_of_actions``
@@ -67,7 +67,7 @@ class VolitionEngine:
                                 (self.owner.grab, {"other": rep.source_object})
                             )
                 elif self.owner.keys[pygame.K_SPACE]:
-                    self.list_of_actions.append((self.owner.cast_magic, {}))
+                    self.list_of_actions.append((self.owner.cast_magic, {"game": game}))
                 self.owner.keys = None
         # temporarily a random thingy=
         elif hasattr(self.owner, "speak") and random.random() > 0.9:

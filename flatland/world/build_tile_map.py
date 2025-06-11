@@ -7,13 +7,11 @@ if TYPE_CHECKING:
     from ..objects.items import Ground
 
 
-def build_tile_map(tile_objects: list["Ground"]) -> list[list["Ground"]]:
+def build_tile_map(tile_objects: list["Ground"], width: int, height: int) -> list[list["Ground"]]:
     """
     Dynamically build a tile map by glueing together only tiles with mathcing interafaces
     """
     # tile_objects: list of Ground instances, each with .tile_name and .nswe_neigh
-    width = MAX_X
-    height = MAX_Y
     tile_map: list[list["Ground"]] = [[None for _ in range(width)] for _ in range(height)]  # type: ignore
 
     for i in range(height):
