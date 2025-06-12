@@ -27,6 +27,11 @@ class MovementMixin:
             move_in(self, direction)
         else:
             self.direction = direction
+            for (
+                child
+            ) in self.children:  # move all children that are locked to the parent in the same way
+                if child.location_as_parent:
+                    child.direction = direction
 
 
 class SpeechMixin:
@@ -61,7 +66,9 @@ class LimbControlMixin:
             other.y = self.y
             other.direction = self.direction
             other.actions_per_second = self.actions_per_second
-            other.scheduler.interval = 0.1
+            other.scheduler.interval = self.scheduler.interval
+            if other.render_on_top_of_parent:
+                other.z_level = self.z_level + 1.0
 
     def cast_magic(self: Any, game: "Game") -> None:
         fireball = registry.create(

@@ -34,24 +34,6 @@ class InteractionMixin(ABC):
         }.get(direction, direction)
 
 
-class AttachedToParentMixin(InteractionMixin):
-    """
-    This mixin makes sure that an object is located always on top of the parent object
-    """
-
-    def location_as_parent(self: Any) -> None:
-        self.x: int = self.parent.x
-        self.y: int = self.parent.y
-        self.direction: Direction = self.parent.direction
-
-    def get_interaction_callables(
-        self: Any, other: "GameObject", game: "Game"
-    ) -> list[Callable[[], None]]:
-        if other is self.parent:
-            return [lambda: self.location_as_parent()]
-        return []
-
-
 class EncumbranceMixin(InteractionMixin):
     """
     This mixin prevent movements in the location of self. This has to be attached to the Ground objects.

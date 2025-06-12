@@ -13,7 +13,6 @@ pygame.display.set_mode((1, 1))
 
 from ..actions.actions import LimbControlMixin, MovementMixin, SpeechMixin
 from ..animations.animations import (
-    AlwaysOnTopOfParent,
     DeathAnimationMixin,
     MovementAnimationMixin,
     PushAnimationMixin,
@@ -31,7 +30,6 @@ from ..interactions.evolution import (
     ParentDeathIDie,
 )
 from ..interactions.interactions import (
-    AttachedToParentMixin,
     ContactInteractionMixin,
     EncumbranceMixin,
     ExplodeAtTouch,
@@ -259,8 +257,6 @@ class Ground(GameObject, StandingAnimationMixin, RenderMixin, EncumbranceMixin):
 @registry.register
 class RobeTorso(
     GameObject,
-    AttachedToParentMixin,
-    AlwaysOnTopOfParent,
     MovementAnimationMixin,
     StandingAnimationMixin,
     RenderMixin,
@@ -272,6 +268,9 @@ class RobeTorso(
         self.visible_size = 0.5
         self.num_animations = 8
         self.num_animations_standing = 1
+        self.location_as_parent = True  # just set this for objects to stick to parent
+        self.actions_per_second = 6
+        self.render_on_top_of_parent = True
         self.scheduler.interval = 0.1  # NOTE: needed to keep on top of the player
         self.is_grabbable = True
 
@@ -314,8 +313,6 @@ class RobeTorso(
 @registry.register
 class Shoes(
     GameObject,
-    AttachedToParentMixin,
-    AlwaysOnTopOfParent,
     MovementAnimationMixin,
     StandingAnimationMixin,
     RenderMixin,
@@ -327,6 +324,9 @@ class Shoes(
         self.visible_size = 0.5
         self.num_animations = 8
         self.num_animations_standing = 1
+        self.location_as_parent = True  # just set this for objects to stick to parent
+        self.actions_per_second = 6
+        self.render_on_top_of_parent = True
         self.scheduler.interval = 0.1  # NOTE: needed to keep on top of the player
         self.is_grabbable = True
 
@@ -365,8 +365,6 @@ class Shoes(
 @registry.register
 class Hood(
     GameObject,
-    AttachedToParentMixin,
-    AlwaysOnTopOfParent,
     MovementAnimationMixin,
     StandingAnimationMixin,
     RenderMixin,
@@ -378,6 +376,9 @@ class Hood(
         self.visible_size = 0.5
         self.num_animations = 8
         self.num_animations_standing = 1
+        self.location_as_parent = True  # just set this for objects to stick to parent
+        self.actions_per_second = 6
+        self.render_on_top_of_parent = True
         self.scheduler.interval = 0.1  # NOTE: needed to keep on top of the player
         self.is_grabbable = True
 
@@ -416,8 +417,6 @@ class Hood(
 @registry.register
 class Skirt(
     GameObject,
-    AttachedToParentMixin,
-    AlwaysOnTopOfParent,
     MovementAnimationMixin,
     StandingAnimationMixin,
     RenderMixin,
@@ -428,7 +427,10 @@ class Skirt(
         self.attractiveness = 1.1
         self.visible_size = 0.5
         self.num_animations = 8
+        self.location_as_parent = True  # just set this for objects to stick to parent
         self.num_animations_standing = 1
+        self.actions_per_second = 6
+        self.render_on_top_of_parent = True
         self.scheduler.interval = 0.1  # NOTE: needed to keep on top of the player
         self.is_grabbable = True
 
@@ -637,7 +639,6 @@ class Cow(
 class CowShadow(
     GameObject,
     MovementAnimationMixin,
-    AttachedToParentMixin,
     RenderMixin,
     StandingAnimationMixin,
     ParentDeathIDie,
@@ -649,6 +650,7 @@ class CowShadow(
         self.scheduler.interval = 0.1
         self.sprite_size_x: int = 128
         self.sprite_size_y: int = 128
+        self.location_as_parent = True  # just set this for objects to stick to parent
 
         # Load sprites
         self.movement_sprites_locations = {

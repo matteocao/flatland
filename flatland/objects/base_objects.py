@@ -1,6 +1,7 @@
 import copy
 import math
 import random
+import time
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
@@ -36,34 +37,29 @@ class GameObject:
         self.scheduler = InteractionScheduler(interval=1.0)
         self.logger = Logger()
         self.volition = VolitionEngine(owner=self)
+        self.internal_state = InternalState(self)
+        self.vision_range = 0
+        self.hearing_range = 0
         self.direction: Direction = Direction.DOWN
         self.inertia: float = 0.0  # shall be >= 0. This is the current speed
         self.acceleration: int = 0  # shall be >= 0.
         self.temperature: float = 36.5
         self.charge: float = 0
         self.actions_per_second: int = 1
+        self.render_on_top_of_parent: bool = False
         self.wetness: float = 0.0
         self.mass: float = 2.2
+        self.location_as_parent: bool = False
         self.height: float = 1.0
         self.friction_coefficient: float = 1.0
-        self.animation_index = 0
-        self.animation_timer = 0
+        self.is_moving = False
         self.last_tick: int = 0
-        self.standing_animation_timer = 0
-        self.standing_animation_index = 0
-        self.push_animation_timer = 0
-        self.push_animation_index = 0
-        self.dying_animation_timer = 0
-        self.dying_animation_index = 0
-        self.movement_sprites_locations: dict[Direction, list[str]] = {
-            Direction.UP: [],
-            Direction.DOWN: [],
-            Direction.LEFT: [],
-            Direction.RIGHT: [],
-        }
-        self.is_update_just_done: bool = (
+        self.is_standing = True
+        self.is_pushing = False
+        self.is_prepare_just_done: bool = (
             False  # this turns to true when self.update() is called and is set to false when self.prepare is called
         )
+        self.has_just_started_moving = False
         self.new_render_time = 0
         self.last_render_time = 0
         self.parent: Optional["GameObject"] = None
@@ -91,26 +87,45 @@ class GameObject:
         if hasattr(self, "create_push_sprites"):
             self.create_push_sprites()
 
-    def update(self, event: Any):
+    def update(self, event: Any) -> bool:
+        if self.is_prepare_just_done:
+            self.is_prepare_just_done = False
+            self.logger.info(f"Update for {self.__class__.__name__}")
+            self.volition.update()
+            self.scheduler.update()  # this runs all teh interaction callables
+            # animation flags:
+            if self.prev_x != self.x or self.prev_y != self.y:
+                self.is_pushing = False
+                self.is_moving = True
+                self.has_just_started_moving = True
+                self.is_standing = False
+            elif self.prev_x == self.x and self.prev_y == self.y:
+                self.is_pushing = False
+                self.is_moving = False
+                self.is_standing = True
+            elif any("push" == func.__name__ for func, _ in self.volition.list_of_actions):
+                self.is_pushing = True
+                self.is_moving = False
+                self.is_standing = False
+            return True
+        return False
+
+    def prepare(self, near_objs: Any, game: "Game") -> bool:
         now = pygame.time.get_ticks()  # in ms
         interval = 1000 / self.actions_per_second
         tick = int(now // interval)
 
         if tick != self.last_tick:
-            self.last_tick = tick
-            self.is_update_just_done = True
             self.prev_x = self.x
             self.prev_y = self.y
-            self.logger.info(f"Update for {self.__class__.__name__}")
-            self.scheduler.update()  # x, y may be changed here
-
-    def prepare(self, near_objs: Any, game: "Game") -> bool:
-        if self.is_update_just_done:
-            self.is_update_just_done = False
+            self.last_tick = tick
             self.logger.info(f"Preparation for {self.__class__.__name__}")
             # prepare interactions
             for near_obj in near_objs:
                 self.scheduler.add(InteractionCommand(self, near_obj, game))
+            self.volition.prepare(game)
+            self.internal_state.update(near_objs)
+            self.is_prepare_just_done = True
             return True
         return False
 
@@ -134,19 +149,7 @@ class BaseAnimal(GameObject):
         super().__init__(x, y, name, health)
         self.vision_range = vision_range
         self.hearing_range = hearing_range
-        self.internal_state = InternalState(self)
         self.speech = ""
-
-    def update(self, event: Any):
-        super().update(event)  # self.is_update_just_done is set to true in here
-        if self.is_update_just_done:
-            self.volition.update()
-
-    def prepare(self, near_objs: Any, game: "Game"):
-        check = super().prepare(near_objs, game)
-        if check:
-            self.volition.prepare(game)
-            self.internal_state.update(near_objs)
 
 
 class BaseNPC(BaseAnimal):

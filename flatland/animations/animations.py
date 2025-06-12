@@ -1,4 +1,13 @@
-from typing import TYPE_CHECKING, Any, Callable, Literal, Optional, Protocol, runtime_checkable
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Callable,
+    Literal,
+    Optional,
+    Protocol,
+    TypeVar,
+    runtime_checkable,
+)
 
 import pygame
 
@@ -8,81 +17,82 @@ from ..logger import Logger
 if TYPE_CHECKING:
     from ..objects.base_objects import GameObject
 
+T = TypeVar("T", bound="Any[StandingAnimationMixin, GameObject]")
+
 
 @runtime_checkable
 class HasMovementAttributes(Protocol):
-    movement_sprites_locations: dict[Direction, list[str]]
-    is_update_just_done: bool
     actions_per_second: int
     x: int
     prev_x: int
     y: int
     prev_y: int
     direction: Direction
-    animation_timer: int
+    movement_sprites_locations: dict[Direction, list[str]]
     animation_index: int
-    last_render_time: int
-    new_render_time: int
-    num_animations: int
-    movement_sprites: dict[Direction, dict]
+    movement_sprites: dict[Direction, Any]
     update_movement_animation: Callable[[], None]
     parent: "GameObject"
     sprite_size_x: int
     sprite_size_y: int
+    alpha: float
+    has_just_started_moving: bool
 
 
 class MovementAnimationMixin:
-    logger = Logger()
+    movement_sprites_locations: dict[Direction, list[str]]
+    animation_index: int = 0
+    movement_sprites: dict[Direction, Any]
+    alpha: float = 0.0
 
-    def create_movement_sprites(self: HasMovementAttributes | Any) -> None:
+    def create_movement_sprites(self: HasMovementAttributes) -> None:
         self.movement_sprites = {
             k: list(map(lambda x: pygame.image.load(x).convert_alpha(), lst_str))
             for k, lst_str in self.movement_sprites_locations.items()
         }
 
-    def update_movement_animation(self: HasMovementAttributes | Any):
+    def update_movement_animation(self: HasMovementAttributes):
         self.animation_index = (self.animation_index + 1) % len(
             self.movement_sprites[self.direction]
         )
 
-    def render_movement(self: HasMovementAttributes | Any, screen: pygame.Surface) -> None:
-        now = pygame.time.get_ticks()
-        if self.is_update_just_done:
-            self.new_render_time = now
-        self.last_render_time = now
-        alpha = (self.last_render_time - self.new_render_time) / 1000 * self.actions_per_second
+    def render_movement(self: HasMovementAttributes, screen: pygame.Surface) -> None:
+        if self.has_just_started_moving:
+            self.alpha = 0.0
+            self.has_just_started_moving = False
+        # alpha = (self.last_render_time - self.new_render_time) / 1000 * self.actions_per_second
+
         offset_x = self.sprite_size_x // 2 - TILE_SIZE // 2
         offset_y = self.sprite_size_y // 2 - TILE_SIZE // 2
         pos = (
-            (alpha * self.x + (1 - alpha) * self.prev_x) * TILE_SIZE - offset_x,
-            (alpha * self.y + (1 - alpha) * self.prev_y) * TILE_SIZE - offset_y,
+            (self.alpha * self.x + (1 - self.alpha) * self.prev_x) * TILE_SIZE - offset_x,
+            (self.alpha * self.y + (1 - self.alpha) * self.prev_y) * TILE_SIZE - offset_y,
         )
         self.update_movement_animation()
         sprite = self.movement_sprites[self.direction][self.animation_index]
         # TODO: here we will need to generalize with new animations and improve the logic
         screen.blit(sprite, pos)
+        d_alpha = 0.1 * self.actions_per_second
+        self.alpha = self.alpha + d_alpha
 
 
 class StandingAnimationMixin:
-    logger = Logger()
+    standing_sprites_locations: dict[Direction, list[str]]
+    standing_animation_index: int = 0
+    standing_sprites: dict[Direction, Any]
 
-    def create_standing_sprites(self: Any) -> None:
+    def create_standing_sprites(self: T) -> None:
         self.standing_sprites = {
             k: list(map(lambda x: pygame.image.load(x).convert_alpha(), lst_str))
             for k, lst_str in self.standing_sprites_locations.items()
         }
 
-    def update_standing_animation(self: Any):
+    def update_standing_animation(self: T) -> None:
         self.standing_animation_index = (self.standing_animation_index + 1) % len(
             self.standing_sprites[self.direction]
         )
 
-    def render_standing(self: Any, screen: pygame.Surface) -> None:
-        now = pygame.time.get_ticks()
-        if self.is_update_just_done:
-            self.new_render_time = now
-        self.last_render_time = now
-        alpha = (self.last_render_time - self.new_render_time) / 1000 * self.actions_per_second
+    def render_standing(self: T, screen: pygame.Surface) -> None:
         offset_x = self.sprite_size_x // 2 - TILE_SIZE // 2
         offset_y = self.sprite_size_y // 2 - TILE_SIZE // 2
         pos = (self.x * TILE_SIZE - offset_x, self.y * TILE_SIZE - offset_y)
@@ -93,7 +103,9 @@ class StandingAnimationMixin:
 
 
 class DeathAnimationMixin:
-    logger = Logger()
+    dying_sprites_locations: dict[Direction, list[str]]
+    dying_animation_index: int = 0
+    dying_sprites: dict[Direction, Any]
 
     def create_dying_sprites(self: Any) -> None:
         self.dying_sprites = {
@@ -107,11 +119,6 @@ class DeathAnimationMixin:
         )
 
     def render_dying(self: Any, screen: pygame.Surface) -> None:
-        now = pygame.time.get_ticks()
-        if self.is_update_just_done:
-            self.new_render_time = now
-        self.last_render_time = now
-        alpha = (self.last_render_time - self.new_render_time) / 1000 * self.actions_per_second
         offset_x = self.sprite_size_x // 2 - TILE_SIZE // 2
         offset_y = self.sprite_size_y // 2 - TILE_SIZE // 2
         pos = (self.x * TILE_SIZE - offset_x, self.y * TILE_SIZE - offset_y)
@@ -122,7 +129,9 @@ class DeathAnimationMixin:
 
 
 class PushAnimationMixin:
-    logger = Logger()
+    push_sprites_locations: dict[Direction, list[str]]
+    push_animation_index: int = 0
+    push_sprites: dict[Direction, Any]
 
     def create_push_sprites(self: Any) -> None:
         self.push_sprites = {
@@ -136,11 +145,6 @@ class PushAnimationMixin:
         )
 
     def render_push(self: Any, screen: pygame.Surface) -> None:
-        now = pygame.time.get_ticks()
-        if self.is_update_just_done:
-            self.new_render_time = now
-        self.last_render_time = now
-        alpha = (self.last_render_time - self.new_render_time) / 1000 * self.actions_per_second
         offset_x = self.sprite_size_x // 2 - TILE_SIZE // 2
         offset_y = self.sprite_size_y // 2 - TILE_SIZE // 2
         pos = (self.x * TILE_SIZE - offset_x, self.y * TILE_SIZE - offset_y)
@@ -155,6 +159,6 @@ class AlwaysOnTopOfParent:
     Mixin to be used in case you want an object to always be on top of the parent object, like an armor or helmet
     """
 
-    def render_on_top(self: HasMovementAttributes | Any) -> None:
+    def render_on_top(self: Any) -> None:
         if self.parent:
             self.z_level = self.parent.z_level + 1
