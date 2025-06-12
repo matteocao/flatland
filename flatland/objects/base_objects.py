@@ -59,9 +59,6 @@ class GameObject:
         self.is_prepare_just_done: bool = (
             False  # this turns to true when self.update() is called and is set to false when self.prepare is called
         )
-        self.has_just_started_moving = False
-        self.new_render_time = 0
-        self.last_render_time = 0
         self.parent: Optional["GameObject"] = None
         self.children: list["GameObject"] = []
         # this is the value that decides the rendering order: the higher, the later it will be rendered.
@@ -97,7 +94,6 @@ class GameObject:
             if self.prev_x != self.x or self.prev_y != self.y:
                 self.is_pushing = False
                 self.is_moving = True
-                self.has_just_started_moving = True
                 self.is_standing = False
             elif self.prev_x == self.x and self.prev_y == self.y:
                 self.is_pushing = False
@@ -131,9 +127,6 @@ class GameObject:
 
     def distance(self, other: Any) -> float:
         return math.sqrt((self.x - other.x) ** 2 + (self.y - other.y) ** 2)
-
-    def clone(self) -> Any:
-        return copy.deepcopy(self)
 
 
 class BaseAnimal(GameObject):

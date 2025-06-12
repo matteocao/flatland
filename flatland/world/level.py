@@ -116,7 +116,6 @@ class Level:
             "is_pushing": obj.is_pushing,
             "is_standing": obj.is_standing,
             "render_on_top_of_parent": obj.render_on_top_of_parent,
-            "has_just_started_moving": obj.has_just_started_moving,
             "movement_sprites_locations": getattr(obj, "movement_sprites_locations", None),
             "standing_sprites_locations": getattr(obj, "standing_sprites_locations", None),
             "dying_sprites_locations": getattr(obj, "dying_sprites_locations", None),

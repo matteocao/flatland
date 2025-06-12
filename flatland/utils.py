@@ -37,7 +37,6 @@ def move_in(self: Any, direction: Direction) -> bool:
                 child.prev_y = self.prev_y
                 child.direction = self.direction
                 child.is_moving = True
-                child.has_just_started_moving = True
         return True
     else:
         self.logger.info(f"{self.__class__.__name__} cannot walk to ({self.x+dx}, {self.y+dy})")

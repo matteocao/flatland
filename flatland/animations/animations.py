@@ -36,7 +36,8 @@ class HasMovementAttributes(Protocol):
     sprite_size_x: int
     sprite_size_y: int
     alpha: float
-    has_just_started_moving: bool
+    last_x: int
+    last_y: int
 
 
 class MovementAnimationMixin:
@@ -44,6 +45,8 @@ class MovementAnimationMixin:
     animation_index: int = 0
     movement_sprites: dict[Direction, Any]
     alpha: float = 0.0
+    last_x: int = 0
+    last_y: int = 0
 
     def create_movement_sprites(self: HasMovementAttributes) -> None:
         self.movement_sprites = {
@@ -57,9 +60,17 @@ class MovementAnimationMixin:
         )
 
     def render_movement(self: HasMovementAttributes, screen: pygame.Surface) -> None:
-        if self.has_just_started_moving:
+        now = pygame.time.get_ticks()
+        d_alpha = 0.1 * self.actions_per_second
+        is_same_destination = self.last_x == self.x and self.y == self.last_y
+        if not is_same_destination:
             self.alpha = 0.0
-            self.has_just_started_moving = False
+            self.last_x = self.x
+            self.last_y = self.y
+
+        # if self.has_just_started_moving:
+        #    self.alpha = 0.0
+        #    self.has_just_started_moving = False
         # alpha = (self.last_render_time - self.new_render_time) / 1000 * self.actions_per_second
 
         offset_x = self.sprite_size_x // 2 - TILE_SIZE // 2
@@ -72,7 +83,6 @@ class MovementAnimationMixin:
         sprite = self.movement_sprites[self.direction][self.animation_index]
         # TODO: here we will need to generalize with new animations and improve the logic
         screen.blit(sprite, pos)
-        d_alpha = 0.1 * self.actions_per_second
         self.alpha = self.alpha + d_alpha
 
 
