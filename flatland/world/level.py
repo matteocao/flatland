@@ -21,10 +21,11 @@ class Level:
     Via the observer method, the world loops through the objects and updates them.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, level_key: str = "") -> None:
         self._observers: list["GameObject"] = []
         self._scheduled_to_die: list[tuple["GameObject", int, int]] = []
         self.logger = Logger()
+        self.level_key = level_key
 
     def register(self, obj: "GameObject") -> None:
         if obj not in self._observers:

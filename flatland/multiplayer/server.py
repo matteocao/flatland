@@ -54,6 +54,7 @@ class GameServer:
             payload = {
                 "world_state": world_state,
                 "player_id": player.id,  # 👈 send player id to client
+                "level_key": self.client_levels[client_id].level_key,
             }
             full_state = pickle.dumps(payload)
             length_prefix = struct.pack("!I", len(full_state))
@@ -88,7 +89,6 @@ class GameServer:
 
             # Move player to new level
             new_level = self.world[target_level_key]
-            self.client_levels[client_id] = new_level
 
             # Move player to portal spawn point
             portal = next(obj for obj in new_level._observers if obj.__class__.__name__ == "Portal")
@@ -96,12 +96,14 @@ class GameServer:
             player.y = portal.y
 
             # Register player in new level
-            new_level.register(player)
             for obj in player.children:
                 new_level.register(obj)
+            new_level.register(player)
+
             self.current_level = new_level
             new_level.get_ground_objs(self)  # type: ignore
             self.current_level = None
+            self.client_levels[client_id] = new_level
 
     def disconnect(self, client_id: int):
         self.logger.info(f"Disconnecting client {client_id}")
@@ -126,10 +128,15 @@ class GameServer:
 
             # Broadcast state to all clients
             for client_id, (conn, _) in self.clients.items():
-                state = pickle.dumps(self.client_levels[client_id].get_serializable_state())
-                length_prefix = struct.pack("!I", len(state))  # 4-byte length prefix
+                world_state = self.client_levels[client_id].get_serializable_state()
+                payload = {
+                    "world_state": world_state,
+                    "level_key": self.client_levels[client_id].level_key,
+                }
+                full_state = pickle.dumps(payload)
+                length_prefix = struct.pack("!I", len(full_state))  # 4-byte length prefix
                 try:
-                    conn.sendall(length_prefix + state)
+                    conn.sendall(length_prefix + full_state)
                 except:
                     self.disconnect(client_id)
 

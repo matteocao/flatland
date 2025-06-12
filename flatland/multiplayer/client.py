@@ -2,6 +2,8 @@ import copy
 import pickle
 import socket
 import struct
+import threading
+import time
 from typing import TYPE_CHECKING, Any
 
 import pygame
@@ -17,6 +19,7 @@ if TYPE_CHECKING:
 class GameClient:
     def __init__(self, host: str, port: int) -> None:
         self.level = Level()
+        self.running = True
         self.obj_map: dict[str, "GameObject"] = {}  # key = object ID or unique hash
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.connect((host, port))
@@ -35,6 +38,8 @@ class GameClient:
 
         world_state = payload["world_state"]
         self.my_player_id = payload["player_id"]  # 👈 Save your player ID
+        self.current_level_key = payload["level_key"]
+        print(self.current_level_key)
 
         for obj_data in world_state["objects"]:
             obj_id = obj_data["id"]
@@ -70,47 +75,85 @@ class GameClient:
         message = {"type": "portal_request", "target_level": target_level_key}
         self.sock.sendall(pickle.dumps(message))
 
-    def run(self) -> None:
-        running = True
-        while running:
+    def send_inputs(self) -> None:
+        while self.running:
             keys = pygame.key.get_pressed()
-            pygame.event.pump()
             self.sock.sendall(pickle.dumps(keys))
+            time.sleep(1 / 10)  # 60Hz input send
 
-            # First read 4 bytes (message length)
-            length_data = self.recv_all(self.sock, 4)
-            message_length = struct.unpack("!I", length_data)[0]
+    def receive_world(self) -> None:
+        while self.running:
+            try:
+                length_data = self.recv_all(self.sock, 4)
+                message_length = struct.unpack("!I", length_data)[0]
+                data = self.recv_all(self.sock, message_length)
+                payload = pickle.loads(data)
+                world_state = payload["world_state"]
+                level_key = payload["level_key"]
 
-            # Then read the full message
-            data = self.recv_all(self.sock, message_length)
-            world_state = pickle.loads(data)
-            portals: list[dict[str, Any]] = []
-            players: list[dict[str, Any]] = []
-            for obj in world_state["objects"]:
-                if obj["cls_name"] == "Portal":
-                    portals.append(obj)
-                if obj["cls_name"] == "Player":
-                    players.append(obj)
-            self.render(world_state)
+                # Update local state (must be thread-safe)
+                with self.state_lock:
+                    self.latest_world_state = world_state
+                    self.latest_level_key = level_key
+
+            except Exception as e:
+                print(f"Receiver thread exception: {e}")
+                self.running = False
+
+    def run(self) -> None:
+        self.running = True
+        self.state_lock = threading.Lock()
+        self.latest_world_state = None
+        self.latest_level_key = None
+
+        threading.Thread(target=self.send_inputs, daemon=True).start()
+        threading.Thread(target=self.receive_world, daemon=True).start()
+
+        while self.running:
+            pygame.event.pump()
+
+            with self.state_lock:
+                world_state = self.latest_world_state
+                level_key = self.latest_level_key
+
+            if world_state is not None:
+                portals, players = [], []
+                for obj in world_state["objects"]:
+                    if obj["cls_name"] == "Portal":
+                        portals.append(obj)
+                    if obj["cls_name"] == "Player":
+                        players.append(obj)
+
+                self.render(world_state, level_key)
+
+                # portal request handling remains the same
+                for portal in portals:
+                    player = [player for player in players if player["id"] == self.my_player_id][0]
+                    keys = pygame.key.get_pressed()
+                    if (
+                        keys[pygame.K_q]
+                        and player["x"] == portal["x"]
+                        and player["y"] == portal["y"]
+                    ):
+                        self.request_portal(portal["level_key"])
+                        break
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    running = False
-            # check for the portal request to enter
-            for portal in portals:
-                player = [player for player in players if player["id"] == self.my_player_id][0]
-                if keys[pygame.K_q] and player["x"] == portal["x"] and player["y"] == portal["y"]:
-                    self.request_portal(portal["level_key"])
-                    break
+                    self.running = False
 
             pygame.display.flip()
             self.clock.tick(10)
 
-    def render(self, world_state: dict[str, list[dict[str, Any]]]) -> None:
+    def render(self, world_state: dict[str, list[dict[str, Any]]], level_key: str) -> None:
         self.screen.fill((0, 0, 0))
 
         # Build set of current object IDs received from server
         incoming_ids = set()
+        if self.current_level_key != level_key:
+            self.level = Level(level_key)
+            self.obj_map.clear()
+            self.current_level_key = level_key
 
         for obj_data in world_state["objects"]:
             obj_id = obj_data["id"]  # <-- unique ID of object
