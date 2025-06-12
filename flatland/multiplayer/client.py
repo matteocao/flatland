@@ -1,6 +1,8 @@
+import copy
 import pickle
 import socket
 import struct
+from typing import TYPE_CHECKING, Any
 
 import pygame
 
@@ -8,14 +10,47 @@ from flatland.consts import MAX_X, MAX_Y, TILE_SIZE
 from flatland.objects.items_registry import registry
 from flatland.world.level import Level
 
+if TYPE_CHECKING:
+    from flatland.objects.base_objects import GameObject
+
 
 class GameClient:
-    def __init__(self, host, port):
+    def __init__(self, host: str, port: int) -> None:
+        self.level = Level()
+        self.obj_map: dict[str, "GameObject"] = {}  # key = object ID or unique hash
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.connect((host, port))
+        self.init_world_state()
         pygame.init()
         self.screen = pygame.display.set_mode((MAX_X * TILE_SIZE, MAX_Y * TILE_SIZE))
         self.clock = pygame.time.Clock()
+        self.old_world_state: Any = None
+
+    def init_world_state(self):
+        # Receive full initial world state
+        length_data = self.recv_all(self.sock, 4)
+        message_length = struct.unpack("!I", length_data)[0]
+        data = self.recv_all(self.sock, message_length)
+        world_state = pickle.loads(data)
+
+        for obj_data in world_state["objects"]:
+            obj_id = obj_data["id"]
+            instance = registry.create(
+                cls_name=obj_data["cls_name"],
+                x=obj_data["x"],
+                y=obj_data["y"],
+                name=obj_data["name"],
+                health=obj_data["health"],
+                vision_range=5,
+                hearing_range=5,
+                temperature=36.3,
+                tile_name=obj_data["tile_name"],
+            )
+            for k, v in obj_data.items():
+                if k != "cls_name":
+                    setattr(instance, k, v)
+            self.level.register(instance)
+            self.obj_map[obj_id] = instance
 
     @staticmethod
     def recv_all(sock, n):
@@ -51,23 +86,47 @@ class GameClient:
             pygame.display.flip()
             self.clock.tick(10)
 
-    def render(self, world_state):  # TODO
+    def render(self, world_state: dict[str, list[dict[str, Any]]]) -> None:
         self.screen.fill((0, 0, 0))
-        level = Level()
-        for obj in world_state["objects"]:
-            inst = registry.create(
-                cls_name=obj["cls_name"],
-                x=obj["x"],
-                y=obj["y"],
-                name=obj["name"],
-                health=obj["health"],
-                vision_range=5,
-                hearing_range=5,
-                temperature=36.3,
-                tile_name=obj["tile_name"],
-            )
-            for k, v in obj.items():
-                if k != "cls_name":
-                    setattr(inst, k, v)
-            level.register(inst)
-        level.render(self.screen)
+
+        # Build set of current object IDs received from server
+        incoming_ids = set()
+
+        for obj_data in world_state["objects"]:
+            obj_id = obj_data["id"]  # <-- unique ID of object
+            incoming_ids.add(obj_id)
+
+            if obj_id in self.obj_map:
+                # Object already exists → update fields
+                instance = self.obj_map[obj_id]
+                for k, v in obj_data.items():
+                    if k != "cls_name":
+                        setattr(instance, k, v)
+            else:
+                # New object → create it
+                instance = registry.create(
+                    cls_name=obj_data["cls_name"],
+                    x=obj_data["x"],
+                    y=obj_data["y"],
+                    name=obj_data["name"],
+                    health=obj_data["health"],
+                    vision_range=5,
+                    hearing_range=5,
+                    temperature=36.3,
+                    tile_name=obj_data["tile_name"],
+                )
+                for k, v in obj_data.items():
+                    if k != "cls_name":
+                        setattr(instance, k, v)
+                self.level.register(instance)
+                self.obj_map[obj_id] = instance
+
+        # Unregister missing objects
+        existing_ids = set(self.obj_map.keys())
+        removed_ids = existing_ids - incoming_ids
+        for obj_id in removed_ids:
+            inst = self.obj_map.pop(obj_id)
+            self.level.unregister(inst)
+
+        # Render everything
+        self.level.render(self.screen)

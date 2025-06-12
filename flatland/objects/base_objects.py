@@ -1,6 +1,7 @@
 import copy
 import math
 import random
+import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, Optional
@@ -25,6 +26,7 @@ class GameObject:
         """
         x, y are the positions
         """
+        self.id = uuid.uuid4().hex
         self.x = x
         self.y = y
         self.prev_x = x

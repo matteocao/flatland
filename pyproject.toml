@@ -32,6 +32,13 @@ line_length = 100
 line-length = 100
 target-version = ["py310"]
 
+[tool.coverage.run]
+omit = [
+  "flatland/multiplayer/*",
+  "clean_all_assets.py",
+  "cut_picture.py"
+]
+
 [[tool.mypy.overrides]]
 module = [
   "pygame"

@@ -2,6 +2,9 @@ import pickle
 import socket
 import struct
 import threading
+from typing import Any
+
+import pygame
 
 from flatland.logger import Logger
 from flatland.objects.items import Player  # your Player class
@@ -10,31 +13,45 @@ from flatland.world.level import Level
 
 
 class GameServer:
-    def __init__(self, world):
+    def __init__(self, world: dict[str, Level]) -> None:
         self.world = world
-        self.current_level = self.world["level_0"]
-        self.current_level.get_ground_objs(self)
-        self.clients = dict()  # client_id -> (socket, Player)
+        for level in self.world.values():
+            self.current_level = level
+            level.get_ground_objs(self)  # type: ignore
+        del self.current_level
+        self.clients: dict[int, tuple] = dict()  # client_id -> (socket, Player)
         self.lock = threading.Lock()
         self.logger = Logger()
+        self.client_levels: dict[int, Level] = dict()  # the key is the client_id
 
-    def handle_client(self, conn, addr, client_id):
+    def handle_client(self, conn: Any, addr: Any, client_id: int):
         self.logger.info(f"Client {addr} connected as {client_id}")
 
-        # Spawn player for client
+        # Create player for client
         player = registry.create(
             cls_name="Player",
             x=5,
             y=5,
-            name="Matte",
+            name=f"Player{client_id}",
             health=10,
             vision_range=5,
             hearing_range=5,
             temperature=36.3,
-        )  # Player(x=5, y=5, name=f"Player{client_id}", health=100, vision_range=5, hearing_range=5)
-        self.current_level.register(player)
-        self.current_level.get_ground_objs(self)
-        self.clients[client_id] = (conn, player)
+        )
+        self.client_levels[client_id] = self.world["level_0"]
+        self.client_levels[client_id].register(player)
+        self.current_level = self.client_levels[client_id]
+        self.client_levels[client_id].get_ground_objs(self)  # type: ignore
+        del self.current_level
+
+        with self.lock:
+            self.clients[client_id] = (conn, player)
+
+            # 👇 Send full world state immediately
+            world_state = self.client_levels[client_id].get_serializable_state()
+            full_state = pickle.dumps(world_state)
+            length_prefix = struct.pack("!I", len(full_state))
+            conn.sendall(length_prefix + full_state)
 
         try:
             while True:
@@ -42,36 +59,39 @@ class GameServer:
                 if not data:
                     break
                 keys = pickle.loads(data)
-                player.get_pressed_keys(keys)
+                player.get_pressed_keys(keys)  # type: ignore
         except:
             pass
         finally:
             self.disconnect(client_id)
 
-    def disconnect(self, client_id):
+    def disconnect(self, client_id: int):
         self.logger.info(f"Disconnecting client {client_id}")
-        conn, player = self.clients.pop(client_id, (None, None))
+        with self.lock:
+            conn, player = self.clients.pop(client_id, (None, None))
         if conn:
             conn.close()
         if player:
-            self.current_level.unregister(player)
+            self.client_levels[client_id].unregister(player)
 
     def update_world(self):
-        # Run game logic
-        self.current_level.reset_is_walkable()
-        self.current_level.prepare(self.current_level._observers, self)
-        self.current_level.update(None)
-        self.current_level.correct_periodic_positions()
+        with self.lock:
+            # update each level where there is at least one client
+            for level in set(self.client_levels.values()):
+                # Run game logic
+                level.reset_is_walkable()
+                level.prepare(level._observers, self)
+                level.update(None)
+                level.correct_periodic_positions()
 
-        # Broadcast state to all clients
-        state = pickle.dumps(self.current_level.get_serializable_state())
-        length_prefix = struct.pack("!I", len(state))  # 4-byte length prefix
-
-        for client_id, (conn, _) in self.clients.items():
-            try:
-                conn.sendall(length_prefix + state)
-            except:
-                self.disconnect(client_id)
+            # Broadcast state to all clients
+            for client_id, (conn, _) in self.clients.items():
+                state = pickle.dumps(self.client_levels[client_id].get_serializable_state())
+                length_prefix = struct.pack("!I", len(state))  # 4-byte length prefix
+                try:
+                    conn.sendall(length_prefix + state)
+                except:
+                    self.disconnect(client_id)
 
     def run(self, host="0.0.0.0", port=12345):
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -93,6 +113,5 @@ class GameServer:
         import time
 
         while True:
-            with self.lock:
-                self.update_world()
+            self.update_world()
             time.sleep(0.1)
