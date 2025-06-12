@@ -31,7 +31,7 @@ def test_inertia_damage():
             health=50,
         )
         stone.direction = Direction.RIGHT
-        stone.inertia = 15
+        stone.inertia = 19
         level = Level()
         level.register(stone)
         level.register(goblin)

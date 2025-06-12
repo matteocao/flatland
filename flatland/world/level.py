@@ -128,6 +128,7 @@ class Level:
             "standing_sprites_locations": getattr(obj, "standing_sprites_locations", None),
             "dying_sprites_locations": getattr(obj, "dying_sprites_locations", None),
             "push_sprites_locations": getattr(obj, "push_sprites_locations", None),
+            "level_key": getattr(obj, "level_key", None),
             "z_level": obj.z_level,
             "sprite_size_x": obj.sprite_size_x,
             "sprite_size_y": obj.sprite_size_y,

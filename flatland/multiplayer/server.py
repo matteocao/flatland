@@ -2,6 +2,7 @@ import pickle
 import socket
 import struct
 import threading
+import time
 from typing import Any
 
 import pygame
@@ -15,10 +16,11 @@ from flatland.world.level import Level
 class GameServer:
     def __init__(self, world: dict[str, Level]) -> None:
         self.world = world
+        self.current_level: Any = None
         for level in self.world.values():
             self.current_level = level
             level.get_ground_objs(self)  # type: ignore
-        del self.current_level
+        self.current_level = None
         self.clients: dict[int, tuple] = dict()  # client_id -> (socket, Player)
         self.lock = threading.Lock()
         self.logger = Logger()
@@ -42,14 +44,18 @@ class GameServer:
         self.client_levels[client_id].register(player)
         self.current_level = self.client_levels[client_id]
         self.client_levels[client_id].get_ground_objs(self)  # type: ignore
-        del self.current_level
+        self.current_level = None
 
         with self.lock:
             self.clients[client_id] = (conn, player)
 
             # 👇 Send full world state immediately
             world_state = self.client_levels[client_id].get_serializable_state()
-            full_state = pickle.dumps(world_state)
+            payload = {
+                "world_state": world_state,
+                "player_id": player.id,  # 👈 send player id to client
+            }
+            full_state = pickle.dumps(payload)
             length_prefix = struct.pack("!I", len(full_state))
             conn.sendall(length_prefix + full_state)
 
@@ -59,11 +65,43 @@ class GameServer:
                 if not data:
                     break
                 keys = pickle.loads(data)
-                player.get_pressed_keys(keys)  # type: ignore
+                if isinstance(keys, dict) and keys.get("type") == "portal_request":
+                    self.process_portal(client_id, keys["target_level"])
+                else:
+                    player.get_pressed_keys(keys)  # type: ignore
         except:
             pass
         finally:
             self.disconnect(client_id)
+
+    def process_portal(self, client_id: int, target_level_key: str):
+        self.logger.info(f"Processing portal request for client {client_id} -> {target_level_key}")
+
+        with self.lock:
+            player = self.clients[client_id][1]
+            old_level = self.client_levels[client_id]
+
+            # Unregister player from old level
+            old_level.unregister(player)
+            for obj in player.children:
+                old_level.unregister(obj)
+
+            # Move player to new level
+            new_level = self.world[target_level_key]
+            self.client_levels[client_id] = new_level
+
+            # Move player to portal spawn point
+            portal = next(obj for obj in new_level._observers if obj.__class__.__name__ == "Portal")
+            player.x = portal.x
+            player.y = portal.y
+
+            # Register player in new level
+            new_level.register(player)
+            for obj in player.children:
+                new_level.register(obj)
+            self.current_level = new_level
+            new_level.get_ground_objs(self)  # type: ignore
+            self.current_level = None
 
     def disconnect(self, client_id: int):
         self.logger.info(f"Disconnecting client {client_id}")
@@ -79,10 +117,12 @@ class GameServer:
             # update each level where there is at least one client
             for level in set(self.client_levels.values()):
                 # Run game logic
+                self.current_level = level
                 level.reset_is_walkable()
                 level.prepare(level._observers, self)
                 level.update(None)
                 level.correct_periodic_positions()
+                self.current_level = None
 
             # Broadcast state to all clients
             for client_id, (conn, _) in self.clients.items():
@@ -110,8 +150,6 @@ class GameServer:
             client_id += 1
 
     def world_loop(self):
-        import time
-
         while True:
             self.update_world()
             time.sleep(0.1)

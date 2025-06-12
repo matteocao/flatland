@@ -31,7 +31,10 @@ class GameClient:
         length_data = self.recv_all(self.sock, 4)
         message_length = struct.unpack("!I", length_data)[0]
         data = self.recv_all(self.sock, message_length)
-        world_state = pickle.loads(data)
+        payload = pickle.loads(data)
+
+        world_state = payload["world_state"]
+        self.my_player_id = payload["player_id"]  # 👈 Save your player ID
 
         for obj_data in world_state["objects"]:
             obj_id = obj_data["id"]
@@ -63,7 +66,11 @@ class GameClient:
             data.extend(packet)
         return data
 
-    def run(self):
+    def request_portal(self, target_level_key: str) -> None:
+        message = {"type": "portal_request", "target_level": target_level_key}
+        self.sock.sendall(pickle.dumps(message))
+
+    def run(self) -> None:
         running = True
         while running:
             keys = pygame.key.get_pressed()
@@ -77,11 +84,24 @@ class GameClient:
             # Then read the full message
             data = self.recv_all(self.sock, message_length)
             world_state = pickle.loads(data)
+            portals: list[dict[str, Any]] = []
+            players: list[dict[str, Any]] = []
+            for obj in world_state["objects"]:
+                if obj["cls_name"] == "Portal":
+                    portals.append(obj)
+                if obj["cls_name"] == "Player":
+                    players.append(obj)
             self.render(world_state)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+            # check for the portal request to enter
+            for portal in portals:
+                player = [player for player in players if player["id"] == self.my_player_id][0]
+                if keys[pygame.K_q] and player["x"] == portal["x"] and player["y"] == portal["y"]:
+                    self.request_portal(portal["level_key"])
+                    break
 
             pygame.display.flip()
             self.clock.tick(10)
