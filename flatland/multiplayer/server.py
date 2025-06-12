@@ -122,23 +122,30 @@ class GameServer:
                 self.current_level = level
                 level.reset_is_walkable()
                 level.prepare(level._observers, self)
+                self.current_level = None
+            self.broadcast()
+
+            for level in set(self.client_levels.values()):
+                self.current_level = level
                 level.update(None)
                 level.correct_periodic_positions()
                 self.current_level = None
+            self.broadcast()
 
-            # Broadcast state to all clients
-            for client_id, (conn, _) in self.clients.items():
-                world_state = self.client_levels[client_id].get_serializable_state()
-                payload = {
-                    "world_state": world_state,
-                    "level_key": self.client_levels[client_id].level_key,
-                }
-                full_state = pickle.dumps(payload)
-                length_prefix = struct.pack("!I", len(full_state))  # 4-byte length prefix
-                try:
-                    conn.sendall(length_prefix + full_state)
-                except:
-                    self.disconnect(client_id)
+    def broadcast(self):
+        # Broadcast state to all clients
+        for client_id, (conn, _) in self.clients.items():
+            world_state = self.client_levels[client_id].get_serializable_state()
+            payload = {
+                "world_state": world_state,
+                "level_key": self.client_levels[client_id].level_key,
+            }
+            full_state = pickle.dumps(payload)
+            length_prefix = struct.pack("!I", len(full_state))  # 4-byte length prefix
+            try:
+                conn.sendall(length_prefix + full_state)
+            except:
+                self.disconnect(client_id)
 
     def run(self, host="0.0.0.0", port=12345):
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
