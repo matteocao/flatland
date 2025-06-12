@@ -7,6 +7,7 @@ import pygame
 from .consts import MAX_X, MAX_Y, TILE_SIZE
 from .logger import Logger
 from .objects import items
+from .objects.items_registry import registry
 from .world.level import Level
 
 os.environ["SDL_VIDEODRIVER"] = "dummy"  # Use a headless display
@@ -46,6 +47,17 @@ class Game:
         pygame.display.set_caption("Flatland")
 
         self.current_level = self.world["level_0"]
+        player = registry.create(
+            cls_name="Player",
+            x=4,
+            y=4,
+            name="Matte",
+            health=10,
+            vision_range=5,
+            hearing_range=5,
+            temperature=36.3,
+        )
+        self.current_level.register(player)
         self.current_level.get_ground_objs(self)
 
         running = True

@@ -80,17 +80,44 @@ class Level:
         now = pygame.time.get_ticks()
         self._scheduled_to_die.append((obj, timer_ms, now))
 
-    def get_serializable_state(self):
+    def get_serializable_state(self) -> dict[str, list[dict[str, Any]]]:
+        """
+        This method is needed in the multiplayer only, to serialise the objects and
+        transfer them over the internet.
+        """
         objs = []
         for obj in self._observers:
             obj_state = {
+                "cls_name": obj.__class__.__name__,
                 "x": obj.x,
                 "y": obj.y,
-                "z": getattr(obj, "z_level", 0),
-                "type": obj.__class__.__name__,
+                "health": obj.health,
+                "name": obj.name,
+                "tile_name": getattr(obj, "tile_name", None),
+                "prev_x": obj.prev_x,
+                "prev_y": obj.prev_y,
+                "inertia": obj.inertia,
+                "direction": obj.direction,
+                "animation_index": obj.animation_index,
+                "animation_timer": obj.animation_timer,
+                "last_render_time": obj.last_render_time,
+                "new_render_time": obj.new_render_time,
+                "last_tick": obj.last_tick,
+                "is_update_just_done": getattr(obj, "is_update_just_done", None),
+                "standing_animation_timer": obj.standing_animation_timer,
+                "standing_animation_index": obj.standing_animation_index,
+                "push_animation_timer": obj.push_animation_timer,
+                "push_animation_index": obj.push_animation_index,
+                "dying_animation_timer": obj.dying_animation_timer,
+                "dying_animation_index": obj.dying_animation_index,
+                "animation_timer": obj.animation_timer,
+                "movement_sprites_locations": getattr(obj, "movement_sprites_locations", None),
+                "standing_sprites_locations": getattr(obj, "standing_sprites_locations", None),
+                "dying_sprites_locations": getattr(obj, "dying_sprites_locations", None),
+                "push_sprites_locations": getattr(obj, "push_sprites_locations", None),
+                "z_level": obj.z_level,
+                "sprite_size_x": obj.sprite_size_x,
+                "sprite_size_y": obj.sprite_size_y,
             }
-            # optionally send facing direction for animations
-            if hasattr(obj, "direction"):
-                obj_state["direction"] = obj.direction.value  # assuming direction is Enum
             objs.append(obj_state)
         return {"objects": objs}

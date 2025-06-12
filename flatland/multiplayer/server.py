@@ -1,5 +1,6 @@
 import pickle
 import socket
+import struct
 import threading
 
 from flatland.logger import Logger
@@ -32,6 +33,7 @@ class GameServer:
             temperature=36.3,
         )  # Player(x=5, y=5, name=f"Player{client_id}", health=100, vision_range=5, hearing_range=5)
         self.current_level.register(player)
+        self.current_level.get_ground_objs(self)
         self.clients[client_id] = (conn, player)
 
         try:
@@ -39,7 +41,7 @@ class GameServer:
                 data = conn.recv(4096)
                 if not data:
                     break
-                keys = pickle.loads(data)  # TODO
+                keys = pickle.loads(data)
                 player.get_pressed_keys(keys)
         except:
             pass
@@ -63,9 +65,11 @@ class GameServer:
 
         # Broadcast state to all clients
         state = pickle.dumps(self.current_level.get_serializable_state())
+        length_prefix = struct.pack("!I", len(state))  # 4-byte length prefix
+
         for client_id, (conn, _) in self.clients.items():
             try:
-                conn.sendall(state)
+                conn.sendall(length_prefix + state)
             except:
                 self.disconnect(client_id)
 

@@ -86,7 +86,6 @@ class Stone(
                 f"assets/sprites/boulder/right_{i}.png" for i in range(self.num_animations)
             ],
         }
-        self.create_movement_sprites()  # do not forget!
         self.dying_sprites_locations = {
             Direction.UP: [
                 f"assets/sprites/boulder/rock_crumble_{i+1}.png"
@@ -105,7 +104,6 @@ class Stone(
                 for i in range(self.num_animations_dying)
             ],
         }
-        self.create_dying_sprites()  # do not forget!
         self.standing_sprites_locations = {
             Direction.UP: [
                 f"assets/sprites/boulder/up_{i}.png" for i in range(self.num_animations_standing)
@@ -120,8 +118,7 @@ class Stone(
                 f"assets/sprites/boulder/right_{i}.png" for i in range(self.num_animations_standing)
             ],
         }
-
-        self.create_standing_sprites()
+        self.__post_init__()  # do not forget
 
 
 @registry.register
@@ -168,8 +165,7 @@ class OrangeTreeOne(
                 for i in range(self.num_animations_standing)
             ],
         }
-
-        self.create_standing_sprites()
+        self.__post_init__()  # do not forget
 
 
 @registry.register
@@ -217,7 +213,6 @@ class FireBall(
                 f"assets/sprites/fireball/right_{i}.png" for i in range(self.num_animations)
             ],
         }
-        self.create_movement_sprites()  # do not forget!
         self.dying_sprites_locations = {
             Direction.UP: [
                 f"assets/sprites/explosion/tile_0_{i}.png" for i in range(self.num_animations_dying)
@@ -232,7 +227,7 @@ class FireBall(
                 f"assets/sprites/explosion/tile_0_{i}.png" for i in range(self.num_animations_dying)
             ],
         }
-        self.create_dying_sprites()  # do not forget!
+        self.__post_init__()  # do not forget
 
 
 @registry.register
@@ -258,8 +253,7 @@ class Ground(GameObject, StandingAnimationMixin, RenderMixin, EncumbranceMixin):
             Direction.LEFT: [f"{self.tile_name}.png" for i in range(self.num_animations_standing)],
             Direction.RIGHT: [f"{self.tile_name}.png" for i in range(self.num_animations_standing)],
         }
-
-        self.create_standing_sprites()
+        self.__post_init__()  # do not forget
 
 
 @registry.register
@@ -296,7 +290,6 @@ class RobeTorso(
                 f"assets/sprites/robe_torso/tile_3_{i+1}.png" for i in range(self.num_animations)
             ],
         }
-        self.create_movement_sprites()  # do not forget!
         self.standing_sprites_locations = {
             Direction.UP: [
                 f"assets/sprites/robe_torso/tile_0_{i}.png"
@@ -315,8 +308,7 @@ class RobeTorso(
                 for i in range(self.num_animations_standing)
             ],
         }
-
-        self.create_standing_sprites()
+        self.__post_init__()  # do not forget
 
 
 @registry.register
@@ -353,7 +345,6 @@ class Shoes(
                 f"assets/sprites/shoes/tile_3_{i+1}.png" for i in range(self.num_animations)
             ],
         }
-        self.create_movement_sprites()  # do not forget!
         self.standing_sprites_locations = {
             Direction.UP: [
                 f"assets/sprites/shoes/tile_0_{i}.png" for i in range(self.num_animations_standing)
@@ -368,8 +359,7 @@ class Shoes(
                 f"assets/sprites/shoes/tile_3_{i}.png" for i in range(self.num_animations_standing)
             ],
         }
-
-        self.create_standing_sprites()
+        self.__post_init__()  # do not forget
 
 
 @registry.register
@@ -406,7 +396,6 @@ class Hood(
                 f"assets/sprites/hood/tile_3_{i+1}.png" for i in range(self.num_animations)
             ],
         }
-        self.create_movement_sprites()  # do not forget!
         self.standing_sprites_locations = {
             Direction.UP: [
                 f"assets/sprites/hood/tile_0_{i}.png" for i in range(self.num_animations_standing)
@@ -421,8 +410,7 @@ class Hood(
                 f"assets/sprites/hood/tile_3_{i}.png" for i in range(self.num_animations_standing)
             ],
         }
-
-        self.create_standing_sprites()
+        self.__post_init__()  # do not forget
 
 
 @registry.register
@@ -459,7 +447,6 @@ class Skirt(
                 f"assets/sprites/skirt/tile_3_{i+1}.png" for i in range(self.num_animations)
             ],
         }
-        self.create_movement_sprites()  # do not forget!
         self.standing_sprites_locations = {
             Direction.UP: [
                 f"assets/sprites/skirt/tile_0_{i}.png" for i in range(self.num_animations_standing)
@@ -474,8 +461,7 @@ class Skirt(
                 f"assets/sprites/skirt/tile_3_{i}.png" for i in range(self.num_animations_standing)
             ],
         }
-
-        self.create_standing_sprites()
+        self.__post_init__()  # do not forget
 
 
 @registry.register
@@ -535,7 +521,6 @@ class Goblin(
                 f"assets/sprites/goblin/tile_1_{i}.png" for i in range(self.num_animations)
             ],
         }
-        self.create_movement_sprites()  # do not forget!
         self.standing_sprites_locations = {
             Direction.UP: [
                 f"assets/sprites/goblin/tile_2_{i+6}.png"
@@ -554,7 +539,6 @@ class Goblin(
                 for i in range(self.num_animations_standing)
             ],
         }
-        self.create_standing_sprites()
         self.push_sprites_locations = {
             Direction.UP: [
                 f"assets/sprites/goblin/tile_2_{i+7}.png" for i in range(self.num_animations_push)
@@ -569,7 +553,7 @@ class Goblin(
                 f"assets/sprites/goblin/tile_1_{i+7}.png" for i in range(self.num_animations_push)
             ],
         }
-        self.create_push_sprites()
+        self.__post_init__()  # do not forget
 
 
 @registry.register
@@ -626,7 +610,6 @@ class Cow(
                 f"assets/sprites/cow_move/right_{i}.png" for i in range(self.num_animations)
             ],
         }
-        self.create_movement_sprites()  # do not forget!
         self.standing_sprites_locations = {
             Direction.UP: [
                 f"assets/sprites/cow_eat/up_{i}.png" for i in range(self.num_animations_standing)
@@ -641,8 +624,7 @@ class Cow(
                 f"assets/sprites/cow_eat/right_{i}.png" for i in range(self.num_animations_standing)
             ],
         }
-
-        self.create_standing_sprites()
+        self.__post_init__()  # do not forget
 
         # Load sound
         try:
@@ -675,14 +657,13 @@ class CowShadow(
             Direction.LEFT: [f"assets/sprites/cow_shadow/left.png"],
             Direction.RIGHT: [f"assets/sprites/cow_shadow/right.png"],
         }
-        self.create_movement_sprites()  # do not forget!
         self.standing_sprites_locations = {
             Direction.UP: [f"assets/sprites/cow_shadow/up.png"],
             Direction.DOWN: [f"assets/sprites/cow_shadow/down.png"],
             Direction.LEFT: [f"assets/sprites/cow_shadow/left.png"],
             Direction.RIGHT: [f"assets/sprites/cow_shadow/right.png"],
         }
-        self.create_standing_sprites()
+        self.__post_init__()  # do not forget
 
 
 @registry.register
@@ -731,7 +712,6 @@ class Player(
                 f"assets/sprites/man/tile_3_{i+1}.png" for i in range(self.num_animations)
             ],
         }
-        self.create_movement_sprites()  # do not forget!
         self.standing_sprites_locations = {
             Direction.UP: [
                 f"assets/sprites/man/tile_0_{i}.png" for i in range(self.num_animations_standing)
@@ -746,8 +726,7 @@ class Player(
                 f"assets/sprites/man/tile_3_{i}.png" for i in range(self.num_animations_standing)
             ],
         }
-
-        self.create_standing_sprites()
+        self.__post_init__()  # do not forget
 
     def get_pressed_keys(self, keys) -> None:
         self.keys = keys
@@ -793,8 +772,7 @@ class Portal(
                 for i in range(self.num_animations_standing)
             ],
         }
-
-        self.create_standing_sprites()
+        self.__post_init__()  # do not forget
 
     def enter_portal(self) -> None:
         pygame.event.post(pygame.event.Event(pygame.USEREVENT, code=self.level_key))

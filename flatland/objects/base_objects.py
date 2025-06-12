@@ -2,6 +2,7 @@ import copy
 import math
 import random
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, Optional
 
 import pygame
@@ -44,6 +45,7 @@ class GameObject:
         self.height: float = 1.0
         self.friction_coefficient: float = 1.0
         self.animation_index = 0
+        self.animation_timer = 0
         self.last_tick: int = 0
         self.standing_animation_timer = 0
         self.standing_animation_index = 0
@@ -51,7 +53,6 @@ class GameObject:
         self.push_animation_index = 0
         self.dying_animation_timer = 0
         self.dying_animation_index = 0
-        self.animation_timer = 0
         self.movement_sprites_locations: dict[Direction, list[str]] = {
             Direction.UP: [],
             Direction.DOWN: [],
@@ -77,6 +78,16 @@ class GameObject:
         self.equilibrium_temperature: float = 30
         self.is_encumbrant: bool = False
         self.ignore_walkable: bool = False
+
+    def __post_init__(self) -> None:
+        if hasattr(self, "create_movement_sprites"):
+            self.create_movement_sprites()
+        if hasattr(self, "create_dying_sprites"):
+            self.create_dying_sprites()
+        if hasattr(self, "create_standing_sprites"):
+            self.create_standing_sprites()
+        if hasattr(self, "create_push_sprites"):
+            self.create_push_sprites()
 
     def update(self, event: Any):
         now = pygame.time.get_ticks()  # in ms

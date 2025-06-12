@@ -84,17 +84,6 @@ def register_objects(level: Level, number: int = 0) -> Level:
     )
 
     if number == 0:
-        player = registry.create(
-            cls_name="Player",
-            x=portal.x,
-            y=portal.y,
-            name="Matte",
-            health=10,
-            vision_range=5,
-            hearing_range=5,
-            temperature=36.3,
-        )
-        level.register(player)
         # player stuff
         level.register(robe_torso)
         level.register(shoes)
