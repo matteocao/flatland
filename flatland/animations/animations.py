@@ -56,6 +56,7 @@ class MovementAnimationMixin:
     thus creating a "positional tick" of difference that may be very disturbing. To solve this, we try to estimate who passed
     first through this mixin.
     """
+
     movement_sprites_locations: dict[Direction, list[str]]
     animation_index: int = 0
     movement_sprites: dict[Direction, Any]
