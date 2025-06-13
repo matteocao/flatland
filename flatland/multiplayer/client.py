@@ -29,7 +29,7 @@ class GameClient:
         self.clock = pygame.time.Clock()
         self.old_world_state: Any = None
 
-    def init_world_state(self):
+    def init_world_state(self) -> None:
         # Receive full initial world state
         length_data = self.recv_all(self.sock, 4)
         message_length = struct.unpack("!I", length_data)[0]
@@ -39,7 +39,6 @@ class GameClient:
         world_state = payload["world_state"]
         self.my_player_id = payload["player_id"]  # 👈 Save your player ID
         self.current_level_key = payload["level_key"]
-        print(self.current_level_key)
 
         for obj_data in world_state["objects"]:
             obj_id = obj_data["id"]
@@ -59,6 +58,11 @@ class GameClient:
                     setattr(instance, k, v)
             self.level.register(instance)
             self.obj_map[obj_id] = instance
+        # connect parents and children
+        for obj in self.level._observers:
+            if obj.parent_id:
+                self.obj_map[obj.parent_id].children.append(obj)
+                obj.parent = self.obj_map[obj.parent_id]
 
     @staticmethod
     def recv_all(sock, n):
@@ -162,6 +166,7 @@ class GameClient:
             if obj_id in self.obj_map:
                 # Object already exists → update fields
                 instance = self.obj_map[obj_id]
+
                 for k, v in obj_data.items():
                     if k != "cls_name":
                         setattr(instance, k, v)
@@ -183,7 +188,18 @@ class GameClient:
                         setattr(instance, k, v)
                 self.level.register(instance)
                 self.obj_map[obj_id] = instance
-
+        # connect parents and children
+        for obj in self.level._observers:
+            obj.children.clear()
+        for obj in self.level._observers:
+            if obj.parent:
+                obj.parent = None
+            if obj.parent_id:
+                self.obj_map[obj.parent_id].children.append(obj)
+                obj.parent = self.obj_map[obj.parent_id]
+                if obj.location_as_parent:
+                    obj.x = self.obj_map[obj.parent_id].x
+                    obj.y = self.obj_map[obj.parent_id].y
         # Unregister missing objects
         existing_ids = set(self.obj_map.keys())
         removed_ids = existing_ids - incoming_ids

@@ -137,7 +137,7 @@ class OrangeTreeOne(
         self.noise_intensity = 0.1
         self.attractiveness = 0.1
         self.visible_size = 2.5
-        self.z_level = 11.0
+        self.z_level = 15.0
         self.mass = 200
         self.health = 20
         self.is_encumbrant = True
@@ -192,6 +192,7 @@ class FireBall(
         self.temperature = 10000
         self.health = 1
         self.inertia = 2.0
+        self.is_moving = True  # by design
         self.z_level = 1.0
         self.ignore_walkable = True
         self.num_animations = 16  # do nnot forget this when inheriting from MovementAnimationMixin
@@ -647,7 +648,7 @@ class CowShadow(
         super().__init__(x, y, name, health)
         self.z_level = 1
         self.num_animations = 1
-        self.scheduler.interval = 0.1
+        # self.scheduler.interval = 0.1
         self.sprite_size_x: int = 128
         self.sprite_size_y: int = 128
         self.location_as_parent = True  # just set this for objects to stick to parent

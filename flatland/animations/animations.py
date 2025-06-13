@@ -6,6 +6,7 @@ from typing import (
     Optional,
     Protocol,
     TypeVar,
+    no_type_check,
     runtime_checkable,
 )
 
@@ -38,15 +39,34 @@ class HasMovementAttributes(Protocol):
     alpha: float
     last_x: int
     last_y: int
+    location_as_parent: bool
+    is_parent_animated_before: bool
 
 
 class MovementAnimationMixin:
+    """
+    This is a very complex function, as it has to work properly online and on single player.
+    The logic is to get the least amount of items from teh server, that may make the animation lag.
+    The idea is to check if the last time this function was called, the target positions are the same or changed.
+    This is the reason for the variables `last_x, last_y` and `x, y`.
+    However, an additional complexity comes from all teh objects that should be bounded to stay attached to an object.
+    Especially in multiplayer, we cannot rely on the server: hence, we propose here to overwrite the parameters of the
+    children with those of the parent.
+    A final complexity comes from the fact that the parent may have entered the movement mixin before or after the children,
+    thus creating a "positional tick" of difference that may be very disturbing. To solve this, we try to estimate who passed
+    first through this mixin.
+    """
     movement_sprites_locations: dict[Direction, list[str]]
     animation_index: int = 0
     movement_sprites: dict[Direction, Any]
     alpha: float = 0.0
     last_x: int = 0
     last_y: int = 0
+    is_parent_animated_before: bool = True
+    x: int
+    prev_x: int
+    y: int
+    prev_y: int
 
     def create_movement_sprites(self: HasMovementAttributes) -> None:
         self.movement_sprites = {
@@ -59,19 +79,39 @@ class MovementAnimationMixin:
             self.movement_sprites[self.direction]
         )
 
+    @no_type_check
     def render_movement(self: HasMovementAttributes, screen: pygame.Surface) -> None:
         now = pygame.time.get_ticks()
-        d_alpha = 0.1 * self.actions_per_second
+        d_alpha = 0.11 * self.actions_per_second
+        # conditions
         is_same_destination = self.last_x == self.x and self.y == self.last_y
-        if not is_same_destination:
+        is_parent_auth = (
+            self.location_as_parent
+            and self.parent is not None
+            and isinstance(self.parent, MovementAnimationMixin)
+        )
+        if is_parent_auth:
+            # first we need to see if we have to reset the parent alpha
+            if not (self.parent.last_x == self.parent.x and self.parent.y == self.parent.last_y):
+                self.parent.alpha = 0.0
+                self.parent.last_x = self.parent.x
+                self.parent.last_y = self.parent.y
+                self.is_parent_animated_before = False
+            if self.parent.alpha > 1:
+                self.is_parent_animated_before = True
+            if self.is_parent_animated_before:
+                self.alpha = self.parent.alpha - self.parent.actions_per_second * 0.11
+            else:
+                self.alpha = self.parent.alpha
+            self.x = self.parent.x
+            self.y = self.parent.y
+            self.prev_x = self.parent.prev_x
+            self.prev_y = self.parent.prev_y
+
+        elif not is_same_destination:
             self.alpha = 0.0
             self.last_x = self.x
             self.last_y = self.y
-
-        # if self.has_just_started_moving:
-        #    self.alpha = 0.0
-        #    self.has_just_started_moving = False
-        # alpha = (self.last_render_time - self.new_render_time) / 1000 * self.actions_per_second
 
         offset_x = self.sprite_size_x // 2 - TILE_SIZE // 2
         offset_y = self.sprite_size_y // 2 - TILE_SIZE // 2

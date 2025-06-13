@@ -59,7 +59,8 @@ class GameObject:
         self.is_prepare_just_done: bool = (
             False  # this turns to true when self.update() is called and is set to false when self.prepare is called
         )
-        self.parent: Optional["GameObject"] = None
+        self._parent: Optional["GameObject"] = None
+        self.parent_id: Optional[str] = None
         self.children: list["GameObject"] = []
         # this is the value that decides the rendering order: the higher, the later it will be rendered.
         self.z_level: float = 0
@@ -84,6 +85,16 @@ class GameObject:
         if hasattr(self, "create_push_sprites"):
             self.create_push_sprites()
 
+    @property
+    def parent(self) -> Optional["GameObject"]:
+        return self._parent
+
+    @parent.setter
+    def parent(self, value: "GameObject") -> None:
+        self._parent = value
+        if value is not None:
+            self.parent_id = value.id
+
     def update(self, event: Any) -> bool:
         if self.is_prepare_just_done:
             self.is_prepare_just_done = False
@@ -95,14 +106,18 @@ class GameObject:
                 self.is_pushing = False
                 self.is_moving = True
                 self.is_standing = False
+            elif (
+                self.prev_x == self.x
+                and self.prev_y == self.y
+                and any("push" == func.__name__ for func, _ in self.volition.list_of_actions)
+            ):
+                self.is_pushing = True
+                self.is_moving = False
+                self.is_standing = False
             elif self.prev_x == self.x and self.prev_y == self.y:
                 self.is_pushing = False
                 self.is_moving = False
                 self.is_standing = True
-            elif any("push" == func.__name__ for func, _ in self.volition.list_of_actions):
-                self.is_pushing = True
-                self.is_moving = False
-                self.is_standing = False
             return True
         return False
 

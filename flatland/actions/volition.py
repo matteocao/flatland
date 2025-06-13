@@ -22,16 +22,16 @@ class VolitionEngine:
         if rep.dx is not None and rep.dy is not None:
             match self.owner.direction:
                 case Direction.UP:
-                    if abs(rep.dx) < 1 and rep.dy >= -1:
+                    if abs(rep.dx) < 1 and 0 <= rep.dy <= -2:
                         return True
                 case Direction.DOWN:
-                    if abs(rep.dx) < 1 and rep.dy <= 1:
+                    if abs(rep.dx) < 1 and 0 <= rep.dy <= 1:
                         return True
                 case Direction.LEFT:
-                    if abs(rep.dy) < 1 and rep.dx >= -1:
+                    if abs(rep.dy) < 1 and 0 >= rep.dx >= -1:
                         return True
                 case Direction.RIGHT:
-                    if abs(rep.dy) < 1 and rep.dx <= 1:
+                    if abs(rep.dy) < 1 and 0 <= rep.dx <= 1:
                         return True
 
             return False
@@ -87,22 +87,25 @@ class VolitionEngine:
             )
         elif hasattr(self.owner, "push") and random.random() > 0.5:
             if self.owner.internal_state.time_history:
-                self.list_of_actions.append(
-                    (
-                        self.owner.push,
-                        {
-                            "other": random.choice(
-                                [
-                                    rep.source_object
-                                    for rep in self.owner.internal_state.time_history[-1]
-                                    if abs(rep.dx) < 1
-                                    and abs(rep.dy) < 1
-                                    or self._object_is_in_front(rep)
-                                ]
-                            )
-                        },
+                try:
+                    self.list_of_actions.append(
+                        (
+                            self.owner.push,
+                            {
+                                "other": random.choice(
+                                    [
+                                        rep.source_object
+                                        for rep in self.owner.internal_state.latest_perception()
+                                        if abs(rep.dx) < 1
+                                        and abs(rep.dy) < 1
+                                        or self._object_is_in_front(rep)
+                                    ]
+                                )
+                            },
+                        )
                     )
-                )
+                except IndexError:
+                    pass
 
     def update(self):
         for fnc, kwargs in self.list_of_actions:

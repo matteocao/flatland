@@ -21,3 +21,5 @@ class RenderMixin:
             if self.is_standing:
                 self.render_standing(screen)
                 return
+        # fallback
+        self.render_standing(screen)
