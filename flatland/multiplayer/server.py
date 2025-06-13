@@ -70,8 +70,8 @@ class GameServer:
                     self.process_portal(client_id, keys["target_level"])
                 else:
                     player.get_pressed_keys(keys)  # type: ignore
-        except:
-            pass
+        except Exception as e:
+            print(f"Exception in handle_client: {e}")
         finally:
             self.disconnect(client_id)
 
