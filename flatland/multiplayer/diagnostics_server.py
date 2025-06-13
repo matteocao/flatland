@@ -1,4 +1,4 @@
-""" diagnostic script, not used for the game"""
+"""diagnostic script, not used for the game"""
 
 import socket
 
