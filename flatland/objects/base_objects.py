@@ -90,7 +90,7 @@ class GameObject:
         return self._parent
 
     @parent.setter
-    def parent(self, value: "GameObject") -> None:
+    def parent(self, value: Optional["GameObject"]) -> None:
         self._parent = value
         if value is not None:
             self.parent_id = value.id
