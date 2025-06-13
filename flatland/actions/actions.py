@@ -40,7 +40,7 @@ class SpeechMixin:
     def speak(self, message: Optional[str] = None):
         if message:
             self.speech = message
-        if hasattr(self, "make_sound"):
+        if hasattr(self, "make_sound") and self.make_sound is not None:
             self.make_sound.play()
 
 
