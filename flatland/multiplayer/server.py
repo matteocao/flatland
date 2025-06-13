@@ -8,6 +8,7 @@ from typing import Any
 import pygame
 
 from flatland.logger import Logger
+from flatland.multiplayer.client import GameClient
 from flatland.objects.items import Player  # your Player class
 from flatland.objects.items_registry import registry
 from flatland.world.level import Level
@@ -62,9 +63,10 @@ class GameServer:
 
         try:
             while True:
-                data = conn.recv(4096)
-                if not data:
-                    break
+                # First read message length
+                length_data = GameClient.recv_all(conn, 4)
+                message_length = struct.unpack("!I", length_data)[0]
+                data = GameClient.recv_all(conn, message_length)
                 keys = pickle.loads(data)
                 if isinstance(keys, dict) and keys.get("type") == "portal_request":
                     self.process_portal(client_id, keys["target_level"])

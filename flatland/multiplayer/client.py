@@ -83,12 +83,16 @@ class GameClient:
 
     def request_portal(self, target_level_key: str) -> None:
         message = {"type": "portal_request", "target_level": target_level_key}
-        self.sock.sendall(pickle.dumps(message))
+        payload = pickle.dumps(message)
+        length_prefix = struct.pack("!I", len(payload))
+        self.sock.sendall(length_prefix + payload)
 
     def send_inputs(self) -> None:
         while self.running:
             keys = pygame.key.get_pressed()
-            self.sock.sendall(pickle.dumps(keys))
+            payload = pickle.dumps(keys)
+            length_prefix = struct.pack("!I", len(payload))
+            self.sock.sendall(length_prefix + payload)
             time.sleep(1 / 10)  # 60Hz input send
 
     def receive_world(self) -> None:
