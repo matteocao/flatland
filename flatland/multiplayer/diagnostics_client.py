@@ -1,14 +1,18 @@
-# diagnostic_client_argparse.py
+# persistent_client.py
 import argparse
 import socket
+import time
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Diagnostic client to test socket connection.")
+    parser = argparse.ArgumentParser(description="Persistent diagnostic client.")
     parser.add_argument(
         "--host", type=str, required=True, help="Server IP or hostname to connect to"
     )
     parser.add_argument("--port", type=int, default=50007, help="Port number (default: 50007)")
+    parser.add_argument(
+        "--interval", type=float, default=1.0, help="Interval between pings (seconds)"
+    )
 
     args = parser.parse_args()
 
@@ -20,9 +24,14 @@ def main():
             print(f"Connecting to {HOST}:{PORT} ...")
             s.connect((HOST, PORT))
             print("Connected to server.")
-            s.sendall(b"Hello Server!")
-            data = s.recv(1024)
-            print(f"Received from server: {data.decode()}")
+
+            while True:
+                message = b"PING"
+                s.sendall(message)
+                print("Sent:", message)
+                data = s.recv(1024)
+                print("Received:", data.decode())
+                time.sleep(args.interval)
     except Exception as e:
         print(f"Connection failed: {e}")
 

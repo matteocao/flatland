@@ -69,10 +69,16 @@ class GameClient:
         """Helper function to receive exactly n bytes"""
         data = bytearray()
         while len(data) < n:
-            packet = sock.recv(n - len(data))
-            if not packet:
-                raise ConnectionError("Socket connection broken")
-            data.extend(packet)
+            try:
+                packet = sock.recv(n - len(data))
+                if not packet:
+                    raise ConnectionError(
+                        f"Socket connection broken while expecting {n} bytes, got only {len(data)} bytes"
+                    )
+                data.extend(packet)
+            except Exception as e:
+                print(f"recv_all exception: {e}, received so far: {len(data)} / {n}")
+                raise
         return data
 
     def request_portal(self, target_level_key: str) -> None:

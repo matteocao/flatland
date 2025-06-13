@@ -133,18 +133,24 @@ class GameServer:
             self.broadcast()
 
     def broadcast(self):
-        # Broadcast state to all clients
-        for client_id, (conn, _) in self.clients.items():
+        for client_id, (conn, _) in list(
+            self.clients.items()
+        ):  # list() to avoid dict mutation during iteration
             world_state = self.client_levels[client_id].get_serializable_state()
             payload = {
                 "world_state": world_state,
                 "level_key": self.client_levels[client_id].level_key,
             }
             full_state = pickle.dumps(payload)
-            length_prefix = struct.pack("!I", len(full_state))  # 4-byte length prefix
+            length_prefix = struct.pack("!I", len(full_state))
+
             try:
                 conn.sendall(length_prefix + full_state)
-            except:
+            except socket.timeout:
+                self.logger.info(f"Timeout sending to client {client_id}, will retry next loop")
+                continue  # soft fail
+            except socket.error as e:
+                self.logger.info(f"Socket error sending to client {client_id}: {e}")
                 self.disconnect(client_id)
 
     def run(self, host="0.0.0.0", port=12345):
