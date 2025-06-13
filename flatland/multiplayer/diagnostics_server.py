@@ -1,4 +1,5 @@
-# diagnostic_server.py
+""" diagnostic script, not used for the game"""
+
 import socket
 
 HOST = "0.0.0.0"  # Listen on all interfaces
