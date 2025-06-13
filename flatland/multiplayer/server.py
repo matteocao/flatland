@@ -147,10 +147,10 @@ class GameServer:
             try:
                 conn.sendall(length_prefix + full_state)
             except socket.timeout:
-                self.logger.info(f"Timeout sending to client {client_id}, will retry next loop")
+                print(f"Timeout sending to client {client_id}, will retry next loop")
                 continue  # soft fail
             except socket.error as e:
-                self.logger.info(f"Socket error sending to client {client_id}: {e}")
+                print(f"Socket error sending to client {client_id}: {e}")
                 self.disconnect(client_id)
 
     def run(self, host="0.0.0.0", port=12345):
