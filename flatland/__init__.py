@@ -4,6 +4,9 @@ import pathlib
 if os.environ.get("VERBOSE_LOGS", None) is None:
     os.environ["VERBOSE_LOGS"] = "false"
 
+if os.environ.get("GITHUB_ACTIONS") == "true":
+    os.environ["SDL_AUDIODRIVER"] = "dummy"
+
 from . import (
     __main__,
     actions,
