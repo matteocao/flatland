@@ -71,6 +71,8 @@ class GameServer:
                 if isinstance(keys, dict) and keys.get("type") == "portal_request":
                     self.process_portal(client_id, keys["target_level"])
                 else:
+                    # print("pressed keys?", any(keys))
+                    # print(player.is_accepting_keys)
                     player.get_pressed_keys(keys)  # type: ignore
         except Exception as e:
             print(f"Exception in handle_client: {e}")

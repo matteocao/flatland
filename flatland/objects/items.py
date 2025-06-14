@@ -700,6 +700,7 @@ class Player(
         self.keys = None
         self.num_animations = 8
         self.num_animations_standing = 1
+        self.is_accepting_keys = True
 
         # Load sprites
         self.movement_sprites_locations = {
@@ -733,7 +734,12 @@ class Player(
         self.__post_init__()  # do not forget
 
     def get_pressed_keys(self, keys) -> None:
-        self.keys = keys
+        if self.is_accepting_keys:
+            self.keys = keys
+            if any(self.keys):  # type: ignore
+                self.is_accepting_keys = False
+            else:
+                self.is_accepting_keys = True
 
 
 @registry.register

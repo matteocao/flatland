@@ -69,6 +69,7 @@ class VolitionEngine:
                 elif self.owner.keys[pygame.K_SPACE]:
                     self.list_of_actions.append((self.owner.cast_magic, {"game": game}))
                 self.owner.keys = None
+                self.owner.is_accepting_keys = True
         # temporarily a random thingy=
         elif hasattr(self.owner, "speak") and random.random() > 0.9:
             self.list_of_actions.append(

@@ -93,7 +93,7 @@ class GameClient:
             payload = pickle.dumps(keys)
             length_prefix = struct.pack("!I", len(payload))
             self.sock.sendall(length_prefix + payload)
-            time.sleep(1 / 10)  # 60Hz input send
+            time.sleep(1 / 20)  # 60Hz input send
 
     def receive_world(self) -> None:
         while self.running:
