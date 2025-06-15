@@ -7,13 +7,39 @@ from ..consts import MAX_X, MAX_Y, TILE_SIZE
 from ..objects.items_registry import registry
 from .build_tile_map import build_tile_map
 from .level import Level
+from .level_factory import factory
 
 if TYPE_CHECKING:
     from ..objects.items import Ground
 
 
-# Register objects
-def register_objects(level: Level, number: int = 0) -> Level:
+@factory.register("level_0")
+def build_level_0() -> Level:
+    level = Level()
+    number = 0
+    width, height = 12, 9
+    cls_name = "Ground"
+    list_of_possible_tiles: list["Ground"] = []
+    png_files = glob.glob("assets/sprites/terrain/*.png")
+    for tile_name_png in png_files:
+        tile_name = tile_name_png[:-4]
+
+        obj: "Ground" = registry.create(  # type: ignore
+            cls_name=cls_name, x=0, y=0, name=tile_name, health=10, tile_name=tile_name
+        )
+        list_of_possible_tiles.append(obj)
+    terrain = build_tile_map(list_of_possible_tiles, width, height)
+    for i, lst_obj in enumerate(terrain):
+        for j, obj in enumerate(lst_obj):
+            new_obj = registry.create(  # type: ignore
+                cls_name=cls_name,
+                x=j,
+                y=i,
+                name=obj.tile_name,
+                health=obj.health,
+                tile_name=obj.tile_name,
+            )
+            level.register(new_obj)
 
     cow = registry.create(
         cls_name="Cow",
@@ -83,12 +109,11 @@ def register_objects(level: Level, number: int = 0) -> Level:
         health=100,
     )
 
-    if number == 0:
-        # player stuff
-        level.register(robe_torso)
-        level.register(shoes)
-        level.register(hood)
-        level.register(skirt)
+    # player stuff
+    level.register(robe_torso)
+    level.register(shoes)
+    level.register(hood)
+    level.register(skirt)
 
     for _ in range(number + 1):
         orangetree = registry.create(
@@ -115,8 +140,13 @@ def register_objects(level: Level, number: int = 0) -> Level:
     return level
 
 
-# register terrain
-def register_terrain(level: Level, width: int, height: int) -> Level:
+@factory.register("level_1")
+def build_level_1() -> Level:
+    level = Level()
+    number = 1
+    width, height = 12, 9
+    # build terrain
+
     cls_name = "Ground"
     list_of_possible_tiles: list["Ground"] = []
     png_files = glob.glob("assets/sprites/terrain/*.png")
@@ -139,4 +169,160 @@ def register_terrain(level: Level, width: int, height: int) -> Level:
                 tile_name=obj.tile_name,
             )
             level.register(new_obj)
+    cow = registry.create(
+        cls_name="Cow",
+        x=random.randint(0, 9),
+        y=random.randint(0, 9),
+        name="lola",
+        health=5,
+        vision_range=5,
+        hearing_range=3,
+    )
+    goblin = registry.create(
+        cls_name="Goblin",
+        x=random.randint(0, 9),
+        y=random.randint(0, 9),
+        name="ashpack",
+        health=9,
+        vision_range=3,
+        hearing_range=5,
+    )
+    stone = registry.create(
+        cls_name="Stone",
+        x=random.randint(0, 9),
+        y=random.randint(0, 9),
+        name="a rock",
+        health=50,
+    )
+    cow_shadow = registry.create(
+        cls_name="CowShadow",
+        x=cow.x,
+        y=cow.y,
+        name="lola_shadow",
+        health=100,
+    )
+    portal = registry.create(
+        cls_name="Portal",
+        x=4,
+        y=4,
+        name="portal",
+        health=200,
+    )
+
+    for _ in range(number + 1):
+        orangetree = registry.create(
+            cls_name="OrangeTreeOne",
+            x=random.randint(0, 9),
+            y=random.randint(0, 9),
+            name="orangetree",
+            health=200,
+        )
+        level.register(orangetree)
+
+    portal.level_key = f"level_{(number+1)%3}"  # type: ignore
+
+    cow_shadow.parent = cow
+    cow.children.append(cow_shadow)
+
+    level.register(cow)
+    level.register(cow_shadow)
+
+    level.register(stone)
+    level.register(goblin)
+
+    level.register(portal)
+    return level
+
+
+@factory.register("level_2")
+def build_level_2() -> Level:
+    level = Level()
+    number = 2
+    width, height = 12, 9
+    # build terrain
+
+    cls_name = "Ground"
+    list_of_possible_tiles: list["Ground"] = []
+    png_files = glob.glob("assets/sprites/terrain/*.png")
+    for tile_name_png in png_files:
+        tile_name = tile_name_png[:-4]
+
+        obj: "Ground" = registry.create(  # type: ignore
+            cls_name=cls_name, x=0, y=0, name=tile_name, health=10, tile_name=tile_name
+        )
+        list_of_possible_tiles.append(obj)
+    terrain = build_tile_map(list_of_possible_tiles, width, height)
+    for i, lst_obj in enumerate(terrain):
+        for j, obj in enumerate(lst_obj):
+            new_obj: "Ground" = registry.create(  # type: ignore
+                cls_name=cls_name,
+                x=j,
+                y=i,
+                name=obj.tile_name,
+                health=obj.health,
+                tile_name=obj.tile_name,
+            )
+            level.register(new_obj)
+    cow = registry.create(
+        cls_name="Cow",
+        x=random.randint(0, 9),
+        y=random.randint(0, 9),
+        name="lola",
+        health=5,
+        vision_range=5,
+        hearing_range=3,
+    )
+    goblin = registry.create(
+        cls_name="Goblin",
+        x=random.randint(0, 9),
+        y=random.randint(0, 9),
+        name="ashpack",
+        health=9,
+        vision_range=3,
+        hearing_range=5,
+    )
+    stone = registry.create(
+        cls_name="Stone",
+        x=random.randint(0, 9),
+        y=random.randint(0, 9),
+        name="a rock",
+        health=50,
+    )
+    cow_shadow = registry.create(
+        cls_name="CowShadow",
+        x=cow.x,
+        y=cow.y,
+        name="lola_shadow",
+        health=100,
+    )
+    portal = registry.create(
+        cls_name="Portal",
+        x=4,
+        y=4,
+        name="portal",
+        health=200,
+    )
+
+    for _ in range(number + 1):
+        orangetree = registry.create(
+            cls_name="OrangeTreeOne",
+            x=random.randint(0, 9),
+            y=random.randint(0, 9),
+            name="orangetree",
+            health=200,
+        )
+        level.register(orangetree)
+
+    portal.level_key = f"level_{(number+1)%3}"  # type: ignore
+
+    cow_shadow.parent = cow
+    cow.children.append(cow_shadow)
+
+    level.register(cow)
+    level.register(cow_shadow)
+
+    level.register(stone)
+    level.register(goblin)
+
+    level.register(portal)
     return level

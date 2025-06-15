@@ -39,6 +39,7 @@ class Level:
                 observer.get_pressed_keys(keys)
 
     def get_ground_objs(self, game: "Game"):
+        """This is to allow movement"""
         for obj in self._observers:
             if hasattr(obj, "get_ground_objs"):
                 obj.get_ground_objs(game)
