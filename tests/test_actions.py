@@ -15,6 +15,7 @@ if TYPE_CHECKING:
 class SpeechTest(SpeechMixin):
     def __init__(self, phrase: str):
         self.message = phrase
+        self.volume = 0.4
 
 
 def test_speech_message() -> None:
@@ -27,6 +28,7 @@ def test_speech_message() -> None:
 class DummySound(SpeechMixin):
     def __init__(self):
         self.make_sound = None
+        self.volume = 0.4
 
 
 def test_speech_sound() -> None:

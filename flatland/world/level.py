@@ -12,6 +12,7 @@ from ..logger import Logger
 if TYPE_CHECKING:
     from ..__main__ import Game
     from ..objects.base_objects import GameObject
+    from ..objects.items import Player
 
 
 # --------------------- implemented via observer pattern ----------------
@@ -45,6 +46,11 @@ class Level:
     def unregister(self, obj: "GameObject") -> None:
         if obj in self._observers:
             self._observers.remove(obj)
+
+    def set_volume(self, player: "Player") -> None:
+        for obj in self._observers:
+            if hasattr(obj, "set_volume"):
+                obj.set_volume(player)
 
     def update(self, event: Any) -> None:
         for observer in self._observers:
@@ -123,6 +129,7 @@ class Level:
             "dying_sprites_locations": getattr(obj, "dying_sprites_locations", None),
             "push_sprites_locations": getattr(obj, "push_sprites_locations", None),
             "level_key": getattr(obj, "level_key", None),
+            "volume": getattr(obj, "volume", None),
             "z_level": obj.z_level,
             "sprite_size_x": obj.sprite_size_x,
             "sprite_size_y": obj.sprite_size_y,

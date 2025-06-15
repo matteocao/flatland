@@ -109,23 +109,27 @@ class GameServer:
             self.current_level = None
             self.client_levels[client_id] = new_level
 
-    def disconnect(self, client_id: int):
+    def disconnect(self, client_id: int) -> None:
         self.logger.info(f"Disconnecting client {client_id}")
         with self.lock:
             conn, player = self.clients.pop(client_id, (None, None))
         if conn:
             conn.close()
         if player:
-            self.client_levels[client_id].unregister(player)
+            self.client_levels.pop(client_id)
+            for cl_id in self.client_levels:
+                self.client_levels[cl_id].unregister(player)
 
-    def update_world(self):
+    def update_world(self) -> None:
         with self.lock:
             # update each level where there is at least one client
-            for level in set(self.client_levels.values()):
+            for client_id, level in set(self.client_levels.items()):
                 # Run game logic
                 self.current_level = level
                 level.reset_is_walkable()
-                level.prepare(level._observers, self)
+                player = self.clients[client_id][1]
+                level.set_volume(player)
+                level.prepare(level._observers, self)  # type: ignore
                 self.current_level = None
             self.broadcast()
 

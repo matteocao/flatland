@@ -12,7 +12,6 @@ if TYPE_CHECKING:
 
 
 class MovementMixin:
-    logger = Logger()
     direction: Direction
     ground_objs_list: list["Ground"]
 
@@ -35,12 +34,16 @@ class MovementMixin:
 
 
 class SpeechMixin:
-    logger = Logger()
+    volume: float
 
-    def speak(self, message: Optional[str] = None):
+    def set_volume(self, player: "GameObject") -> None:
+        self.volume = 1 / (1 + player.distance(self) ** 2)
+
+    def speak(self: Any, message: Optional[str] = None) -> None:
         if message:
             self.speech = message
         if hasattr(self, "make_sound") and self.make_sound is not None:
+            self.make_sound.set_volume(self.volume)
             self.make_sound.play()
 
 

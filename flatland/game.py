@@ -6,7 +6,6 @@ import pygame
 
 from .consts import MAX_X, MAX_Y, TILE_SIZE
 from .logger import Logger
-from .objects import items
 from .objects.items_registry import registry
 from .world.level import Level
 
@@ -101,6 +100,7 @@ class Game:
                 self.current_level.send_keys_to_user(keys)
             near_objs = self.current_level._observers
             # self.logger.info(near_objs)
+            self.current_level.set_volume(player)  # type: ignore
             self.current_level.prepare(near_objs, self)
             self.current_level.update(keys)
             self.current_level.correct_periodic_positions()  # this is needed now that the self.current_level is periodic

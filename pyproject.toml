@@ -35,8 +35,10 @@ target-version = ["py310"]
 [tool.coverage.run]
 omit = [
   "flatland/multiplayer/*",
+  "flatland/run_server.py",
   "clean_all_assets.py",
-  "cut_picture.py"
+  "cut_picture.py",
+  "diagnostics*"
 ]
 
 [[tool.mypy.overrides]]
