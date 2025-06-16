@@ -119,6 +119,8 @@ class GameServer:
             self.client_levels.pop(client_id)
             for cl_id in self.client_levels:
                 self.client_levels[cl_id].unregister(player)
+                for obj in player.children:
+                    self.client_levels[cl_id].unregister(obj)
 
     def update_world(self) -> None:
         with self.lock:

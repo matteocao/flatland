@@ -30,6 +30,9 @@ class LevelFactory:
 
         return _decorator
 
+    def level_keys(self) -> set[str]:
+        return set(self._registry.keys())
+
     def create(self, key: str, **kwargs: Any) -> Level:
         """Create a Level by calling the registered builder function."""
         if key not in self._registry:
