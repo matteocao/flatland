@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Generic, Iterator, TypeVar
 
 from .consts import Direction
 
@@ -41,3 +41,34 @@ def move_in(self: Any, direction: Direction) -> bool:
     else:
         self.logger.info(f"{self.__class__.__name__} cannot walk to ({self.x+dx}, {self.y+dy})")
         return False
+
+
+T = TypeVar("T")
+
+
+class IdentitySetList(Generic[T]):
+    def __init__(self) -> None:
+        self._list: list[T] = []
+        self._ids: set[int] = set()
+
+    def append(self, item) -> None:
+        obj_id = id(item)
+        if obj_id not in self._ids:
+            self._list.append(item)
+            self._ids.add(obj_id)
+
+    def __iter__(self) -> Iterator[T]:
+        return iter(self._list)
+
+    def __len__(self) -> int:
+        return len(self._list)
+
+    def __getitem__(self, index: int) -> T:
+        return self._list[index]
+
+    def clear(self) -> None:
+        self._list.clear()
+        self._ids = set()
+
+    def __repr__(self) -> str:
+        return str(self._list)

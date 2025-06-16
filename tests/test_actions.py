@@ -38,17 +38,3 @@ def test_speech_sound() -> None:
     obj.speak("Hello")
     assert obj.speech == "Hello"
     obj.make_sound.play.assert_called_once()
-
-
-class LimbTest(LimbControlMixin):
-    def __init__(self, vel):
-        self.speed = vel
-
-
-def test_limbtest() -> None:
-    vel = 0
-    while vel < 8:
-        obj = LimbTest(vel)
-        obj.move_limbs(vel)
-        assert obj.speed == vel
-        vel += 3

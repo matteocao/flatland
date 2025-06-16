@@ -209,11 +209,14 @@ class GameClient:
             if obj.parent:
                 obj.parent = None
             if obj.parent_id:
-                self.obj_map[obj.parent_id].children.append(obj)
-                obj.parent = self.obj_map[obj.parent_id]
-                if obj.location_as_parent:
-                    obj.x = self.obj_map[obj.parent_id].x
-                    obj.y = self.obj_map[obj.parent_id].y
+                try:
+                    self.obj_map[obj.parent_id].children.append(obj)
+                    obj.parent = self.obj_map[obj.parent_id]
+                    if obj.location_as_parent:
+                        obj.x = self.obj_map[obj.parent_id].x
+                        obj.y = self.obj_map[obj.parent_id].y
+                except KeyError:
+                    pass
         # Unregister missing objects
         existing_ids = set(self.obj_map.keys())
         removed_ids = existing_ids - incoming_ids

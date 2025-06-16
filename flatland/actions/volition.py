@@ -22,7 +22,7 @@ class VolitionEngine:
         if rep.dx is not None and rep.dy is not None:
             match self.owner.direction:
                 case Direction.UP:
-                    if abs(rep.dx) < 1 and 0 <= rep.dy <= -2:
+                    if abs(rep.dx) < 1 and 0 >= rep.dy >= -1:
                         return True
                 case Direction.DOWN:
                     if abs(rep.dx) < 1 and 0 <= rep.dy <= 1:
@@ -60,14 +60,43 @@ class VolitionEngine:
                             self.list_of_actions.append(
                                 (self.owner.push, {"other": rep.source_object})
                             )
+                elif self.owner.keys[pygame.K_SPACE]:
+                    for rep in self.owner.internal_state.latest_perception():
+                        if abs(rep.dx) < 1 and abs(rep.dy) < 1 or self._object_is_in_front(rep):
+                            self.list_of_actions.append(
+                                (self.owner.slash, {"other": rep.source_object})
+                            )
                 elif self.owner.keys[pygame.K_q]:
                     for rep in self.owner.internal_state.latest_perception():
                         if abs(rep.dx) < 1 and abs(rep.dy) < 1:
                             self.list_of_actions.append(
                                 (self.owner.grab, {"other": rep.source_object})
                             )
-                elif self.owner.keys[pygame.K_SPACE]:
-                    self.list_of_actions.append((self.owner.cast_magic, {"game": game}))
+                elif any(
+                    [
+                        self.owner.keys[key]
+                        for key in {pygame.K_f, pygame.K_a, pygame.K_s, pygame.K_d}
+                    ]
+                ) and any(
+                    [
+                        self.owner.keys[key]
+                        for key in {
+                            pygame.K_1,
+                            pygame.K_2,
+                            pygame.K_3,
+                            pygame.K_4,
+                            pygame.K_5,
+                            pygame.K_6,
+                            pygame.K_7,
+                            pygame.K_8,
+                            pygame.K_9,
+                            pygame.K_0,
+                        }
+                    ]
+                ):
+                    self.list_of_actions.append(
+                        (self.owner.cast_magic, {"game": game, "keys": self.owner.keys})
+                    )
                 self.owner.keys = None
                 self.owner.is_accepting_keys = True
         # temporarily a random thingy=

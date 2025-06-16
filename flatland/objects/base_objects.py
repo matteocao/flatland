@@ -16,6 +16,7 @@ from ..interactions.interactions import ContactInteractionMixin
 from ..interactions.scheduler import InteractionScheduler
 from ..internal.state import InternalState
 from ..logger import Logger
+from ..utils import IdentitySetList
 
 if TYPE_CHECKING:
     from ..__main__ import Game
@@ -34,6 +35,8 @@ class GameObject:
         self.prev_y = y
         self.name = name
         self.health = health
+        self.attack = 1.0
+        self.defence = 1.0
         self.scheduler = InteractionScheduler(interval=1.0)
         self.logger = Logger()
         self.volition = VolitionEngine(owner=self)
@@ -61,7 +64,7 @@ class GameObject:
         )
         self._parent: Optional["GameObject"] = None
         self.parent_id: Optional[str] = None
-        self.children: list["GameObject"] = []
+        self.children: IdentitySetList["GameObject"] = IdentitySetList()
         # this is the value that decides the rendering order: the higher, the later it will be rendered.
         self.z_level: float = 0
         self.sprite_size_x: int = 64
