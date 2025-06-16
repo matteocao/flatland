@@ -69,7 +69,7 @@ class GameServer:
                 data = GameClient.recv_all(conn, message_length)
                 keys = pickle.loads(data)
                 if isinstance(keys, dict) and keys.get("type") == "portal_request":
-                    self.process_portal(client_id, keys["target_level"])
+                    self.process_portal(client_id, keys["target_level"], keys["exit_name"])
                 else:
                     # print("pressed keys?", any(keys))
                     # print(player.is_accepting_keys)
@@ -79,7 +79,7 @@ class GameServer:
         finally:
             self.disconnect(client_id)
 
-    def process_portal(self, client_id: int, target_level_key: str):
+    def process_portal(self, client_id: int, target_level_key: str, exit_name: str):
         self.logger.info(f"Processing portal request for client {client_id} -> {target_level_key}")
 
         with self.lock:
@@ -95,7 +95,7 @@ class GameServer:
             new_level = self.world[target_level_key]
 
             # Move player to portal spawn point
-            portal = next(obj for obj in new_level._observers if obj.__class__.__name__ == "Portal")
+            portal = next(obj for obj in new_level._observers if obj.name == exit_name)
             player.x = portal.x
             player.y = portal.y
 

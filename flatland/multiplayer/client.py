@@ -81,8 +81,12 @@ class GameClient:
                 raise
         return data
 
-    def request_portal(self, target_level_key: str) -> None:
-        message = {"type": "portal_request", "target_level": target_level_key}
+    def request_portal(self, target_level_key: str, exit_name: str) -> None:
+        message = {
+            "type": "portal_request",
+            "target_level": target_level_key,
+            "exit_name": exit_name,
+        }
         payload = pickle.dumps(message)
         length_prefix = struct.pack("!I", len(payload))
         self.sock.sendall(length_prefix + payload)
@@ -133,7 +137,7 @@ class GameClient:
             if world_state is not None:
                 portals, players = [], []
                 for obj in world_state["objects"]:
-                    if obj["cls_name"] == "Portal":
+                    if obj["level_key"] is not None:
                         portals.append(obj)
                     if obj["cls_name"] == "Player":
                         players.append(obj)
@@ -149,7 +153,7 @@ class GameClient:
                         and player["x"] == portal["x"]
                         and player["y"] == portal["y"]
                     ):
-                        self.request_portal(portal["level_key"])
+                        self.request_portal(portal["level_key"], portal["exit_name"])
                         break
 
             for event in pygame.event.get():

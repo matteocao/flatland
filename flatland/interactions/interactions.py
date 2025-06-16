@@ -4,6 +4,7 @@ The the evolutioners take care of evolving the system till a stable configuratio
 """
 
 from abc import ABC, abstractmethod
+from statistics import mean
 from typing import TYPE_CHECKING, Any, Callable
 
 from ..consts import Direction
@@ -154,4 +155,37 @@ class HeatInteractionMixin(InteractionMixin):
     ) -> list[Callable[[], None]]:
         if isinstance(other, HeatInteractionMixin):
             return [lambda: self.on_heat_transfer(other)]
+        return []
+
+
+class ExtendedObjectMixin(InteractionMixin):
+    """
+    This class is useful to handle extended objects. The `schema` describes which other game tiles are affected.
+    The schema is a dict, where teh key is the direction of teh object, and the value is the list of (dx, dy, True/False)
+    indicating the objects that are part of the extended object, starting from the main one and whether they are encumbrant or not.
+    The behaviour of the schema is:
+        - damaged and health are shared
+        - encumbrance is shared
+        - the schema may vary according to directions
+    """
+
+    schema: dict[Direction, list[tuple[int, int, bool]]]
+
+    def affect_children(self: Any, other: "GameObject", j: int) -> None:
+        # children positions and encumbrance
+        dx, dy, other.is_encumbrant = self.schema[self.direction][j]
+        other.x, other.y = self.x + dx, self.y + dy
+
+        # children health
+        mean_health = mean([c.health for c in self.children])
+        self.health: float = mean_health
+        for ob in self.children:
+            ob.health = mean_health
+
+    def get_interaction_callables(
+        self: Any, other: "GameObject", game: "Game"
+    ) -> list[Callable[[], None]]:
+        for j, obj in enumerate(self.children):
+            if obj is other:
+                return [lambda: self.affect_children(other, j)]
         return []

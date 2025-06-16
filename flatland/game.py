@@ -65,7 +65,7 @@ class Game:
                 if event.type == pygame.QUIT:
                     running = False
                 if event.type == pygame.USEREVENT:
-                    level_key = event.code
+                    level_key, exit_name = event.code
                     print(event, level_key)
                     # get player
                     player = [
@@ -80,9 +80,7 @@ class Game:
                     # change level
                     self.current_level = self.world[level_key]
                     portal = [
-                        obj
-                        for obj in self.current_level._observers
-                        if obj.__class__.__name__ == "Portal"
+                        obj for obj in self.current_level._observers if obj.name == exit_name
                     ][0]
                     player.x = portal.x
                     player.y = portal.y

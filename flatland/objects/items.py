@@ -33,6 +33,7 @@ from ..interactions.interactions import (
     ContactInteractionMixin,
     EncumbranceMixin,
     ExplodeAtTouch,
+    ExtendedObjectMixin,
     HeatInteractionMixin,
 )
 from ..internal.state import InternalState
@@ -743,6 +744,144 @@ class Player(
 
 
 @registry.register
+class HouseOneMain(
+    ContactInteractionMixin,
+    GameObject,
+    StandingAnimationMixin,
+    DamageHealthByTemperature,
+    HeatInteractionMixin,
+    RenderMixin,
+    DeathMixin,
+    ExtendedObjectMixin,
+):
+    def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
+        super().__init__(x, y, name, health)
+        self.noise_intensity = 0.1
+        self.attractiveness = 0.1
+        self.visible_size = 2.5
+        self.z_level = 1.0
+        self.mass = 200
+        self.health = 100.0
+        self.is_encumbrant = True
+        self.num_animations_standing = 1
+        self.sprite_size_x = 140
+        self.sprite_size_y = 260
+        # the hous3 is 3x2 with the door in the low-middle.
+        # the order of the schema is important: it has to match the order of the children!!
+        inner_schema = [(-1, 0, True), (1, 0, True), (-1, 1, True), (1, 1, True), (0, 1, False)]
+        self.schema = {direction: inner_schema for direction in Direction}
+        # Load sprites
+        self.standing_sprites_locations = {
+            Direction.UP: [
+                f"assets/sprites/houses/house_lower.png"
+                for i in range(self.num_animations_standing)
+            ],
+            Direction.DOWN: [
+                f"assets/sprites/houses/house_lower.png"
+                for i in range(self.num_animations_standing)
+            ],
+            Direction.LEFT: [
+                f"assets/sprites/houses/house_lower.png"
+                for i in range(self.num_animations_standing)
+            ],
+            Direction.RIGHT: [
+                f"assets/sprites/houses/house_lower.png"
+                for i in range(self.num_animations_standing)
+            ],
+        }
+        self.__post_init__()  # do not forget
+
+
+@registry.register
+class HouseOnePartOne(
+    ContactInteractionMixin,
+    GameObject,
+    StandingAnimationMixin,
+    DamageHealthByTemperature,
+    HeatInteractionMixin,
+    DeathMixin,
+    RenderMixin,
+):
+    def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
+        super().__init__(x, y, name, health)
+        self.noise_intensity = 0.1
+        self.attractiveness = 1.1
+        self.visible_size = 2.5
+        self.z_level = 15.0
+        self.mass = 200
+        self.health = 100.0
+        self.is_encumbrant = True
+        self.num_animations_standing = 1
+        self.sprite_size_x = 140 - 128
+        self.sprite_size_y = 260
+        self.standing_sprites_locations = {
+            Direction.UP: [
+                f"assets/sprites/houses/house_upper.png"
+                for i in range(self.num_animations_standing)
+            ],
+            Direction.DOWN: [
+                f"assets/sprites/houses/house_upper.png"
+                for i in range(self.num_animations_standing)
+            ],
+            Direction.LEFT: [
+                f"assets/sprites/houses/house_upper.png"
+                for i in range(self.num_animations_standing)
+            ],
+            Direction.RIGHT: [
+                f"assets/sprites/houses/house_upper.png"
+                for i in range(self.num_animations_standing)
+            ],
+        }
+        self.__post_init__()  # do not forget
+
+
+@registry.register
+class HouseOnePartTwo(
+    ContactInteractionMixin,
+    GameObject,
+    DamageHealthByTemperature,
+    HeatInteractionMixin,
+    DeathMixin,
+):
+    def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
+        super().__init__(x, y, name, health)
+        self.noise_intensity = 0.1
+        self.attractiveness = 1.1
+        self.visible_size = 2.5
+        self.z_level = 1.0
+        self.mass = 200
+        self.health = 100.0
+        self.is_encumbrant = True
+        self.__post_init__()  # do not forget
+
+
+@registry.register
+class Door(
+    GameObject,
+):
+    def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
+        super().__init__(x, y, name, health)
+        self.friction_coefficient = 1
+        self.noise_intensity = 0.8
+        self.attractiveness = 1.1
+        self.visible_size = 1.5
+        self.z_level = 2.0
+        self.mass = 4
+        self.health = 200
+        self.is_encumbrant = False
+        self.is_grabbable = True
+        self.level_key = ""
+        self.exit_name = ""
+        # Load sprites
+        self.__post_init__()  # do not forget
+
+    def enter_portal(self) -> None:
+        pygame.event.post(
+            pygame.event.Event(pygame.USEREVENT, code=(self.level_key, self.exit_name))
+        )
+
+
+@registry.register
 class Portal(
     GameObject,
     StandingAnimationMixin,
@@ -763,6 +902,7 @@ class Portal(
         self.sprite_size_y: int = 60
         self.is_grabbable = True
         self.level_key = ""
+        self.exit_name = ""
         # Load sprites
         self.standing_sprites_locations = {
             Direction.UP: [
@@ -785,4 +925,6 @@ class Portal(
         self.__post_init__()  # do not forget
 
     def enter_portal(self) -> None:
-        pygame.event.post(pygame.event.Event(pygame.USEREVENT, code=self.level_key))
+        pygame.event.post(
+            pygame.event.Event(pygame.USEREVENT, code=(self.level_key, self.exit_name))
+        )
