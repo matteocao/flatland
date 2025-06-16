@@ -761,7 +761,6 @@ class HouseOneMain(
         self.visible_size = 2.5
         self.z_level = 1.0
         self.mass = 200
-        self.health = 100.0
         self.is_encumbrant = True
         self.num_animations_standing = 1
         self.sprite_size_x = 140
@@ -799,8 +798,8 @@ class HouseOnePartOne(
     StandingAnimationMixin,
     DamageHealthByTemperature,
     HeatInteractionMixin,
-    DeathMixin,
     RenderMixin,
+    ParentDeathIDie,
 ):
     def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
         super().__init__(x, y, name, health)
@@ -809,7 +808,6 @@ class HouseOnePartOne(
         self.visible_size = 2.5
         self.z_level = 15.0
         self.mass = 200
-        self.health = 100.0
         self.is_encumbrant = True
         self.num_animations_standing = 1
         self.sprite_size_x = 140 - 128
@@ -841,7 +839,7 @@ class HouseOnePartTwo(
     GameObject,
     DamageHealthByTemperature,
     HeatInteractionMixin,
-    DeathMixin,
+    ParentDeathIDie,
 ):
     def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
         super().__init__(x, y, name, health)
@@ -850,7 +848,6 @@ class HouseOnePartTwo(
         self.visible_size = 2.5
         self.z_level = 1.0
         self.mass = 200
-        self.health = 100.0
         self.is_encumbrant = True
         self.__post_init__()  # do not forget
 
@@ -858,6 +855,7 @@ class HouseOnePartTwo(
 @registry.register
 class Door(
     GameObject,
+    ParentDeathIDie,
 ):
     def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any):
         super().__init__(x, y, name, health)
@@ -867,7 +865,6 @@ class Door(
         self.visible_size = 1.5
         self.z_level = 2.0
         self.mass = 4
-        self.health = 200
         self.is_encumbrant = False
         self.is_grabbable = True
         self.level_key = ""

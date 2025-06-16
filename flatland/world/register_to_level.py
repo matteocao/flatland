@@ -113,14 +113,14 @@ def build_level_0() -> Level:
         x=7,
         y=6,
         name="house",
-        health=200,
+        health=20,
     )
     housepart = registry.create(
         cls_name="HouseOnePartOne",
         x=7,
         y=6,
         name=f"house_img2",
-        health=200,
+        health=20,
     )
     housepart.parent = house
     level.register(housepart)
@@ -131,7 +131,7 @@ def build_level_0() -> Level:
             x=7,
             y=6,
             name=f"house{i}",
-            health=200,
+            health=20,
         )
         housepart.parent = house
         level.register(housepart)
@@ -141,7 +141,7 @@ def build_level_0() -> Level:
         x=4,
         y=4,
         name="door",
-        health=200,
+        health=20,
     )
     house.children.append(house_door)
     house_door.parent = house
