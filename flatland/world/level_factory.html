@@ -40,6 +40,9 @@
                                 <a class="function" href="#LevelFactory.register">register</a>
                         </li>
                         <li>
+                                <a class="function" href="#LevelFactory.level_keys">level_keys</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#LevelFactory.create">create</a>
                         </li>
                 </ul>
@@ -104,16 +107,19 @@ Each level shall be built and registered in the factory</p>
 </span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>
 </span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>        <span class="k">return</span> <span class="n">_decorator</span>
 </span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>
-</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Level</span><span class="p">:</span>
-</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a Level by calling the registered builder function.&quot;&quot;&quot;</span>
-</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_registry</span><span class="p">:</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No level registered under key &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
-</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>        <span class="n">builder</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_registry</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>        <span class="k">return</span> <span class="n">builder</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>
-</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>
-</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a><span class="c1"># A global factory instance</span>
-</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a><span class="n">factory</span> <span class="o">=</span> <span class="n">LevelFactory</span><span class="p">()</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">level_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>        <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_registry</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Level</span><span class="p">:</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a Level by calling the registered builder function.&quot;&quot;&quot;</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_registry</span><span class="p">:</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No level registered under key &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>        <span class="n">builder</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_registry</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>        <span class="k">return</span> <span class="n">builder</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>
+</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a><span class="c1"># A global factory instance</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="n">factory</span> <span class="o">=</span> <span class="n">LevelFactory</span><span class="p">()</span>
 </span></pre></div>
 
 
@@ -158,12 +164,15 @@ Each level shall be built and registered in the factory</p>
 </span><span id="LevelFactory-31"><a href="#LevelFactory-31"><span class="linenos">31</span></a>
 </span><span id="LevelFactory-32"><a href="#LevelFactory-32"><span class="linenos">32</span></a>        <span class="k">return</span> <span class="n">_decorator</span>
 </span><span id="LevelFactory-33"><a href="#LevelFactory-33"><span class="linenos">33</span></a>
-</span><span id="LevelFactory-34"><a href="#LevelFactory-34"><span class="linenos">34</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Level</span><span class="p">:</span>
-</span><span id="LevelFactory-35"><a href="#LevelFactory-35"><span class="linenos">35</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a Level by calling the registered builder function.&quot;&quot;&quot;</span>
-</span><span id="LevelFactory-36"><a href="#LevelFactory-36"><span class="linenos">36</span></a>        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_registry</span><span class="p">:</span>
-</span><span id="LevelFactory-37"><a href="#LevelFactory-37"><span class="linenos">37</span></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No level registered under key &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
-</span><span id="LevelFactory-38"><a href="#LevelFactory-38"><span class="linenos">38</span></a>        <span class="n">builder</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_registry</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-</span><span id="LevelFactory-39"><a href="#LevelFactory-39"><span class="linenos">39</span></a>        <span class="k">return</span> <span class="n">builder</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span><span id="LevelFactory-34"><a href="#LevelFactory-34"><span class="linenos">34</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">level_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+</span><span id="LevelFactory-35"><a href="#LevelFactory-35"><span class="linenos">35</span></a>        <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_registry</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+</span><span id="LevelFactory-36"><a href="#LevelFactory-36"><span class="linenos">36</span></a>
+</span><span id="LevelFactory-37"><a href="#LevelFactory-37"><span class="linenos">37</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Level</span><span class="p">:</span>
+</span><span id="LevelFactory-38"><a href="#LevelFactory-38"><span class="linenos">38</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a Level by calling the registered builder function.&quot;&quot;&quot;</span>
+</span><span id="LevelFactory-39"><a href="#LevelFactory-39"><span class="linenos">39</span></a>        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_registry</span><span class="p">:</span>
+</span><span id="LevelFactory-40"><a href="#LevelFactory-40"><span class="linenos">40</span></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No level registered under key &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
+</span><span id="LevelFactory-41"><a href="#LevelFactory-41"><span class="linenos">41</span></a>        <span class="n">builder</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_registry</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+</span><span id="LevelFactory-42"><a href="#LevelFactory-42"><span class="linenos">42</span></a>        <span class="k">return</span> <span class="n">builder</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -200,6 +209,25 @@ Each level shall be built and registered in the factory</p>
 
 
                             </div>
+                            <div id="LevelFactory.level_keys" class="classattr">
+                                        <input id="LevelFactory.level_keys-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">level_keys</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>:</span></span>
+
+                <label class="view-source-button" for="LevelFactory.level_keys-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#LevelFactory.level_keys"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="LevelFactory.level_keys-34"><a href="#LevelFactory.level_keys-34"><span class="linenos">34</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">level_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+</span><span id="LevelFactory.level_keys-35"><a href="#LevelFactory.level_keys-35"><span class="linenos">35</span></a>        <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_registry</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+</span></pre></div>
+
+
+    
+
+                            </div>
                             <div id="LevelFactory.create" class="classattr">
                                         <input id="LevelFactory.create-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
@@ -211,12 +239,12 @@ Each level shall be built and registered in the factory</p>
 
     </div>
     <a class="headerlink" href="#LevelFactory.create"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="LevelFactory.create-34"><a href="#LevelFactory.create-34"><span class="linenos">34</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Level</span><span class="p">:</span>
-</span><span id="LevelFactory.create-35"><a href="#LevelFactory.create-35"><span class="linenos">35</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a Level by calling the registered builder function.&quot;&quot;&quot;</span>
-</span><span id="LevelFactory.create-36"><a href="#LevelFactory.create-36"><span class="linenos">36</span></a>        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_registry</span><span class="p">:</span>
-</span><span id="LevelFactory.create-37"><a href="#LevelFactory.create-37"><span class="linenos">37</span></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No level registered under key &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
-</span><span id="LevelFactory.create-38"><a href="#LevelFactory.create-38"><span class="linenos">38</span></a>        <span class="n">builder</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_registry</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-</span><span id="LevelFactory.create-39"><a href="#LevelFactory.create-39"><span class="linenos">39</span></a>        <span class="k">return</span> <span class="n">builder</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="LevelFactory.create-37"><a href="#LevelFactory.create-37"><span class="linenos">37</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Level</span><span class="p">:</span>
+</span><span id="LevelFactory.create-38"><a href="#LevelFactory.create-38"><span class="linenos">38</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a Level by calling the registered builder function.&quot;&quot;&quot;</span>
+</span><span id="LevelFactory.create-39"><a href="#LevelFactory.create-39"><span class="linenos">39</span></a>        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_registry</span><span class="p">:</span>
+</span><span id="LevelFactory.create-40"><a href="#LevelFactory.create-40"><span class="linenos">40</span></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No level registered under key &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
+</span><span id="LevelFactory.create-41"><a href="#LevelFactory.create-41"><span class="linenos">41</span></a>        <span class="n">builder</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_registry</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+</span><span id="LevelFactory.create-42"><a href="#LevelFactory.create-42"><span class="linenos">42</span></a>        <span class="k">return</span> <span class="n">builder</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </span></pre></div>
 
 
