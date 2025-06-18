@@ -41,6 +41,9 @@ class Game:
         if not hasattr(self, "logger"):
             self.logger = Logger()
 
+    def get_key_state(self) -> Any:
+        return pygame.key.get_pressed()
+
     def main(self, stop_event: Any = None) -> None:
 
         pygame.display.set_caption("Flatland")
@@ -91,7 +94,7 @@ class Game:
             self.screen.fill((0, 0, 0))  # to cancel previous state
             self.current_level.reset_is_walkable()  # reset tiles to walkable: they will be changed when they are encumbered by objects
 
-            keys = pygame.key.get_pressed()
+            keys = self.get_key_state()  # this does pygame.key.get_pressed()
 
             # send keys to the user
             if any(keys):
