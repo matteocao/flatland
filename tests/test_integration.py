@@ -103,7 +103,7 @@ def test_inertia_damage():
         assert stone.health < 50
 
     # multiprocessing event for shutdown
-    multiprocess.set_start_method("import pygame.locals as plspawn", force=True)
+    multiprocess.set_start_method("spawn", force=True)
     stop_event = multiprocess.Event()
 
     # spawn the game loop in subprocess
