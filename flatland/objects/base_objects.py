@@ -55,10 +55,12 @@ class GameObject:
         self.location_as_parent: bool = False
         self.height: float = 1.0
         self.friction_coefficient: float = 1.0
-        self.is_moving = False
         self.last_tick: int = 0
+        self.is_moving = False
         self.is_standing = True
         self.is_pushing = False
+        self.is_casting = False
+        self.is_slashing = False
         self.is_prepare_just_done: bool = (
             False  # this turns to true when self.update() is called and is set to false when self.prepare is called
         )
@@ -87,6 +89,8 @@ class GameObject:
             self.create_standing_sprites()
         if hasattr(self, "create_push_sprites"):
             self.create_push_sprites()
+        if hasattr(self, "create_cast_sprites"):
+            self.create_cast_sprites()
 
     @property
     def parent(self) -> Optional["GameObject"]:
@@ -109,6 +113,8 @@ class GameObject:
                 self.is_pushing = False
                 self.is_moving = True
                 self.is_standing = False
+                self.is_casting = False
+                self.is_slashing = False
             elif (
                 self.prev_x == self.x
                 and self.prev_y == self.y
@@ -117,10 +123,34 @@ class GameObject:
                 self.is_pushing = True
                 self.is_moving = False
                 self.is_standing = False
+                self.is_casting = False
+                self.is_slashing = False
+            elif (
+                self.prev_x == self.x
+                and self.prev_y == self.y
+                and any("cast_magic" == func.__name__ for func, _ in self.volition.list_of_actions)
+            ):
+                self.is_pushing = False
+                self.is_moving = False
+                self.is_standing = False
+                self.is_casting = True
+                self.is_slashing = False
+            elif (
+                self.prev_x == self.x
+                and self.prev_y == self.y
+                and any("slash" == func.__name__ for func, _ in self.volition.list_of_actions)
+            ):
+                self.is_pushing = False
+                self.is_moving = False
+                self.is_standing = False
+                self.is_casting = False
+                self.is_slashing = True
             elif self.prev_x == self.x and self.prev_y == self.y:
                 self.is_pushing = False
                 self.is_moving = False
                 self.is_standing = True
+                self.is_casting = False
+                self.is_slashing = False
             return True
         return False
 

@@ -205,6 +205,32 @@ class PushAnimationMixin:
         screen.blit(sprite, pos)
 
 
+class CastingAnimationMixin:
+    casting_sprites_locations: dict[Direction, list[str]]
+    casting_animation_index: int = 0
+    casting_sprites: dict[Direction, Any]
+
+    def create_casting_sprites(self: Any) -> None:
+        self.casting_sprites = {
+            k: list(map(lambda x: pygame.image.load(x).convert_alpha(), lst_str))
+            for k, lst_str in self.casting_sprites_locations.items()
+        }
+
+    def update_casting_animation(self: Any):
+        self.casting_animation_index = (self.casting_animation_index + 1) % len(
+            self.casting_sprites[self.direction]
+        )
+
+    def render_casting(self: Any, screen: pygame.Surface) -> None:
+        offset_x = self.sprite_size_x // 2 - TILE_SIZE // 2
+        offset_y = self.sprite_size_y // 2 - TILE_SIZE // 2
+        pos = (self.x * TILE_SIZE - offset_x, self.y * TILE_SIZE - offset_y)
+        self.update_casting_animation()
+        sprite = self.casting_sprites[self.direction][self.push_animation_index]
+        # TODO: here we will need to generalize with new animations and improve the logic
+        screen.blit(sprite, pos)
+
+
 class AlwaysOnTopOfParent:
     """
     Mixin to be used in case you want an object to always be on top of the parent object, like an armor or helmet

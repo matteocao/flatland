@@ -21,5 +21,9 @@ class RenderMixin:
             if self.is_standing:
                 self.render_standing(screen)
                 return
+        if hasattr(self, "render_casting"):
+            if self.is_casting:
+                self.render_casting(screen)
+                return
         # fallback
         self.render_standing(screen)

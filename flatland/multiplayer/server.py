@@ -101,6 +101,8 @@ class GameServer:
 
             # Register player in new level
             for obj in player.children:
+                obj.x = portal.x
+                obj.y = portal.y
                 new_level.register(obj)
             new_level.register(player)
 

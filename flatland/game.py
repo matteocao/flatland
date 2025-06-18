@@ -89,6 +89,8 @@ class Game:
                     player.y = portal.y
                     self.current_level.register(player)
                     for obj in player.children:
+                        obj.x = portal.x
+                        obj.y = portal.y
                         self.current_level.register(obj)
                     self.current_level.get_ground_objs(self)
             self.screen.fill((0, 0, 0))  # to cancel previous state

@@ -13,6 +13,7 @@ pygame.display.set_mode((1, 1))
 
 from ..actions.actions import LimbControlMixin, MovementMixin, SpeechMixin
 from ..animations.animations import (
+    CastingAnimationMixin,
     DeathAnimationMixin,
     MovementAnimationMixin,
     PushAnimationMixin,
