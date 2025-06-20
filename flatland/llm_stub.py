@@ -1,3 +1,8 @@
+"""
+Just a stub
+"""
+
+
 class LLMNPCBrain:
     def __init__(self, name: str, personality: str):
         self.name = name

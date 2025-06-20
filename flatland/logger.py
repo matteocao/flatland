@@ -1,3 +1,7 @@
+"""
+The game logger, built as singleton
+"""
+
 import logging
 import os
 from threading import Lock

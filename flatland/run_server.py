@@ -1,3 +1,7 @@
+"""
+This is the server entry point
+"""
+
 import pygame
 
 from flatland.multiplayer.server import GameServer

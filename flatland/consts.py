@@ -1,3 +1,7 @@
+"""
+This file contains the main game constans
+"""
+
 from dataclasses import dataclass
 from enum import Enum
 

@@ -20,11 +20,24 @@ A 2D tile-based role-playing game built with `pygame` and powered by AI-controll
 # Install dependencies
 make install
 
-# Run the game
+# Run the game in single player
 make run
 
 # Run tests
 make test
+```
+
+### Multiplayer
+
+To run the game in multiplayer, simply do:
+
+```
+# on the server
+make server
+
+# on each client
+python3 -m flatland.multiplayer --ip x.x.x.x --port xxxxx
+
 ```
 
 ## Documentation
