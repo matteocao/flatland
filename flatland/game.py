@@ -1,3 +1,9 @@
+"""
+This file is the main single-player game loop.
+
+This loop is not directly used in the multiplayer game.
+"""
+
 import os
 import warnings
 from typing import Any
