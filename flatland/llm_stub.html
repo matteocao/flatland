@@ -73,27 +73,34 @@
                     <h1 class="modulename">
 <a href="./../flatland.html">flatland</a><wbr>.llm_stub    </h1>
 
-                
+                        <div class="docstring"><p>Just a stub</p>
+</div>
+
                         <input id="mod-llm_stub-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 
                         <label class="view-source-button" for="mod-llm_stub-view-source"><span>View Source</span></label>
 
-                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="k">class</span><span class="w"> </span><span class="nc">LLMNPCBrain</span><span class="p">:</span>
-</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">personality</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">personality</span> <span class="o">=</span> <span class="n">personality</span>
-</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a>
-</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">observe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">decide_action</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>            <span class="k">return</span> <span class="s2">&quot;reflect&quot;</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>        <span class="k">return</span> <span class="s2">&quot;wander&quot;</span>
+                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a><span class="sd">Just a stub</span>
+</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a>
+</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a>
+</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="k">class</span><span class="w"> </span><span class="nc">LLMNPCBrain</span><span class="p">:</span>
+</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">personality</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">personality</span> <span class="o">=</span> <span class="n">personality</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">observe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
 </span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">speak</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;My name is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">. I am </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">personality</span><span class="si">}</span><span class="s2">.&quot;</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">decide_action</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>            <span class="k">return</span> <span class="s2">&quot;reflect&quot;</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>        <span class="k">return</span> <span class="s2">&quot;wander&quot;</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>
+</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">speak</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;My name is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">. I am </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">personality</span><span class="si">}</span><span class="s2">.&quot;</span>
 </span></pre></div>
 
 
@@ -109,22 +116,22 @@
 
     </div>
     <a class="headerlink" href="#LLMNPCBrain"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="LLMNPCBrain-2"><a href="#LLMNPCBrain-2"><span class="linenos"> 2</span></a><span class="k">class</span><span class="w"> </span><span class="nc">LLMNPCBrain</span><span class="p">:</span>
-</span><span id="LLMNPCBrain-3"><a href="#LLMNPCBrain-3"><span class="linenos"> 3</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">personality</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-</span><span id="LLMNPCBrain-4"><a href="#LLMNPCBrain-4"><span class="linenos"> 4</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-</span><span id="LLMNPCBrain-5"><a href="#LLMNPCBrain-5"><span class="linenos"> 5</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">personality</span> <span class="o">=</span> <span class="n">personality</span>
-</span><span id="LLMNPCBrain-6"><a href="#LLMNPCBrain-6"><span class="linenos"> 6</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span id="LLMNPCBrain-7"><a href="#LLMNPCBrain-7"><span class="linenos"> 7</span></a>
-</span><span id="LLMNPCBrain-8"><a href="#LLMNPCBrain-8"><span class="linenos"> 8</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">observe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-</span><span id="LLMNPCBrain-9"><a href="#LLMNPCBrain-9"><span class="linenos"> 9</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
-</span><span id="LLMNPCBrain-10"><a href="#LLMNPCBrain-10"><span class="linenos">10</span></a>
-</span><span id="LLMNPCBrain-11"><a href="#LLMNPCBrain-11"><span class="linenos">11</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">decide_action</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="LLMNPCBrain-12"><a href="#LLMNPCBrain-12"><span class="linenos">12</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
-</span><span id="LLMNPCBrain-13"><a href="#LLMNPCBrain-13"><span class="linenos">13</span></a>            <span class="k">return</span> <span class="s2">&quot;reflect&quot;</span>
-</span><span id="LLMNPCBrain-14"><a href="#LLMNPCBrain-14"><span class="linenos">14</span></a>        <span class="k">return</span> <span class="s2">&quot;wander&quot;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="LLMNPCBrain-7"><a href="#LLMNPCBrain-7"><span class="linenos"> 7</span></a><span class="k">class</span><span class="w"> </span><span class="nc">LLMNPCBrain</span><span class="p">:</span>
+</span><span id="LLMNPCBrain-8"><a href="#LLMNPCBrain-8"><span class="linenos"> 8</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">personality</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><span id="LLMNPCBrain-9"><a href="#LLMNPCBrain-9"><span class="linenos"> 9</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+</span><span id="LLMNPCBrain-10"><a href="#LLMNPCBrain-10"><span class="linenos">10</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">personality</span> <span class="o">=</span> <span class="n">personality</span>
+</span><span id="LLMNPCBrain-11"><a href="#LLMNPCBrain-11"><span class="linenos">11</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="LLMNPCBrain-12"><a href="#LLMNPCBrain-12"><span class="linenos">12</span></a>
+</span><span id="LLMNPCBrain-13"><a href="#LLMNPCBrain-13"><span class="linenos">13</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">observe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><span id="LLMNPCBrain-14"><a href="#LLMNPCBrain-14"><span class="linenos">14</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
 </span><span id="LLMNPCBrain-15"><a href="#LLMNPCBrain-15"><span class="linenos">15</span></a>
-</span><span id="LLMNPCBrain-16"><a href="#LLMNPCBrain-16"><span class="linenos">16</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">speak</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="LLMNPCBrain-17"><a href="#LLMNPCBrain-17"><span class="linenos">17</span></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;My name is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">. I am </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">personality</span><span class="si">}</span><span class="s2">.&quot;</span>
+</span><span id="LLMNPCBrain-16"><a href="#LLMNPCBrain-16"><span class="linenos">16</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">decide_action</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="LLMNPCBrain-17"><a href="#LLMNPCBrain-17"><span class="linenos">17</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
+</span><span id="LLMNPCBrain-18"><a href="#LLMNPCBrain-18"><span class="linenos">18</span></a>            <span class="k">return</span> <span class="s2">&quot;reflect&quot;</span>
+</span><span id="LLMNPCBrain-19"><a href="#LLMNPCBrain-19"><span class="linenos">19</span></a>        <span class="k">return</span> <span class="s2">&quot;wander&quot;</span>
+</span><span id="LLMNPCBrain-20"><a href="#LLMNPCBrain-20"><span class="linenos">20</span></a>
+</span><span id="LLMNPCBrain-21"><a href="#LLMNPCBrain-21"><span class="linenos">21</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">speak</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="LLMNPCBrain-22"><a href="#LLMNPCBrain-22"><span class="linenos">22</span></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;My name is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">. I am </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">personality</span><span class="si">}</span><span class="s2">.&quot;</span>
 </span></pre></div>
 
 
@@ -140,10 +147,10 @@
 
     </div>
     <a class="headerlink" href="#LLMNPCBrain.__init__"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="LLMNPCBrain.__init__-3"><a href="#LLMNPCBrain.__init__-3"><span class="linenos">3</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">personality</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-</span><span id="LLMNPCBrain.__init__-4"><a href="#LLMNPCBrain.__init__-4"><span class="linenos">4</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-</span><span id="LLMNPCBrain.__init__-5"><a href="#LLMNPCBrain.__init__-5"><span class="linenos">5</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">personality</span> <span class="o">=</span> <span class="n">personality</span>
-</span><span id="LLMNPCBrain.__init__-6"><a href="#LLMNPCBrain.__init__-6"><span class="linenos">6</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="LLMNPCBrain.__init__-8"><a href="#LLMNPCBrain.__init__-8"><span class="linenos"> 8</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">personality</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><span id="LLMNPCBrain.__init__-9"><a href="#LLMNPCBrain.__init__-9"><span class="linenos"> 9</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+</span><span id="LLMNPCBrain.__init__-10"><a href="#LLMNPCBrain.__init__-10"><span class="linenos">10</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">personality</span> <span class="o">=</span> <span class="n">personality</span>
+</span><span id="LLMNPCBrain.__init__-11"><a href="#LLMNPCBrain.__init__-11"><span class="linenos">11</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 </span></pre></div>
 
 
@@ -194,8 +201,8 @@
 
     </div>
     <a class="headerlink" href="#LLMNPCBrain.observe"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="LLMNPCBrain.observe-8"><a href="#LLMNPCBrain.observe-8"><span class="linenos">8</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">observe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-</span><span id="LLMNPCBrain.observe-9"><a href="#LLMNPCBrain.observe-9"><span class="linenos">9</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="LLMNPCBrain.observe-13"><a href="#LLMNPCBrain.observe-13"><span class="linenos">13</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">observe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><span id="LLMNPCBrain.observe-14"><a href="#LLMNPCBrain.observe-14"><span class="linenos">14</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -213,10 +220,10 @@
 
     </div>
     <a class="headerlink" href="#LLMNPCBrain.decide_action"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="LLMNPCBrain.decide_action-11"><a href="#LLMNPCBrain.decide_action-11"><span class="linenos">11</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">decide_action</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="LLMNPCBrain.decide_action-12"><a href="#LLMNPCBrain.decide_action-12"><span class="linenos">12</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
-</span><span id="LLMNPCBrain.decide_action-13"><a href="#LLMNPCBrain.decide_action-13"><span class="linenos">13</span></a>            <span class="k">return</span> <span class="s2">&quot;reflect&quot;</span>
-</span><span id="LLMNPCBrain.decide_action-14"><a href="#LLMNPCBrain.decide_action-14"><span class="linenos">14</span></a>        <span class="k">return</span> <span class="s2">&quot;wander&quot;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="LLMNPCBrain.decide_action-16"><a href="#LLMNPCBrain.decide_action-16"><span class="linenos">16</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">decide_action</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="LLMNPCBrain.decide_action-17"><a href="#LLMNPCBrain.decide_action-17"><span class="linenos">17</span></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
+</span><span id="LLMNPCBrain.decide_action-18"><a href="#LLMNPCBrain.decide_action-18"><span class="linenos">18</span></a>            <span class="k">return</span> <span class="s2">&quot;reflect&quot;</span>
+</span><span id="LLMNPCBrain.decide_action-19"><a href="#LLMNPCBrain.decide_action-19"><span class="linenos">19</span></a>        <span class="k">return</span> <span class="s2">&quot;wander&quot;</span>
 </span></pre></div>
 
 
@@ -234,8 +241,8 @@
 
     </div>
     <a class="headerlink" href="#LLMNPCBrain.speak"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="LLMNPCBrain.speak-16"><a href="#LLMNPCBrain.speak-16"><span class="linenos">16</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">speak</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="LLMNPCBrain.speak-17"><a href="#LLMNPCBrain.speak-17"><span class="linenos">17</span></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;My name is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">. I am </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">personality</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="LLMNPCBrain.speak-21"><a href="#LLMNPCBrain.speak-21"><span class="linenos">21</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">speak</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="LLMNPCBrain.speak-22"><a href="#LLMNPCBrain.speak-22"><span class="linenos">22</span></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;My name is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">. I am </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">personality</span><span class="si">}</span><span class="s2">.&quot;</span>
 </span></pre></div>
 
 

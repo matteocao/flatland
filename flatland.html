@@ -93,13 +93,25 @@ flatland    </h1>
 <pre><span></span><code><span class="c1"># Install dependencies</span>
 make<span class="w"> </span>install
 
-<span class="c1"># Run the game</span>
+<span class="c1"># Run the game in single player</span>
 make<span class="w"> </span>run
 
 <span class="c1"># Run tests</span>
 make<span class="w"> </span><span class="nb">test</span>
 </code></pre>
 </div>
+
+<h3 id="multiplayer">Multiplayer</h3>
+
+<p>To run the game in multiplayer, simply do:</p>
+
+<pre><code># on the server
+make server
+
+# on each client
+python3 -m <a href="flatland/multiplayer.html">flatland.multiplayer</a> --ip x.x.x.x --port xxxxx
+
+</code></pre>
 
 <h2 id="documentation">Documentation</h2>
 
