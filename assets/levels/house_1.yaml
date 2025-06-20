@@ -1,0 +1,67 @@
+level_key: "house_1"
+objects:
+  - cls_name: Ground
+    name: tile_grass_0_0
+    x: 0
+    y: 0
+    health: 10
+    tile_name: assets/sprites/terrain/tile_1_1_1_1
+  - cls_name: Ground
+    name: tile_rock_1_0
+    x: 1
+    y: 0
+    health: 10
+    tile_name: assets/sprites/terrain/tile_1_1_1_1
+  - cls_name: Ground
+    name: tile_dirt_2_0
+    x: 2
+    y: 0
+    health: 10
+    tile_name: assets/sprites/terrain/tile_1_1_1_1
+
+  - cls_name: Ground
+    name: tile_grass_0_1
+    x: 0
+    y: 1
+    health: 10
+    tile_name: assets/sprites/terrain/tile_1_1_1_1
+  - cls_name: Ground
+    name: tile_sand_1_1
+    x: 1
+    y: 1
+    health: 10
+    tile_name: assets/sprites/terrain/tile_1_1_1_1
+  - cls_name: Ground
+    name: tile_rock_2_1
+    x: 2
+    y: 1
+    health: 10
+    tile_name: assets/sprites/terrain/tile_1_1_1_1
+
+  - cls_name: Ground
+    name: tile_dirt_0_2
+    x: 0
+    y: 2
+    health: 10
+    tile_name: assets/sprites/terrain/tile_1_1_1_1
+  - cls_name: Ground
+    name: tile_grass_1_2
+    x: 1
+    y: 2
+    health: 10
+    tile_name: assets/sprites/terrain/tile_1_1_1_1
+  - cls_name: Ground
+    name: tile_sand_2_2
+    x: 2
+    y: 2
+    health: 10
+    tile_name: assets/sprites/terrain/tile_1_1_1_1
+
+  - cls_name: Portal
+    name: portal
+    x: 1
+    y: 1
+    health: 200
+    other_attributes:
+      level_key: "level_0"
+      exit_name: "door"

@@ -10,6 +10,7 @@ readme = "README.md"
 python = ">=3.10,<4.0"
 pygame = "^2.1.0"
 pillow = "*"
+pyyaml = "*"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.0"
@@ -38,6 +39,7 @@ omit = [
   "flatland/run_server.py",
   "clean_all_assets.py",
   "cut_picture.py",
+  "tile_yaml.py",
   "diagnostics*"
 ]
 
