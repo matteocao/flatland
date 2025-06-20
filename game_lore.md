@@ -14,7 +14,7 @@ The roots of the 4 major trees are actually interconnected and they form the nex
 
 The interfaces between these four different regions are desert. The deserts are a bit weird geographically and you need a map to navigate through them due to their non trivial topology.
 
-At the very center of the desert, hence at the crossroads of all the four regions, the university rises. It is the only place where scholars are free to share all their knowledge with teh others. The university is a peacful place.
+At the very center of the desert, hence at the crossroads of all the four regions, the university rises. It is the only place where scholars are free to share all their knowledge with teh others. The university is a peaceful place.
 
 ## Geopolitics
 
