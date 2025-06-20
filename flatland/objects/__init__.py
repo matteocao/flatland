@@ -12,4 +12,4 @@ Reading how the exising objects are made is also extremely useful to avoid forge
 characteristics.
 """
 
-from . import base_objects, items, items_registry
+from . import base_objects, items, items_2, items_registry
