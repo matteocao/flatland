@@ -47,12 +47,44 @@
                     <h1 class="modulename">
 <a href="./../flatland.html">flatland</a><wbr>.actions    </h1>
 
-                
+                        <div class="docstring"><p>The actions submodule described all the actions an object can make: from moving, to pushing to casting.
+The actions follow the same mechanism as interactions.</p>
+
+<p>Roughly, these are the steps:</p>
+
+<ol>
+<li>The action is triggered, either by AI or by the user.</li>
+<li>The action callable is stored in a list during the prepare phase by the Volition</li>
+<li>The actions are executed in the update phase</li>
+</ol>
+
+<p>Note that the prepare phase follows this chain: <code>Level -&gt; GameObject -&gt; VolitionEngine</code>.</p>
+
+<p>So, the volition engine is like the scheduler for Interactions: it takes care of storing and running the requested actions.
+Actions run after the interactions.</p>
+</div>
+
                         <input id="mod-actions-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 
                         <label class="view-source-button" for="mod-actions-view-source"><span>View Source</span></label>
 
-                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos">1</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">actions</span><span class="p">,</span> <span class="n">volition</span>
+                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a><span class="sd">The actions submodule described all the actions an object can make: from moving, to pushing to casting.</span>
+</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="sd">The actions follow the same mechanism as interactions.</span>
+</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a>
+</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="sd">Roughly, these are the steps:</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="sd">1. The action is triggered, either by AI or by the user.</span>
+</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="sd">2. The action callable is stored in a list during the prepare phase by the Volition</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="sd">3. The actions are executed in the update phase</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="sd">Note that the prepare phase follows this chain: ``Level -&gt; GameObject -&gt; VolitionEngine``.</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="sd">So, the volition engine is like the scheduler for Interactions: it takes care of storing and running the requested actions.</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="sd">Actions run after the interactions.</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">actions</span><span class="p">,</span> <span class="n">volition</span>
 </span></pre></div>
 
 
