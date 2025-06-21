@@ -688,12 +688,6 @@ objects:
     level_key: "level_1"
     exit_name: "portal"
 
-- cls_name: "RobeTorso"
-  name: "robe"
-  x: 1
-  y: 2
-  health: 100
-
 - cls_name: "Shoes"
   name: "shoes"
   x: 1

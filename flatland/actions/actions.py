@@ -71,13 +71,13 @@ class LimbControlMixin:
         dfnc = sum([obj.defence for obj in other.children]) + other.defence
         other.health -= max(0, attk - dfnc)
 
-    def grab(self: Any, other: "GameObject") -> None:
+    def grab(self: Any, other: "GameObject", game: "Game") -> None:
         if other.is_grabbable:
             if hasattr(other, "enter_portal"):
                 other.enter_portal()
                 return
             if hasattr(other, "trigger_event"):
-                other.trigger_event()
+                other.trigger_event(game)
                 return
             self.children.append(other)
             other.parent = self

@@ -918,81 +918,107 @@ class Baloon(
 
     def make_balloon_surface(self) -> pygame.Surface:
         font = pygame.font.SysFont(None, 18)
-        text_surface = font.render(self.speech, True, BLACK)
-
-        # Padding around the text
         padding = 10
-        text_rect = text_surface.get_rect()
+        line_spacing = 4  # Space between lines
 
-        # Create a surface for the balloon with per-pixel alpha for transparency
-        balloon_surface = pygame.Surface(
-            (text_rect.width + 2 * padding, text_rect.height + 2 * padding),
-            pygame.SRCALPHA,
+        # Split text into lines
+        lines = self.speech.split("\n")
+
+        # Render each line and measure size
+        rendered_lines = [font.render(line, True, BLACK) for line in lines]
+        max_width = max(line.get_width() for line in rendered_lines)
+        total_height = sum(line.get_height() for line in rendered_lines) + line_spacing * (
+            len(lines) - 1
         )
 
-        # Draw balloon rectangle on this new surface
+        # Create surface with proper size
+        balloon_width = max_width + 2 * padding
+        balloon_height = total_height + 2 * padding
+        balloon_surface = pygame.Surface((balloon_width, balloon_height), pygame.SRCALPHA)
+
+        # Draw the rounded rectangle (the balloon)
         pygame.draw.rect(balloon_surface, WHITE, balloon_surface.get_rect(), border_radius=15)
 
-        # Blit the text onto the balloon
-        balloon_surface.blit(text_surface, (padding, padding))
+        # Blit lines onto the surface
+        y_offset = padding
+        for line_surface in rendered_lines:
+            balloon_surface.blit(line_surface, (padding, y_offset))
+            y_offset += line_surface.get_height() + line_spacing
+        self.sprite_size_y = 100 + balloon_surface.get_height()
 
         return balloon_surface
 
 
-#    def render_standing(self, screen: pygame.Surface):
-#        # make baloon
-#        font = pygame.font.SysFont(None, 18)
-#        text_surface = font.render(self.speech, True, BLACK)
-#
-#        # Padding around the text
-#        padding = 10
-#        text_rect = text_surface.get_rect()
-#        balloon_rect = pygame.Rect(
-#            self.x * TILE_SIZE,
-#            self.y * TILE_SIZE - 32,
-#            text_rect.width + 2 * padding,
-#            text_rect.height + 2 * padding,
-#        )
-#        pygame.draw.rect(screen, WHITE, balloon_rect, border_radius=15)
-#        # Draw text
-#        screen.blit(text_surface, (self.x * TILE_SIZE + padding, self.y * TILE_SIZE - 32 + padding))
-#
-#    def render_movement(self: Any, screen: pygame.Surface):
-#        print("herhehre")
-#        if not (self.parent.last_x == self.parent.x and self.parent.y == self.parent.last_y):
-#            self.parent.alpha = 0.0
-#            self.parent.last_x = self.parent.x
-#            self.parent.last_y = self.parent.y
-#            self.is_parent_animated_before = False
-#        if self.parent.alpha > 1:
-#            self.is_parent_animated_before = True
-#        if self.is_parent_animated_before:
-#            self.alpha = self.parent.alpha - self.parent.actions_per_second * 0.11
-#        else:
-#            self.alpha = self.parent.alpha
-#        self.x = self.parent.x
-#        self.y = self.parent.y
-#        self.prev_x = self.parent.prev_x
-#        self.prev_y = self.parent.prev_y
-#        offset_x = 0
-#        offset_y = -32
-#        pos = (
-#            (self.alpha * self.x + (1 - self.alpha) * self.prev_x) * TILE_SIZE - offset_x,
-#            (self.alpha * self.y + (1 - self.alpha) * self.prev_y) * TILE_SIZE - offset_y,
-#        )
-#        # make baloon
-#        font = pygame.font.SysFont(None, 18)
-#        text_surface = font.render(self.speech, True, BLACK)
-#
-#        # Padding around the text
-#        padding = 10
-#        text_rect = text_surface.get_rect()
-#        balloon_rect = pygame.Rect(
-#            pos[0],
-#            pos[1],
-#            text_rect.width + 2 * padding,
-#            text_rect.height + 2 * padding,
-#        )
-#        pygame.draw.rect(screen, WHITE, balloon_rect, border_radius=15)
-#        # Draw text
-#        screen.blit(text_surface, (pos[0] + padding, pos[1] + padding))
+@registry.register
+class ChestGrandpa(
+    GameObject,
+    StandingAnimationMixin,
+    RenderMixin,
+):
+    def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any) -> None:
+        super().__init__(x, y, name, health)
+        self.is_grabbable = True
+        self.closed = True
+        self.z_level = 2.0
+        self.num_animations_standing = 1
+        self.sprite_size_y = 32
+        self.sprite_size_x = 32
+        self.standing_sprites_locations = {
+            Direction.UP: [
+                f"assets/sprites/chest/chest_close.png" for i in range(self.num_animations_standing)
+            ],
+            Direction.DOWN: [
+                f"assets/sprites/chest/chest_close.png" for i in range(self.num_animations_standing)
+            ],
+            Direction.LEFT: [
+                f"assets/sprites/chest/chest_close.png" for i in range(self.num_animations_standing)
+            ],
+            Direction.RIGHT: [
+                f"assets/sprites/chest/chest_close.png" for i in range(self.num_animations_standing)
+            ],
+        }
+        self.__post_init__()  # do not forget
+
+    def trigger_event(self, game) -> None:
+        """
+        This event consists in creating a baloon and spawning items on the floor in the exact position of the self.
+        """
+        if self.closed:
+            self.closed = False
+            baloon = registry.create(
+                cls_name="Baloon",
+                x=self.x,
+                y=self.y,
+                name="baloon",
+                health=100,
+                speech="Grandpa wrote a short note, saying that he closed the way north to avoid spreading\nthe frogs invasion: he would like me to go there and remove those pests.\nHe also mentioned to wear these magical robe to be able to move the rock.",
+            )
+            game.current_level.register(baloon)
+            robe = registry.create(
+                cls_name="RobeTorso",
+                x=self.x,
+                y=self.y,  # NOTE: maybe put + 1 here
+                name="granda's robe",
+                health=10,
+            )
+            game.current_level.register(robe)
+            # make chest open
+            self.standing_sprites_locations = {
+                Direction.UP: [
+                    f"assets/sprites/chest/chest_open.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.DOWN: [
+                    f"assets/sprites/chest/chest_open.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.LEFT: [
+                    f"assets/sprites/chest/chest_open.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.RIGHT: [
+                    f"assets/sprites/chest/chest_open.png"
+                    for i in range(self.num_animations_standing)
+                ],
+            }
+            self.__post_init__()  # to change the standing animation

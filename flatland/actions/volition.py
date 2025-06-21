@@ -70,7 +70,7 @@ class VolitionEngine:
                     for rep in self.owner.internal_state.latest_perception():
                         if abs(rep.dx) < 1 and abs(rep.dy) < 1:
                             self.list_of_actions.append(
-                                (self.owner.grab, {"other": rep.source_object})
+                                (self.owner.grab, {"other": rep.source_object, "game": game})
                             )
                 elif any(
                     [
