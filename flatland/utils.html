@@ -42,6 +42,9 @@
                         <li>
                                 <a class="function" href="#IdentitySetList.clear">clear</a>
                         </li>
+                        <li>
+                                <a class="function" href="#IdentitySetList.remove">remove</a>
+                        </li>
                 </ul>
 
             </li>
@@ -140,6 +143,16 @@
 </span><span id="L-72"><a href="#L-72"><span class="linenos">72</span></a>
 </span><span id="L-73"><a href="#L-73"><span class="linenos">73</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 </span><span id="L-74"><a href="#L-74"><span class="linenos">74</span></a>        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_list</span><span class="p">)</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos">75</span></a>
+</span><span id="L-76"><a href="#L-76"><span class="linenos">76</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos">77</span></a>        <span class="n">obj_id</span> <span class="o">=</span> <span class="nb">id</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+</span><span id="L-78"><a href="#L-78"><span class="linenos">78</span></a>        <span class="k">if</span> <span class="n">obj_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ids</span><span class="p">:</span>
+</span><span id="L-79"><a href="#L-79"><span class="linenos">79</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_ids</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">obj_id</span><span class="p">)</span>
+</span><span id="L-80"><a href="#L-80"><span class="linenos">80</span></a>            <span class="c1"># Find the item by identity and remove it from the list</span>
+</span><span id="L-81"><a href="#L-81"><span class="linenos">81</span></a>            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">existing_item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_list</span><span class="p">):</span>
+</span><span id="L-82"><a href="#L-82"><span class="linenos">82</span></a>                <span class="k">if</span> <span class="n">existing_item</span> <span class="ow">is</span> <span class="n">item</span><span class="p">:</span>
+</span><span id="L-83"><a href="#L-83"><span class="linenos">83</span></a>                    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span><span id="L-84"><a href="#L-84"><span class="linenos">84</span></a>                    <span class="k">break</span>
 </span></pre></div>
 
 
@@ -236,6 +249,16 @@
 </span><span id="IdentitySetList-73"><a href="#IdentitySetList-73"><span class="linenos">73</span></a>
 </span><span id="IdentitySetList-74"><a href="#IdentitySetList-74"><span class="linenos">74</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 </span><span id="IdentitySetList-75"><a href="#IdentitySetList-75"><span class="linenos">75</span></a>        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_list</span><span class="p">)</span>
+</span><span id="IdentitySetList-76"><a href="#IdentitySetList-76"><span class="linenos">76</span></a>
+</span><span id="IdentitySetList-77"><a href="#IdentitySetList-77"><span class="linenos">77</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="IdentitySetList-78"><a href="#IdentitySetList-78"><span class="linenos">78</span></a>        <span class="n">obj_id</span> <span class="o">=</span> <span class="nb">id</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+</span><span id="IdentitySetList-79"><a href="#IdentitySetList-79"><span class="linenos">79</span></a>        <span class="k">if</span> <span class="n">obj_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ids</span><span class="p">:</span>
+</span><span id="IdentitySetList-80"><a href="#IdentitySetList-80"><span class="linenos">80</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_ids</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">obj_id</span><span class="p">)</span>
+</span><span id="IdentitySetList-81"><a href="#IdentitySetList-81"><span class="linenos">81</span></a>            <span class="c1"># Find the item by identity and remove it from the list</span>
+</span><span id="IdentitySetList-82"><a href="#IdentitySetList-82"><span class="linenos">82</span></a>            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">existing_item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_list</span><span class="p">):</span>
+</span><span id="IdentitySetList-83"><a href="#IdentitySetList-83"><span class="linenos">83</span></a>                <span class="k">if</span> <span class="n">existing_item</span> <span class="ow">is</span> <span class="n">item</span><span class="p">:</span>
+</span><span id="IdentitySetList-84"><a href="#IdentitySetList-84"><span class="linenos">84</span></a>                    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span><span id="IdentitySetList-85"><a href="#IdentitySetList-85"><span class="linenos">85</span></a>                    <span class="k">break</span>
 </span></pre></div>
 
 
@@ -296,6 +319,32 @@ For example, a generic mapping type might be defined as::</p>
             <div class="pdoc-code codehilite"><pre><span></span><span id="IdentitySetList.clear-70"><a href="#IdentitySetList.clear-70"><span class="linenos">70</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="IdentitySetList.clear-71"><a href="#IdentitySetList.clear-71"><span class="linenos">71</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_list</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
 </span><span id="IdentitySetList.clear-72"><a href="#IdentitySetList.clear-72"><span class="linenos">72</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+</span></pre></div>
+
+
+    
+
+                            </div>
+                            <div id="IdentitySetList.remove" class="classattr">
+                                        <input id="IdentitySetList.remove-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">remove</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">item</span><span class="p">:</span> <span class="o">~</span><span class="n">T</span></span><span class="return-annotation">) -> <span class="kc">None</span>:</span></span>
+
+                <label class="view-source-button" for="IdentitySetList.remove-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#IdentitySetList.remove"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="IdentitySetList.remove-77"><a href="#IdentitySetList.remove-77"><span class="linenos">77</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="IdentitySetList.remove-78"><a href="#IdentitySetList.remove-78"><span class="linenos">78</span></a>        <span class="n">obj_id</span> <span class="o">=</span> <span class="nb">id</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+</span><span id="IdentitySetList.remove-79"><a href="#IdentitySetList.remove-79"><span class="linenos">79</span></a>        <span class="k">if</span> <span class="n">obj_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ids</span><span class="p">:</span>
+</span><span id="IdentitySetList.remove-80"><a href="#IdentitySetList.remove-80"><span class="linenos">80</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_ids</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">obj_id</span><span class="p">)</span>
+</span><span id="IdentitySetList.remove-81"><a href="#IdentitySetList.remove-81"><span class="linenos">81</span></a>            <span class="c1"># Find the item by identity and remove it from the list</span>
+</span><span id="IdentitySetList.remove-82"><a href="#IdentitySetList.remove-82"><span class="linenos">82</span></a>            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">existing_item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_list</span><span class="p">):</span>
+</span><span id="IdentitySetList.remove-83"><a href="#IdentitySetList.remove-83"><span class="linenos">83</span></a>                <span class="k">if</span> <span class="n">existing_item</span> <span class="ow">is</span> <span class="n">item</span><span class="p">:</span>
+</span><span id="IdentitySetList.remove-84"><a href="#IdentitySetList.remove-84"><span class="linenos">84</span></a>                    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span><span id="IdentitySetList.remove-85"><a href="#IdentitySetList.remove-85"><span class="linenos">85</span></a>                    <span class="k">break</span>
 </span></pre></div>
 
 
