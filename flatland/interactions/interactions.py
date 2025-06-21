@@ -161,6 +161,10 @@ class HeatInteractionMixin(InteractionMixin):
 class AllChildrenDeadMixin(InteractionMixin):
 
     def all_children_dead(self: Any, game: "Game"):
+        # check if children has died
+        for obj in self.children:
+            if obj not in game.current_level._observers:
+                self.children.remove(obj)
         if len(self.children) == 0:
             if hasattr(self, "trigger_event"):
                 self.trigger_event(game)
