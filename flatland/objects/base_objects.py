@@ -56,6 +56,7 @@ class GameObject:
         self.height: float = 1.0
         self.friction_coefficient: float = 1.0
         self.last_tick: int = 0
+        self.current_standing_idx = 0
         self.is_moving = False
         self.is_standing = True
         self.is_pushing = False

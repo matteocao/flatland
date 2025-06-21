@@ -115,6 +115,7 @@ class Level:
             "health": obj.health,
             "name": obj.name,
             "tile_name": getattr(obj, "tile_name", None),
+            "speech": getattr(obj, "speech", None),
             "prev_x": obj.prev_x,
             "prev_y": obj.prev_y,
             "inertia": obj.inertia,
@@ -135,5 +136,6 @@ class Level:
             "z_level": obj.z_level,
             "sprite_size_x": obj.sprite_size_x,
             "sprite_size_y": obj.sprite_size_y,
+            "current_standing_idx": obj.current_standing_idx,
         }
         return obj_state

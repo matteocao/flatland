@@ -66,24 +66,26 @@ class Portal(
         self.level_key = ""
         self.exit_name = ""
         # Load sprites
-        self.standing_sprites_locations = {
-            Direction.UP: [
-                f"assets/sprites/portal_1/portal{i+1}.png"
-                for i in range(self.num_animations_standing)
-            ],
-            Direction.DOWN: [
-                f"assets/sprites/portal_1/portal{i+1}.png"
-                for i in range(self.num_animations_standing)
-            ],
-            Direction.LEFT: [
-                f"assets/sprites/portal_1/portal{i+1}.png"
-                for i in range(self.num_animations_standing)
-            ],
-            Direction.RIGHT: [
-                f"assets/sprites/portal_1/portal{i+1}.png"
-                for i in range(self.num_animations_standing)
-            ],
-        }
+        self.standing_sprites_locations = [
+            {
+                Direction.UP: [
+                    f"assets/sprites/portal_1/portal{i+1}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.DOWN: [
+                    f"assets/sprites/portal_1/portal{i+1}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.LEFT: [
+                    f"assets/sprites/portal_1/portal{i+1}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.RIGHT: [
+                    f"assets/sprites/portal_1/portal{i+1}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+            }
+        ]
         self.__post_init__()  # do not forget
 
     def enter_portal(self) -> None:

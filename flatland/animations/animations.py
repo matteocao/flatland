@@ -128,19 +128,23 @@ class MovementAnimationMixin:
 
 
 class StandingAnimationMixin:
-    standing_sprites_locations: dict[Direction, list[str]]
+    standing_sprites_locations: list[dict[Direction, list[str]]]
     standing_animation_index: int = 0
-    standing_sprites: dict[Direction, Any]
+    standing_sprites: list[dict[Direction, Any]]
 
     def create_standing_sprites(self: T) -> None:
-        self.standing_sprites = {
-            k: list(map(lambda x: pygame.image.load(x).convert_alpha(), lst_str))
-            for k, lst_str in self.standing_sprites_locations.items()
-        }
+        self.standing_sprites = []
+        for idx in range(len(self.standing_sprites_locations)):
+            self.standing_sprites.append(
+                {
+                    k: list(map(lambda x: pygame.image.load(x).convert_alpha(), lst_str))
+                    for k, lst_str in self.standing_sprites_locations[idx].items()
+                }
+            )
 
     def update_standing_animation(self: T) -> None:
         self.standing_animation_index = (self.standing_animation_index + 1) % len(
-            self.standing_sprites[self.direction]
+            self.standing_sprites[self.current_standing_idx][self.direction]
         )
 
     def render_standing(self: T, screen: pygame.Surface) -> None:
@@ -148,7 +152,9 @@ class StandingAnimationMixin:
         offset_y = self.sprite_size_y // 2 - TILE_SIZE // 2
         pos = (self.x * TILE_SIZE - offset_x, self.y * TILE_SIZE - offset_y)
         self.update_standing_animation()
-        sprite = self.standing_sprites[self.direction][self.standing_animation_index]
+        sprite = self.standing_sprites[self.current_standing_idx][self.direction][
+            self.standing_animation_index
+        ]
         # TODO: here we will need to generalize with new animations and improve the logic
         screen.blit(sprite, pos)
 

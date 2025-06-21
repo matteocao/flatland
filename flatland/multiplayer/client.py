@@ -196,6 +196,7 @@ class GameClient:
                     hearing_range=5,
                     temperature=36.3,
                     tile_name=obj_data["tile_name"],
+                    speech=obj_data["speech"],
                 )
                 for k, v in obj_data.items():
                     if k != "cls_name":

@@ -104,20 +104,26 @@ class Stone(
                 for i in range(self.num_animations_dying)
             ],
         }
-        self.standing_sprites_locations = {
-            Direction.UP: [
-                f"assets/sprites/boulder/up_{i}.png" for i in range(self.num_animations_standing)
-            ],
-            Direction.DOWN: [
-                f"assets/sprites/boulder/down_{i}.png" for i in range(self.num_animations_standing)
-            ],
-            Direction.LEFT: [
-                f"assets/sprites/boulder/left_{i}.png" for i in range(self.num_animations_standing)
-            ],
-            Direction.RIGHT: [
-                f"assets/sprites/boulder/right_{i}.png" for i in range(self.num_animations_standing)
-            ],
-        }
+        self.standing_sprites_locations = [
+            {
+                Direction.UP: [
+                    f"assets/sprites/boulder/up_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.DOWN: [
+                    f"assets/sprites/boulder/down_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.LEFT: [
+                    f"assets/sprites/boulder/left_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.RIGHT: [
+                    f"assets/sprites/boulder/right_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+            }
+        ]
         self.__post_init__()  # do not forget
 
 
@@ -147,24 +153,26 @@ class OrangeTreeOne(
         self.sprite_size_x: int = 128
         self.sprite_size_y: int = 186
         # Load sprites
-        self.standing_sprites_locations = {
-            Direction.UP: [
-                f"assets/sprites/trees/orangetree_{i+1}.png"
-                for i in range(self.num_animations_standing)
-            ],
-            Direction.DOWN: [
-                f"assets/sprites/trees/orangetree_{i+1}.png"
-                for i in range(self.num_animations_standing)
-            ],
-            Direction.LEFT: [
-                f"assets/sprites/trees/orangetree_{i+1}.png"
-                for i in range(self.num_animations_standing)
-            ],
-            Direction.RIGHT: [
-                f"assets/sprites/trees/orangetree_{i+1}.png"
-                for i in range(self.num_animations_standing)
-            ],
-        }
+        self.standing_sprites_locations = [
+            {
+                Direction.UP: [
+                    f"assets/sprites/trees/orangetree_{i+1}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.DOWN: [
+                    f"assets/sprites/trees/orangetree_{i+1}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.LEFT: [
+                    f"assets/sprites/trees/orangetree_{i+1}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.RIGHT: [
+                    f"assets/sprites/trees/orangetree_{i+1}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+            }
+        ]
         self.__post_init__()  # do not forget
 
 
@@ -248,12 +256,22 @@ class Ground(GameObject, StandingAnimationMixin, RenderMixin, EncumbranceMixin):
             self.nswe_neigh = tuple(int(n) for n in parts[-4:])
         except ValueError:
             raise ValueError(f"Tile name '{tile_name}' does not end with four numeric components")
-        self.standing_sprites_locations = {
-            Direction.UP: [f"{self.tile_name}.png" for i in range(self.num_animations_standing)],
-            Direction.DOWN: [f"{self.tile_name}.png" for i in range(self.num_animations_standing)],
-            Direction.LEFT: [f"{self.tile_name}.png" for i in range(self.num_animations_standing)],
-            Direction.RIGHT: [f"{self.tile_name}.png" for i in range(self.num_animations_standing)],
-        }
+        self.standing_sprites_locations = [
+            {
+                Direction.UP: [
+                    f"{self.tile_name}.png" for i in range(self.num_animations_standing)
+                ],
+                Direction.DOWN: [
+                    f"{self.tile_name}.png" for i in range(self.num_animations_standing)
+                ],
+                Direction.LEFT: [
+                    f"{self.tile_name}.png" for i in range(self.num_animations_standing)
+                ],
+                Direction.RIGHT: [
+                    f"{self.tile_name}.png" for i in range(self.num_animations_standing)
+                ],
+            }
+        ]
         self.__post_init__()  # do not forget
 
 
@@ -292,24 +310,26 @@ class RobeTorso(
                 f"assets/sprites/robe_torso/tile_3_{i+1}.png" for i in range(self.num_animations)
             ],
         }
-        self.standing_sprites_locations = {
-            Direction.UP: [
-                f"assets/sprites/robe_torso/tile_0_{i}.png"
-                for i in range(self.num_animations_standing)
-            ],
-            Direction.DOWN: [
-                f"assets/sprites/robe_torso/tile_2_{i}.png"
-                for i in range(self.num_animations_standing)
-            ],
-            Direction.LEFT: [
-                f"assets/sprites/robe_torso/tile_1_{i}.png"
-                for i in range(self.num_animations_standing)
-            ],
-            Direction.RIGHT: [
-                f"assets/sprites/robe_torso/tile_3_{i}.png"
-                for i in range(self.num_animations_standing)
-            ],
-        }
+        self.standing_sprites_locations = [
+            {
+                Direction.UP: [
+                    f"assets/sprites/robe_torso/tile_0_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.DOWN: [
+                    f"assets/sprites/robe_torso/tile_2_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.LEFT: [
+                    f"assets/sprites/robe_torso/tile_1_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.RIGHT: [
+                    f"assets/sprites/robe_torso/tile_3_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+            }
+        ]
         self.__post_init__()  # do not forget
 
 
@@ -348,20 +368,26 @@ class Shoes(
                 f"assets/sprites/shoes/tile_3_{i+1}.png" for i in range(self.num_animations)
             ],
         }
-        self.standing_sprites_locations = {
-            Direction.UP: [
-                f"assets/sprites/shoes/tile_0_{i}.png" for i in range(self.num_animations_standing)
-            ],
-            Direction.DOWN: [
-                f"assets/sprites/shoes/tile_2_{i}.png" for i in range(self.num_animations_standing)
-            ],
-            Direction.LEFT: [
-                f"assets/sprites/shoes/tile_1_{i}.png" for i in range(self.num_animations_standing)
-            ],
-            Direction.RIGHT: [
-                f"assets/sprites/shoes/tile_3_{i}.png" for i in range(self.num_animations_standing)
-            ],
-        }
+        self.standing_sprites_locations = [
+            {
+                Direction.UP: [
+                    f"assets/sprites/shoes/tile_0_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.DOWN: [
+                    f"assets/sprites/shoes/tile_2_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.LEFT: [
+                    f"assets/sprites/shoes/tile_1_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.RIGHT: [
+                    f"assets/sprites/shoes/tile_3_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+            }
+        ]
         self.__post_init__()  # do not forget
 
 
@@ -400,20 +426,26 @@ class Hood(
                 f"assets/sprites/hood/tile_3_{i+1}.png" for i in range(self.num_animations)
             ],
         }
-        self.standing_sprites_locations = {
-            Direction.UP: [
-                f"assets/sprites/hood/tile_0_{i}.png" for i in range(self.num_animations_standing)
-            ],
-            Direction.DOWN: [
-                f"assets/sprites/hood/tile_2_{i}.png" for i in range(self.num_animations_standing)
-            ],
-            Direction.LEFT: [
-                f"assets/sprites/hood/tile_1_{i}.png" for i in range(self.num_animations_standing)
-            ],
-            Direction.RIGHT: [
-                f"assets/sprites/hood/tile_3_{i}.png" for i in range(self.num_animations_standing)
-            ],
-        }
+        self.standing_sprites_locations = [
+            {
+                Direction.UP: [
+                    f"assets/sprites/hood/tile_0_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.DOWN: [
+                    f"assets/sprites/hood/tile_2_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.LEFT: [
+                    f"assets/sprites/hood/tile_1_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.RIGHT: [
+                    f"assets/sprites/hood/tile_3_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+            }
+        ]
         self.__post_init__()  # do not forget
 
 
@@ -452,20 +484,26 @@ class Skirt(
                 f"assets/sprites/skirt/tile_3_{i+1}.png" for i in range(self.num_animations)
             ],
         }
-        self.standing_sprites_locations = {
-            Direction.UP: [
-                f"assets/sprites/skirt/tile_0_{i}.png" for i in range(self.num_animations_standing)
-            ],
-            Direction.DOWN: [
-                f"assets/sprites/skirt/tile_2_{i}.png" for i in range(self.num_animations_standing)
-            ],
-            Direction.LEFT: [
-                f"assets/sprites/skirt/tile_1_{i}.png" for i in range(self.num_animations_standing)
-            ],
-            Direction.RIGHT: [
-                f"assets/sprites/skirt/tile_3_{i}.png" for i in range(self.num_animations_standing)
-            ],
-        }
+        self.standing_sprites_locations = [
+            {
+                Direction.UP: [
+                    f"assets/sprites/skirt/tile_0_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.DOWN: [
+                    f"assets/sprites/skirt/tile_2_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.LEFT: [
+                    f"assets/sprites/skirt/tile_1_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.RIGHT: [
+                    f"assets/sprites/skirt/tile_3_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+            }
+        ]
         self.__post_init__()  # do not forget
 
 
@@ -526,24 +564,26 @@ class Goblin(
                 f"assets/sprites/goblin/tile_1_{i}.png" for i in range(self.num_animations)
             ],
         }
-        self.standing_sprites_locations = {
-            Direction.UP: [
-                f"assets/sprites/goblin/tile_2_{i+6}.png"
-                for i in range(self.num_animations_standing)
-            ],
-            Direction.DOWN: [
-                f"assets/sprites/goblin/tile_0_{i+6}.png"
-                for i in range(self.num_animations_standing)
-            ],
-            Direction.LEFT: [
-                f"assets/sprites/goblin/tile_3_{i+6}.png"
-                for i in range(self.num_animations_standing)
-            ],
-            Direction.RIGHT: [
-                f"assets/sprites/goblin/tile_1_{i+6}.png"
-                for i in range(self.num_animations_standing)
-            ],
-        }
+        self.standing_sprites_locations = [
+            {
+                Direction.UP: [
+                    f"assets/sprites/goblin/tile_2_{i+6}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.DOWN: [
+                    f"assets/sprites/goblin/tile_0_{i+6}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.LEFT: [
+                    f"assets/sprites/goblin/tile_3_{i+6}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.RIGHT: [
+                    f"assets/sprites/goblin/tile_1_{i+6}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+            }
+        ]
         self.push_sprites_locations = {
             Direction.UP: [
                 f"assets/sprites/goblin/tile_2_{i+7}.png" for i in range(self.num_animations_push)
@@ -615,20 +655,26 @@ class Cow(
                 f"assets/sprites/cow_move/right_{i}.png" for i in range(self.num_animations)
             ],
         }
-        self.standing_sprites_locations = {
-            Direction.UP: [
-                f"assets/sprites/cow_eat/up_{i}.png" for i in range(self.num_animations_standing)
-            ],
-            Direction.DOWN: [
-                f"assets/sprites/cow_eat/down_{i}.png" for i in range(self.num_animations_standing)
-            ],
-            Direction.LEFT: [
-                f"assets/sprites/cow_eat/left_{i}.png" for i in range(self.num_animations_standing)
-            ],
-            Direction.RIGHT: [
-                f"assets/sprites/cow_eat/right_{i}.png" for i in range(self.num_animations_standing)
-            ],
-        }
+        self.standing_sprites_locations = [
+            {
+                Direction.UP: [
+                    f"assets/sprites/cow_eat/up_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.DOWN: [
+                    f"assets/sprites/cow_eat/down_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.LEFT: [
+                    f"assets/sprites/cow_eat/left_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.RIGHT: [
+                    f"assets/sprites/cow_eat/right_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+            }
+        ]
         self.__post_init__()  # do not forget
 
         # Load sound
@@ -663,12 +709,14 @@ class CowShadow(
             Direction.LEFT: [f"assets/sprites/cow_shadow/left.png"],
             Direction.RIGHT: [f"assets/sprites/cow_shadow/right.png"],
         }
-        self.standing_sprites_locations = {
-            Direction.UP: [f"assets/sprites/cow_shadow/up.png"],
-            Direction.DOWN: [f"assets/sprites/cow_shadow/down.png"],
-            Direction.LEFT: [f"assets/sprites/cow_shadow/left.png"],
-            Direction.RIGHT: [f"assets/sprites/cow_shadow/right.png"],
-        }
+        self.standing_sprites_locations = [
+            {
+                Direction.UP: [f"assets/sprites/cow_shadow/up.png"],
+                Direction.DOWN: [f"assets/sprites/cow_shadow/down.png"],
+                Direction.LEFT: [f"assets/sprites/cow_shadow/left.png"],
+                Direction.RIGHT: [f"assets/sprites/cow_shadow/right.png"],
+            }
+        ]
         self.__post_init__()  # do not forget
 
 
@@ -719,20 +767,26 @@ class Player(
                 f"assets/sprites/man/tile_3_{i+1}.png" for i in range(self.num_animations)
             ],
         }
-        self.standing_sprites_locations = {
-            Direction.UP: [
-                f"assets/sprites/man/tile_0_{i}.png" for i in range(self.num_animations_standing)
-            ],
-            Direction.DOWN: [
-                f"assets/sprites/man/tile_2_{i}.png" for i in range(self.num_animations_standing)
-            ],
-            Direction.LEFT: [
-                f"assets/sprites/man/tile_1_{i}.png" for i in range(self.num_animations_standing)
-            ],
-            Direction.RIGHT: [
-                f"assets/sprites/man/tile_3_{i}.png" for i in range(self.num_animations_standing)
-            ],
-        }
+        self.standing_sprites_locations = [
+            {
+                Direction.UP: [
+                    f"assets/sprites/man/tile_0_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.DOWN: [
+                    f"assets/sprites/man/tile_2_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.LEFT: [
+                    f"assets/sprites/man/tile_1_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.RIGHT: [
+                    f"assets/sprites/man/tile_3_{i}.png"
+                    for i in range(self.num_animations_standing)
+                ],
+            }
+        ]
         self.__post_init__()  # do not forget
 
     def get_pressed_keys(self, keys) -> None:
@@ -771,24 +825,26 @@ class HouseOneMain(
         inner_schema = [(-1, 0, True), (1, 0, True), (-1, 1, True), (1, 1, True), (0, 1, False)]
         self.schema = {direction: inner_schema for direction in Direction}
         # Load sprites
-        self.standing_sprites_locations = {
-            Direction.UP: [
-                f"assets/sprites/houses/house_lower.png"
-                for i in range(self.num_animations_standing)
-            ],
-            Direction.DOWN: [
-                f"assets/sprites/houses/house_lower.png"
-                for i in range(self.num_animations_standing)
-            ],
-            Direction.LEFT: [
-                f"assets/sprites/houses/house_lower.png"
-                for i in range(self.num_animations_standing)
-            ],
-            Direction.RIGHT: [
-                f"assets/sprites/houses/house_lower.png"
-                for i in range(self.num_animations_standing)
-            ],
-        }
+        self.standing_sprites_locations = [
+            {
+                Direction.UP: [
+                    f"assets/sprites/houses/house_lower.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.DOWN: [
+                    f"assets/sprites/houses/house_lower.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.LEFT: [
+                    f"assets/sprites/houses/house_lower.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.RIGHT: [
+                    f"assets/sprites/houses/house_lower.png"
+                    for i in range(self.num_animations_standing)
+                ],
+            }
+        ]
         self.__post_init__()  # do not forget
 
 
@@ -813,24 +869,26 @@ class HouseOnePartOne(
         self.num_animations_standing = 1
         self.sprite_size_x = 140 - 128
         self.sprite_size_y = 260
-        self.standing_sprites_locations = {
-            Direction.UP: [
-                f"assets/sprites/houses/house_upper.png"
-                for i in range(self.num_animations_standing)
-            ],
-            Direction.DOWN: [
-                f"assets/sprites/houses/house_upper.png"
-                for i in range(self.num_animations_standing)
-            ],
-            Direction.LEFT: [
-                f"assets/sprites/houses/house_upper.png"
-                for i in range(self.num_animations_standing)
-            ],
-            Direction.RIGHT: [
-                f"assets/sprites/houses/house_upper.png"
-                for i in range(self.num_animations_standing)
-            ],
-        }
+        self.standing_sprites_locations = [
+            {
+                Direction.UP: [
+                    f"assets/sprites/houses/house_upper.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.DOWN: [
+                    f"assets/sprites/houses/house_upper.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.LEFT: [
+                    f"assets/sprites/houses/house_upper.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.RIGHT: [
+                    f"assets/sprites/houses/house_upper.png"
+                    for i in range(self.num_animations_standing)
+                ],
+            }
+        ]
         self.__post_init__()  # do not forget
 
 
@@ -909,12 +967,14 @@ class Baloon(
         }
 
     def create_standing_sprites(self) -> None:
-        self.standing_sprites = {
-            Direction.UP: [self.make_balloon_surface()],
-            Direction.DOWN: [self.make_balloon_surface()],
-            Direction.LEFT: [self.make_balloon_surface()],
-            Direction.RIGHT: [self.make_balloon_surface()],
-        }
+        self.standing_sprites = [
+            {
+                Direction.UP: [self.make_balloon_surface()],
+                Direction.DOWN: [self.make_balloon_surface()],
+                Direction.LEFT: [self.make_balloon_surface()],
+                Direction.RIGHT: [self.make_balloon_surface()],
+            }
+        ]
 
     def make_balloon_surface(self) -> pygame.Surface:
         font = pygame.font.SysFont(None, 18)
@@ -963,20 +1023,44 @@ class ChestGrandpa(
         self.num_animations_standing = 1
         self.sprite_size_y = 32
         self.sprite_size_x = 32
-        self.standing_sprites_locations = {
-            Direction.UP: [
-                f"assets/sprites/chest/chest_close.png" for i in range(self.num_animations_standing)
-            ],
-            Direction.DOWN: [
-                f"assets/sprites/chest/chest_close.png" for i in range(self.num_animations_standing)
-            ],
-            Direction.LEFT: [
-                f"assets/sprites/chest/chest_close.png" for i in range(self.num_animations_standing)
-            ],
-            Direction.RIGHT: [
-                f"assets/sprites/chest/chest_close.png" for i in range(self.num_animations_standing)
-            ],
-        }
+        self.standing_sprites_locations = [
+            {
+                Direction.UP: [
+                    f"assets/sprites/chest/chest_close.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.DOWN: [
+                    f"assets/sprites/chest/chest_close.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.LEFT: [
+                    f"assets/sprites/chest/chest_close.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.RIGHT: [
+                    f"assets/sprites/chest/chest_close.png"
+                    for i in range(self.num_animations_standing)
+                ],
+            },
+            {
+                Direction.UP: [
+                    f"assets/sprites/chest/chest_open.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.DOWN: [
+                    f"assets/sprites/chest/chest_open.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.LEFT: [
+                    f"assets/sprites/chest/chest_open.png"
+                    for i in range(self.num_animations_standing)
+                ],
+                Direction.RIGHT: [
+                    f"assets/sprites/chest/chest_open.png"
+                    for i in range(self.num_animations_standing)
+                ],
+            },
+        ]
         self.__post_init__()  # do not forget
 
     def trigger_event(self, game) -> None:
@@ -1003,22 +1087,5 @@ class ChestGrandpa(
             )
             game.current_level.register(robe)
             # make chest open
-            self.standing_sprites_locations = {
-                Direction.UP: [
-                    f"assets/sprites/chest/chest_open.png"
-                    for i in range(self.num_animations_standing)
-                ],
-                Direction.DOWN: [
-                    f"assets/sprites/chest/chest_open.png"
-                    for i in range(self.num_animations_standing)
-                ],
-                Direction.LEFT: [
-                    f"assets/sprites/chest/chest_open.png"
-                    for i in range(self.num_animations_standing)
-                ],
-                Direction.RIGHT: [
-                    f"assets/sprites/chest/chest_open.png"
-                    for i in range(self.num_animations_standing)
-                ],
-            }
+            self.current_standing_idx = 1
             self.__post_init__()  # to change the standing animation
