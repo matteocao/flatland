@@ -37,13 +37,27 @@ class MovementMixin:
 
 class SpeechMixin:
     volume: float
+    balloon_rect: pygame.Rect
 
     def set_volume(self, player: "GameObject") -> None:
         self.volume = 1 / (1 + player.distance(self) ** 2)
 
-    def speak(self: Any, message: Optional[str] = None) -> None:
+    def speak(self: Any, game: "Game", message: Optional[str] = None) -> None:
         if message:
             self.speech = message
+            baloon = registry.create(
+                cls_name="Baloon",
+                x=self.x,
+                y=self.y,
+                name="baloon",
+                health=5,
+                speech=self.speech,
+            )
+            baloon.parent = self
+            self.children.append(baloon)
+            baloon.actions_per_second = self.actions_per_second
+            baloon.scheduler.interval = self.scheduler.interval
+            game.current_level.register(baloon)
         if hasattr(self, "make_sound") and self.make_sound is not None:
             self.make_sound.set_volume(self.volume)
             self.make_sound.play()
@@ -61,6 +75,9 @@ class LimbControlMixin:
         if other.is_grabbable:
             if hasattr(other, "enter_portal"):
                 other.enter_portal()
+                return
+            if hasattr(other, "trigger_event"):
+                other.trigger_event()
                 return
             self.children.append(other)
             other.parent = self

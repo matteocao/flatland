@@ -54,7 +54,7 @@ class InertiaPrincipleWithFrictionEvolution(InteractionMixin):
 
 class HealthDecreasesEvolution(InteractionMixin):
     """
-    This mixing decreases health as time goes by. Used to remove spawned objects like an evocation.
+    This mixing decreases health as time goes by. Used to remove spawned objects like a baloon.
     """
 
     def keep_on_decreasing(self):

@@ -6,35 +6,31 @@ import pytest
 
 from flatland.actions.actions import LimbControlMixin, MovementMixin, SpeechMixin
 from flatland.consts import Direction
+from flatland.game import Game
+from flatland.objects.base_objects import GameObject
 from flatland.world.world import world
 
-if TYPE_CHECKING:
-    from flatland.objects.base_objects import GameObject
 
-
-class SpeechTest(SpeechMixin):
-    def __init__(self, phrase: str):
-        self.message = phrase
-        self.volume = 0.4
-
-
-def test_speech_message() -> None:
-    testphrase = "Hello world!"
-    speecher = SpeechTest(testphrase)
-    speecher.speak(testphrase)
-    assert speecher.speech == testphrase
-
-
-class DummySound(SpeechMixin):
+class DummySound(SpeechMixin, GameObject):
     def __init__(self):
+        super().__init__(0, 0, "blabla", 5)
         self.make_sound = None
         self.volume = 0.4
 
 
-def test_speech_sound() -> None:
+def test_speech_message(display) -> None:
+    testphrase = "Hello world!"
+    speecher = DummySound()
+    game = Game(world, display)
+    speecher.speak(game, testphrase)
+    assert speecher.speech == testphrase
+
+
+def test_speech_sound(display) -> None:
     obj = DummySound()
+    game = Game(world, display)
     obj.make_sound = MagicMock()
     obj.make_sound.play = MagicMock()
-    obj.speak("Hello")
+    obj.speak(game, "Hello")
     assert obj.speech == "Hello"
     obj.make_sound.play.assert_called_once()

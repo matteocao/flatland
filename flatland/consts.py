@@ -15,3 +15,8 @@ class Direction(Enum):
     DOWN = "down"
     LEFT = "left"
     RIGHT = "right"
+
+
+BLACK = (0, 0, 0)
+
+WHITE = (255, 255, 255)

@@ -20,7 +20,7 @@ from ..animations.animations import (
     StandingAnimationMixin,
 )
 from ..animations.render import RenderMixin
-from ..consts import TILE_SIZE, Direction
+from ..consts import BLACK, TILE_SIZE, WHITE, Direction
 from ..interactions.evolution import (
     DamageHealthByInertia,
     DamageHealthByTemperature,
@@ -877,3 +877,122 @@ class Door(
         pygame.event.post(
             pygame.event.Event(pygame.USEREVENT, code=(self.level_key, self.exit_name))
         )
+
+
+@registry.register
+class Baloon(
+    GameObject,
+    HealthDecreasesEvolution,
+    StandingAnimationMixin,
+    MovementAnimationMixin,
+    RenderMixin,
+    DeathMixin,
+):
+    def __init__(self, x: int, y: int, name: str, health: float, speech: str, **kwargs: Any):
+        super().__init__(x, y, name, health)
+        self.speech = speech
+        self.z_level = 100.0
+        self.actions_per_second = 3
+        self.location_as_parent = True
+        self.num_animations_standing = 1
+        self.num_animations = 1
+        self.sprite_size_y = 128
+        # Load sprites
+        self.__post_init__()  # do not forget
+
+    def create_movement_sprites(self) -> None:
+        self.movement_sprites = {
+            Direction.UP: [self.make_balloon_surface()],
+            Direction.DOWN: [self.make_balloon_surface()],
+            Direction.LEFT: [self.make_balloon_surface()],
+            Direction.RIGHT: [self.make_balloon_surface()],
+        }
+
+    def create_standing_sprites(self) -> None:
+        self.standing_sprites = {
+            Direction.UP: [self.make_balloon_surface()],
+            Direction.DOWN: [self.make_balloon_surface()],
+            Direction.LEFT: [self.make_balloon_surface()],
+            Direction.RIGHT: [self.make_balloon_surface()],
+        }
+
+    def make_balloon_surface(self) -> pygame.Surface:
+        font = pygame.font.SysFont(None, 18)
+        text_surface = font.render(self.speech, True, BLACK)
+
+        # Padding around the text
+        padding = 10
+        text_rect = text_surface.get_rect()
+
+        # Create a surface for the balloon with per-pixel alpha for transparency
+        balloon_surface = pygame.Surface(
+            (text_rect.width + 2 * padding, text_rect.height + 2 * padding),
+            pygame.SRCALPHA,
+        )
+
+        # Draw balloon rectangle on this new surface
+        pygame.draw.rect(balloon_surface, WHITE, balloon_surface.get_rect(), border_radius=15)
+
+        # Blit the text onto the balloon
+        balloon_surface.blit(text_surface, (padding, padding))
+
+        return balloon_surface
+
+
+#    def render_standing(self, screen: pygame.Surface):
+#        # make baloon
+#        font = pygame.font.SysFont(None, 18)
+#        text_surface = font.render(self.speech, True, BLACK)
+#
+#        # Padding around the text
+#        padding = 10
+#        text_rect = text_surface.get_rect()
+#        balloon_rect = pygame.Rect(
+#            self.x * TILE_SIZE,
+#            self.y * TILE_SIZE - 32,
+#            text_rect.width + 2 * padding,
+#            text_rect.height + 2 * padding,
+#        )
+#        pygame.draw.rect(screen, WHITE, balloon_rect, border_radius=15)
+#        # Draw text
+#        screen.blit(text_surface, (self.x * TILE_SIZE + padding, self.y * TILE_SIZE - 32 + padding))
+#
+#    def render_movement(self: Any, screen: pygame.Surface):
+#        print("herhehre")
+#        if not (self.parent.last_x == self.parent.x and self.parent.y == self.parent.last_y):
+#            self.parent.alpha = 0.0
+#            self.parent.last_x = self.parent.x
+#            self.parent.last_y = self.parent.y
+#            self.is_parent_animated_before = False
+#        if self.parent.alpha > 1:
+#            self.is_parent_animated_before = True
+#        if self.is_parent_animated_before:
+#            self.alpha = self.parent.alpha - self.parent.actions_per_second * 0.11
+#        else:
+#            self.alpha = self.parent.alpha
+#        self.x = self.parent.x
+#        self.y = self.parent.y
+#        self.prev_x = self.parent.prev_x
+#        self.prev_y = self.parent.prev_y
+#        offset_x = 0
+#        offset_y = -32
+#        pos = (
+#            (self.alpha * self.x + (1 - self.alpha) * self.prev_x) * TILE_SIZE - offset_x,
+#            (self.alpha * self.y + (1 - self.alpha) * self.prev_y) * TILE_SIZE - offset_y,
+#        )
+#        # make baloon
+#        font = pygame.font.SysFont(None, 18)
+#        text_surface = font.render(self.speech, True, BLACK)
+#
+#        # Padding around the text
+#        padding = 10
+#        text_rect = text_surface.get_rect()
+#        balloon_rect = pygame.Rect(
+#            pos[0],
+#            pos[1],
+#            text_rect.width + 2 * padding,
+#            text_rect.height + 2 * padding,
+#        )
+#        pygame.draw.rect(screen, WHITE, balloon_rect, border_radius=15)
+#        # Draw text
+#        screen.blit(text_surface, (pos[0] + padding, pos[1] + padding))

@@ -102,7 +102,7 @@ class VolitionEngine:
         # temporarily a random thingy=
         elif hasattr(self.owner, "speak") and random.random() > 0.9:
             self.list_of_actions.append(
-                (self.owner.speak, {"message": random.choice(["hello", "mooo"])})
+                (self.owner.speak, {"message": random.choice(["hello", "mooo"]), "game": game})
             )
         elif hasattr(self.owner, "move") and random.random() > 0.5:
             self.list_of_actions.append(
