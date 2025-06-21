@@ -14,7 +14,7 @@ The roots of the 4 major trees are actually interconnected and they form the nex
 
 The interfaces between these four different regions are desert. The deserts are a bit weird geographically and you need a map to navigate through them due to their non trivial topology.
 
-At the very center of the desert, hence at the crossroads of all the four regions, the university rises. It is the only place where scholars are free to share all their knowledge with teh others. The university is a peacful place.
+At the very center of the desert, hence at the crossroads of all the four regions, the university rises. It is the only place where scholars are free to share all their knowledge with teh others. The university is a peaceful place.
 
 ## Geopolitics
 
@@ -22,7 +22,7 @@ Each of the civilisations living in one region (we may call them nations), has i
  1. to avoid being destroyed
  2. to expand their boundaries and collect more resources
 
-Peace is also possible between regions, provided that the civilisations accept to limit their growth and, instead of embracing capitalism, they embrace and subsistence economy.
+Peace is also possible between regions, provided that civilizations agree to limit their growth and, instead of embracing capitalism, adopt a subsistence economy.
 
 The fire nations is typically seen by the others as the bad guys, the air nations is generally seen as the nation of spies, while water and earth are usually considered to be made up of good and peacefule people.
 
@@ -57,4 +57,4 @@ The attack of the water nation fails and also the fire tree is prevented from dy
 
 Ultimately, the player is named Arch-mage, rector of the university, guide of the entire world. As a sigil of faith, all king and the rector unite their magic to give birth to the 5th tree, the ether tree, at the core of the university.
 
-Three newborn ether tree is small and thus is not yet capable of creating new magic in the world.
+The newborn ether tree is small and thus is not yet capable of creating new magic in the world.
