@@ -158,6 +158,19 @@ class HeatInteractionMixin(InteractionMixin):
         return []
 
 
+class AllChildrenDeadMixin(InteractionMixin):
+
+    def all_children_dead(self: Any, game: "Game"):
+        if len(self.children) == 0:
+            if hasattr(self, "trigger_event"):
+                self.trigger_event(game)
+
+    def get_interaction_callables(
+        self, other: "GameObject", game: "Game"
+    ) -> list[Callable[[], None]]:
+        return [lambda: self.all_children_dead(game)]
+
+
 class ExtendedObjectMixin(InteractionMixin):
     """
     This class is useful to handle extended objects. The `schema` describes which other game tiles are affected.

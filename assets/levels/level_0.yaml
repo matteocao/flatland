@@ -657,6 +657,7 @@ objects:
   health: 5
   vision_range: 5
   hearing_range: 3
+  parent: lola_monitor
 
 - cls_name: "Goblin"
   name: "ashpack"
@@ -678,6 +679,13 @@ objects:
   y: 3
   health: 100
   parent: "lola"
+
+- cls_name: "CowMonitor"
+  name: "lola_monitor"
+  x: 6
+  y: 5
+  health: 10
+  children: ["lola"]
 
 - cls_name: "Portal"
   name: "portal"

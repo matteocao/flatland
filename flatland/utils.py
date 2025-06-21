@@ -72,3 +72,13 @@ class IdentitySetList(Generic[T]):
 
     def __repr__(self) -> str:
         return str(self._list)
+
+    def remove(self, item: T) -> None:
+        obj_id = id(item)
+        if obj_id in self._ids:
+            self._ids.remove(obj_id)
+            # Find the item by identity and remove it from the list
+            for i, existing_item in enumerate(self._list):
+                if existing_item is item:
+                    del self._list[i]
+                    break

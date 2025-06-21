@@ -31,6 +31,7 @@ from ..interactions.evolution import (
     ParentDeathIDie,
 )
 from ..interactions.interactions import (
+    AllChildrenDeadMixin,
     ContactInteractionMixin,
     EncumbranceMixin,
     ExplodeAtTouch,
@@ -1088,4 +1089,27 @@ class ChestGrandpa(
             game.current_level.register(robe)
             # make chest open
             self.current_standing_idx = 1
-            self.__post_init__()  # to change the standing animation
+
+
+@registry.register
+class CowMonitor(
+    GameObject,
+    AllChildrenDeadMixin,
+):
+    def __init__(self, x: int, y: int, name: str, health: float, **kwargs: Any) -> None:
+        super().__init__(x, y, name, health)
+
+    def trigger_event(self, game) -> None:
+        """
+        This event consists in creating a baloon and spawning items on the floor in the exact position of the self.
+        """
+        baloon = registry.create(
+            cls_name="Baloon",
+            x=self.x,
+            y=self.y,
+            name="baloon",
+            health=10,
+            speech="Noooooooo!! You killed the cow!!!",
+        )
+        game.current_level.register(baloon)
+        game.current_level.unregister(self)

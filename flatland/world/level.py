@@ -46,6 +46,10 @@ class Level:
 
     def unregister(self, obj: "GameObject") -> None:
         if obj in self._observers:
+            try:
+                obj.parent.children.remove(obj)  # type: ignore
+            except Exception as e:
+                pass
             self._observers.remove(obj)
 
     def set_volume(self, player: "Player") -> None:
