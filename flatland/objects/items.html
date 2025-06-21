@@ -699,6 +699,45 @@
                 </ul>
 
             </li>
+            <li>
+                    <a class="class" href="#Baloon">Baloon</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#Baloon.__init__">Baloon</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Baloon.speech">speech</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Baloon.z_level">z_level</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Baloon.actions_per_second">actions_per_second</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Baloon.location_as_parent">location_as_parent</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Baloon.num_animations_standing">num_animations_standing</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Baloon.num_animations">num_animations</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Baloon.sprite_size_y">sprite_size_y</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Baloon.create_movement_sprites">create_movement_sprites</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Baloon.create_standing_sprites">create_standing_sprites</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Baloon.make_balloon_surface">make_balloon_surface</a>
+                        </li>
+                </ul>
+
+            </li>
     </ul>
 
 
@@ -744,7 +783,7 @@
 </span><span id="L-20"><a href="#L-20"><span class="linenos"> 20</span></a>    <span class="n">StandingAnimationMixin</span><span class="p">,</span>
 </span><span id="L-21"><a href="#L-21"><span class="linenos"> 21</span></a><span class="p">)</span>
 </span><span id="L-22"><a href="#L-22"><span class="linenos"> 22</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">..animations.render</span><span class="w"> </span><span class="kn">import</span> <span class="n">RenderMixin</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos"> 23</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">..consts</span><span class="w"> </span><span class="kn">import</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">Direction</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos"> 23</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">..consts</span><span class="w"> </span><span class="kn">import</span> <span class="n">BLACK</span><span class="p">,</span> <span class="n">TILE_SIZE</span><span class="p">,</span> <span class="n">WHITE</span><span class="p">,</span> <span class="n">Direction</span>
 </span><span id="L-24"><a href="#L-24"><span class="linenos"> 24</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">..interactions.evolution</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
 </span><span id="L-25"><a href="#L-25"><span class="linenos"> 25</span></a>    <span class="n">DamageHealthByInertia</span><span class="p">,</span>
 </span><span id="L-26"><a href="#L-26"><span class="linenos"> 26</span></a>    <span class="n">DamageHealthByTemperature</span><span class="p">,</span>
@@ -1601,6 +1640,125 @@
 </span><span id="L-877"><a href="#L-877"><span class="linenos">877</span></a>        <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
 </span><span id="L-878"><a href="#L-878"><span class="linenos">878</span></a>            <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">Event</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">USEREVENT</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">level_key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">exit_name</span><span class="p">))</span>
 </span><span id="L-879"><a href="#L-879"><span class="linenos">879</span></a>        <span class="p">)</span>
+</span><span id="L-880"><a href="#L-880"><span class="linenos">880</span></a>
+</span><span id="L-881"><a href="#L-881"><span class="linenos">881</span></a>
+</span><span id="L-882"><a href="#L-882"><span class="linenos">882</span></a><span class="nd">@registry</span><span class="o">.</span><span class="n">register</span>
+</span><span id="L-883"><a href="#L-883"><span class="linenos">883</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Baloon</span><span class="p">(</span>
+</span><span id="L-884"><a href="#L-884"><span class="linenos">884</span></a>    <span class="n">GameObject</span><span class="p">,</span>
+</span><span id="L-885"><a href="#L-885"><span class="linenos">885</span></a>    <span class="n">HealthDecreasesEvolution</span><span class="p">,</span>
+</span><span id="L-886"><a href="#L-886"><span class="linenos">886</span></a>    <span class="n">StandingAnimationMixin</span><span class="p">,</span>
+</span><span id="L-887"><a href="#L-887"><span class="linenos">887</span></a>    <span class="n">MovementAnimationMixin</span><span class="p">,</span>
+</span><span id="L-888"><a href="#L-888"><span class="linenos">888</span></a>    <span class="n">RenderMixin</span><span class="p">,</span>
+</span><span id="L-889"><a href="#L-889"><span class="linenos">889</span></a>    <span class="n">DeathMixin</span><span class="p">,</span>
+</span><span id="L-890"><a href="#L-890"><span class="linenos">890</span></a><span class="p">):</span>
+</span><span id="L-891"><a href="#L-891"><span class="linenos">891</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">health</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">speech</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="L-892"><a href="#L-892"><span class="linenos">892</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">)</span>
+</span><span id="L-893"><a href="#L-893"><span class="linenos">893</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">speech</span> <span class="o">=</span> <span class="n">speech</span>
+</span><span id="L-894"><a href="#L-894"><span class="linenos">894</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">z_level</span> <span class="o">=</span> <span class="mf">100.0</span>
+</span><span id="L-895"><a href="#L-895"><span class="linenos">895</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">actions_per_second</span> <span class="o">=</span> <span class="mi">3</span>
+</span><span id="L-896"><a href="#L-896"><span class="linenos">896</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">location_as_parent</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span id="L-897"><a href="#L-897"><span class="linenos">897</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">num_animations_standing</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="L-898"><a href="#L-898"><span class="linenos">898</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="L-899"><a href="#L-899"><span class="linenos">899</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sprite_size_y</span> <span class="o">=</span> <span class="mi">128</span>
+</span><span id="L-900"><a href="#L-900"><span class="linenos">900</span></a>        <span class="c1"># Load sprites</span>
+</span><span id="L-901"><a href="#L-901"><span class="linenos">901</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">__post_init__</span><span class="p">()</span>  <span class="c1"># do not forget</span>
+</span><span id="L-902"><a href="#L-902"><span class="linenos">902</span></a>
+</span><span id="L-903"><a href="#L-903"><span class="linenos">903</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">create_movement_sprites</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-904"><a href="#L-904"><span class="linenos">904</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">movement_sprites</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="L-905"><a href="#L-905"><span class="linenos">905</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">UP</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">make_balloon_surface</span><span class="p">()],</span>
+</span><span id="L-906"><a href="#L-906"><span class="linenos">906</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">DOWN</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">make_balloon_surface</span><span class="p">()],</span>
+</span><span id="L-907"><a href="#L-907"><span class="linenos">907</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">LEFT</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">make_balloon_surface</span><span class="p">()],</span>
+</span><span id="L-908"><a href="#L-908"><span class="linenos">908</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">make_balloon_surface</span><span class="p">()],</span>
+</span><span id="L-909"><a href="#L-909"><span class="linenos">909</span></a>        <span class="p">}</span>
+</span><span id="L-910"><a href="#L-910"><span class="linenos">910</span></a>
+</span><span id="L-911"><a href="#L-911"><span class="linenos">911</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">create_standing_sprites</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-912"><a href="#L-912"><span class="linenos">912</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">standing_sprites</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="L-913"><a href="#L-913"><span class="linenos">913</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">UP</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">make_balloon_surface</span><span class="p">()],</span>
+</span><span id="L-914"><a href="#L-914"><span class="linenos">914</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">DOWN</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">make_balloon_surface</span><span class="p">()],</span>
+</span><span id="L-915"><a href="#L-915"><span class="linenos">915</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">LEFT</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">make_balloon_surface</span><span class="p">()],</span>
+</span><span id="L-916"><a href="#L-916"><span class="linenos">916</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">make_balloon_surface</span><span class="p">()],</span>
+</span><span id="L-917"><a href="#L-917"><span class="linenos">917</span></a>        <span class="p">}</span>
+</span><span id="L-918"><a href="#L-918"><span class="linenos">918</span></a>
+</span><span id="L-919"><a href="#L-919"><span class="linenos">919</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">make_balloon_surface</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">:</span>
+</span><span id="L-920"><a href="#L-920"><span class="linenos">920</span></a>        <span class="n">font</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">SysFont</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">18</span><span class="p">)</span>
+</span><span id="L-921"><a href="#L-921"><span class="linenos">921</span></a>        <span class="n">text_surface</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">speech</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">BLACK</span><span class="p">)</span>
+</span><span id="L-922"><a href="#L-922"><span class="linenos">922</span></a>
+</span><span id="L-923"><a href="#L-923"><span class="linenos">923</span></a>        <span class="c1"># Padding around the text</span>
+</span><span id="L-924"><a href="#L-924"><span class="linenos">924</span></a>        <span class="n">padding</span> <span class="o">=</span> <span class="mi">10</span>
+</span><span id="L-925"><a href="#L-925"><span class="linenos">925</span></a>        <span class="n">text_rect</span> <span class="o">=</span> <span class="n">text_surface</span><span class="o">.</span><span class="n">get_rect</span><span class="p">()</span>
+</span><span id="L-926"><a href="#L-926"><span class="linenos">926</span></a>
+</span><span id="L-927"><a href="#L-927"><span class="linenos">927</span></a>        <span class="c1"># Create a surface for the balloon with per-pixel alpha for transparency</span>
+</span><span id="L-928"><a href="#L-928"><span class="linenos">928</span></a>        <span class="n">balloon_surface</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">(</span>
+</span><span id="L-929"><a href="#L-929"><span class="linenos">929</span></a>            <span class="p">(</span><span class="n">text_rect</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">padding</span><span class="p">,</span> <span class="n">text_rect</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">padding</span><span class="p">),</span>
+</span><span id="L-930"><a href="#L-930"><span class="linenos">930</span></a>            <span class="n">pygame</span><span class="o">.</span><span class="n">SRCALPHA</span><span class="p">,</span>
+</span><span id="L-931"><a href="#L-931"><span class="linenos">931</span></a>        <span class="p">)</span>
+</span><span id="L-932"><a href="#L-932"><span class="linenos">932</span></a>
+</span><span id="L-933"><a href="#L-933"><span class="linenos">933</span></a>        <span class="c1"># Draw balloon rectangle on this new surface</span>
+</span><span id="L-934"><a href="#L-934"><span class="linenos">934</span></a>        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">balloon_surface</span><span class="p">,</span> <span class="n">WHITE</span><span class="p">,</span> <span class="n">balloon_surface</span><span class="o">.</span><span class="n">get_rect</span><span class="p">(),</span> <span class="n">border_radius</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</span><span id="L-935"><a href="#L-935"><span class="linenos">935</span></a>
+</span><span id="L-936"><a href="#L-936"><span class="linenos">936</span></a>        <span class="c1"># Blit the text onto the balloon</span>
+</span><span id="L-937"><a href="#L-937"><span class="linenos">937</span></a>        <span class="n">balloon_surface</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">text_surface</span><span class="p">,</span> <span class="p">(</span><span class="n">padding</span><span class="p">,</span> <span class="n">padding</span><span class="p">))</span>
+</span><span id="L-938"><a href="#L-938"><span class="linenos">938</span></a>
+</span><span id="L-939"><a href="#L-939"><span class="linenos">939</span></a>        <span class="k">return</span> <span class="n">balloon_surface</span>
+</span><span id="L-940"><a href="#L-940"><span class="linenos">940</span></a>
+</span><span id="L-941"><a href="#L-941"><span class="linenos">941</span></a>
+</span><span id="L-942"><a href="#L-942"><span class="linenos">942</span></a><span class="c1">#    def render_standing(self, screen: pygame.Surface):</span>
+</span><span id="L-943"><a href="#L-943"><span class="linenos">943</span></a><span class="c1">#        # make baloon</span>
+</span><span id="L-944"><a href="#L-944"><span class="linenos">944</span></a><span class="c1">#        font = pygame.font.SysFont(None, 18)</span>
+</span><span id="L-945"><a href="#L-945"><span class="linenos">945</span></a><span class="c1">#        text_surface = font.render(self.speech, True, BLACK)</span>
+</span><span id="L-946"><a href="#L-946"><span class="linenos">946</span></a><span class="c1">#</span>
+</span><span id="L-947"><a href="#L-947"><span class="linenos">947</span></a><span class="c1">#        # Padding around the text</span>
+</span><span id="L-948"><a href="#L-948"><span class="linenos">948</span></a><span class="c1">#        padding = 10</span>
+</span><span id="L-949"><a href="#L-949"><span class="linenos">949</span></a><span class="c1">#        text_rect = text_surface.get_rect()</span>
+</span><span id="L-950"><a href="#L-950"><span class="linenos">950</span></a><span class="c1">#        balloon_rect = pygame.Rect(</span>
+</span><span id="L-951"><a href="#L-951"><span class="linenos">951</span></a><span class="c1">#            self.x * TILE_SIZE,</span>
+</span><span id="L-952"><a href="#L-952"><span class="linenos">952</span></a><span class="c1">#            self.y * TILE_SIZE - 32,</span>
+</span><span id="L-953"><a href="#L-953"><span class="linenos">953</span></a><span class="c1">#            text_rect.width + 2 * padding,</span>
+</span><span id="L-954"><a href="#L-954"><span class="linenos">954</span></a><span class="c1">#            text_rect.height + 2 * padding,</span>
+</span><span id="L-955"><a href="#L-955"><span class="linenos">955</span></a><span class="c1">#        )</span>
+</span><span id="L-956"><a href="#L-956"><span class="linenos">956</span></a><span class="c1">#        pygame.draw.rect(screen, WHITE, balloon_rect, border_radius=15)</span>
+</span><span id="L-957"><a href="#L-957"><span class="linenos">957</span></a><span class="c1">#        # Draw text</span>
+</span><span id="L-958"><a href="#L-958"><span class="linenos">958</span></a><span class="c1">#        screen.blit(text_surface, (self.x * TILE_SIZE + padding, self.y * TILE_SIZE - 32 + padding))</span>
+</span><span id="L-959"><a href="#L-959"><span class="linenos">959</span></a><span class="c1">#</span>
+</span><span id="L-960"><a href="#L-960"><span class="linenos">960</span></a><span class="c1">#    def render_movement(self: Any, screen: pygame.Surface):</span>
+</span><span id="L-961"><a href="#L-961"><span class="linenos">961</span></a><span class="c1">#        print(&quot;herhehre&quot;)</span>
+</span><span id="L-962"><a href="#L-962"><span class="linenos">962</span></a><span class="c1">#        if not (self.parent.last_x == self.parent.x and self.parent.y == self.parent.last_y):</span>
+</span><span id="L-963"><a href="#L-963"><span class="linenos">963</span></a><span class="c1">#            self.parent.alpha = 0.0</span>
+</span><span id="L-964"><a href="#L-964"><span class="linenos">964</span></a><span class="c1">#            self.parent.last_x = self.parent.x</span>
+</span><span id="L-965"><a href="#L-965"><span class="linenos">965</span></a><span class="c1">#            self.parent.last_y = self.parent.y</span>
+</span><span id="L-966"><a href="#L-966"><span class="linenos">966</span></a><span class="c1">#            self.is_parent_animated_before = False</span>
+</span><span id="L-967"><a href="#L-967"><span class="linenos">967</span></a><span class="c1">#        if self.parent.alpha &gt; 1:</span>
+</span><span id="L-968"><a href="#L-968"><span class="linenos">968</span></a><span class="c1">#            self.is_parent_animated_before = True</span>
+</span><span id="L-969"><a href="#L-969"><span class="linenos">969</span></a><span class="c1">#        if self.is_parent_animated_before:</span>
+</span><span id="L-970"><a href="#L-970"><span class="linenos">970</span></a><span class="c1">#            self.alpha = self.parent.alpha - self.parent.actions_per_second * 0.11</span>
+</span><span id="L-971"><a href="#L-971"><span class="linenos">971</span></a><span class="c1">#        else:</span>
+</span><span id="L-972"><a href="#L-972"><span class="linenos">972</span></a><span class="c1">#            self.alpha = self.parent.alpha</span>
+</span><span id="L-973"><a href="#L-973"><span class="linenos">973</span></a><span class="c1">#        self.x = self.parent.x</span>
+</span><span id="L-974"><a href="#L-974"><span class="linenos">974</span></a><span class="c1">#        self.y = self.parent.y</span>
+</span><span id="L-975"><a href="#L-975"><span class="linenos">975</span></a><span class="c1">#        self.prev_x = self.parent.prev_x</span>
+</span><span id="L-976"><a href="#L-976"><span class="linenos">976</span></a><span class="c1">#        self.prev_y = self.parent.prev_y</span>
+</span><span id="L-977"><a href="#L-977"><span class="linenos">977</span></a><span class="c1">#        offset_x = 0</span>
+</span><span id="L-978"><a href="#L-978"><span class="linenos">978</span></a><span class="c1">#        offset_y = -32</span>
+</span><span id="L-979"><a href="#L-979"><span class="linenos">979</span></a><span class="c1">#        pos = (</span>
+</span><span id="L-980"><a href="#L-980"><span class="linenos">980</span></a><span class="c1">#            (self.alpha * self.x + (1 - self.alpha) * self.prev_x) * TILE_SIZE - offset_x,</span>
+</span><span id="L-981"><a href="#L-981"><span class="linenos">981</span></a><span class="c1">#            (self.alpha * self.y + (1 - self.alpha) * self.prev_y) * TILE_SIZE - offset_y,</span>
+</span><span id="L-982"><a href="#L-982"><span class="linenos">982</span></a><span class="c1">#        )</span>
+</span><span id="L-983"><a href="#L-983"><span class="linenos">983</span></a><span class="c1">#        # make baloon</span>
+</span><span id="L-984"><a href="#L-984"><span class="linenos">984</span></a><span class="c1">#        font = pygame.font.SysFont(None, 18)</span>
+</span><span id="L-985"><a href="#L-985"><span class="linenos">985</span></a><span class="c1">#        text_surface = font.render(self.speech, True, BLACK)</span>
+</span><span id="L-986"><a href="#L-986"><span class="linenos">986</span></a><span class="c1">#</span>
+</span><span id="L-987"><a href="#L-987"><span class="linenos">987</span></a><span class="c1">#        # Padding around the text</span>
+</span><span id="L-988"><a href="#L-988"><span class="linenos">988</span></a><span class="c1">#        padding = 10</span>
+</span><span id="L-989"><a href="#L-989"><span class="linenos">989</span></a><span class="c1">#        text_rect = text_surface.get_rect()</span>
+</span><span id="L-990"><a href="#L-990"><span class="linenos">990</span></a><span class="c1">#        balloon_rect = pygame.Rect(</span>
+</span><span id="L-991"><a href="#L-991"><span class="linenos">991</span></a><span class="c1">#            pos[0],</span>
+</span><span id="L-992"><a href="#L-992"><span class="linenos">992</span></a><span class="c1">#            pos[1],</span>
+</span><span id="L-993"><a href="#L-993"><span class="linenos">993</span></a><span class="c1">#            text_rect.width + 2 * padding,</span>
+</span><span id="L-994"><a href="#L-994"><span class="linenos">994</span></a><span class="c1">#            text_rect.height + 2 * padding,</span>
+</span><span id="L-995"><a href="#L-995"><span class="linenos">995</span></a><span class="c1">#        )</span>
+</span><span id="L-996"><a href="#L-996"><span class="linenos">996</span></a><span class="c1">#        pygame.draw.rect(screen, WHITE, balloon_rect, border_radius=15)</span>
+</span><span id="L-997"><a href="#L-997"><span class="linenos">997</span></a><span class="c1">#        # Draw text</span>
+</span><span id="L-998"><a href="#L-998"><span class="linenos">998</span></a><span class="c1">#        screen.blit(text_surface, (pos[0] + padding, pos[1] + padding))</span>
 </span></pre></div>
 
 
@@ -4863,6 +5021,7 @@ first through this mixin.</p>
             </div>
             <div><dt><a href="../actions/actions.html#SpeechMixin">flatland.actions.actions.SpeechMixin</a></dt>
                                 <dd id="Goblin.volume" class="variable"><a href="../actions/actions.html#SpeechMixin.volume">volume</a></dd>
+                <dd id="Goblin.balloon_rect" class="variable"><a href="../actions/actions.html#SpeechMixin.balloon_rect">balloon_rect</a></dd>
                 <dd id="Goblin.set_volume" class="function"><a href="../actions/actions.html#SpeechMixin.set_volume">set_volume</a></dd>
                 <dd id="Goblin.speak" class="function"><a href="../actions/actions.html#SpeechMixin.speak">speak</a></dd>
 
@@ -5308,6 +5467,7 @@ first through this mixin.</p>
             </div>
             <div><dt><a href="../actions/actions.html#SpeechMixin">flatland.actions.actions.SpeechMixin</a></dt>
                                 <dd id="Cow.volume" class="variable"><a href="../actions/actions.html#SpeechMixin.volume">volume</a></dd>
+                <dd id="Cow.balloon_rect" class="variable"><a href="../actions/actions.html#SpeechMixin.balloon_rect">balloon_rect</a></dd>
                 <dd id="Cow.set_volume" class="function"><a href="../actions/actions.html#SpeechMixin.set_volume">set_volume</a></dd>
                 <dd id="Cow.speak" class="function"><a href="../actions/actions.html#SpeechMixin.speak">speak</a></dd>
 
@@ -7172,6 +7332,368 @@ inheritance.</p>
             </div>
             <div><dt><a href="../interactions/interactions.html#InteractionMixin">flatland.interactions.interactions.InteractionMixin</a></dt>
                                 <dd id="Door.reverse_direction" class="function"><a href="../interactions/interactions.html#InteractionMixin.reverse_direction">reverse_direction</a></dd>
+
+            </div>
+                                </dl>
+                            </div>
+                </section>
+                <section id="Baloon">
+                            <input id="Baloon-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr class">
+                    <div class="decorator decorator-registry.register">@registry.register</div>
+
+    <span class="def">class</span>
+    <span class="name">Baloon</span><wbr>(<span class="base"><a href="base_objects.html#GameObject">flatland.objects.base_objects.GameObject</a></span>, <span class="base"><a href="../interactions/evolution.html#HealthDecreasesEvolution">flatland.interactions.evolution.HealthDecreasesEvolution</a></span>, <span class="base"><a href="../animations/animations.html#StandingAnimationMixin">flatland.animations.animations.StandingAnimationMixin</a></span>, <span class="base"><a href="../animations/animations.html#MovementAnimationMixin">flatland.animations.animations.MovementAnimationMixin</a></span>, <span class="base"><a href="../animations/render.html#RenderMixin">flatland.animations.render.RenderMixin</a></span>, <span class="base"><a href="../interactions/evolution.html#DeathMixin">flatland.interactions.evolution.DeathMixin</a></span>):
+
+                <label class="view-source-button" for="Baloon-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#Baloon"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Baloon-883"><a href="#Baloon-883"><span class="linenos">883</span></a><span class="nd">@registry</span><span class="o">.</span><span class="n">register</span>
+</span><span id="Baloon-884"><a href="#Baloon-884"><span class="linenos">884</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Baloon</span><span class="p">(</span>
+</span><span id="Baloon-885"><a href="#Baloon-885"><span class="linenos">885</span></a>    <span class="n">GameObject</span><span class="p">,</span>
+</span><span id="Baloon-886"><a href="#Baloon-886"><span class="linenos">886</span></a>    <span class="n">HealthDecreasesEvolution</span><span class="p">,</span>
+</span><span id="Baloon-887"><a href="#Baloon-887"><span class="linenos">887</span></a>    <span class="n">StandingAnimationMixin</span><span class="p">,</span>
+</span><span id="Baloon-888"><a href="#Baloon-888"><span class="linenos">888</span></a>    <span class="n">MovementAnimationMixin</span><span class="p">,</span>
+</span><span id="Baloon-889"><a href="#Baloon-889"><span class="linenos">889</span></a>    <span class="n">RenderMixin</span><span class="p">,</span>
+</span><span id="Baloon-890"><a href="#Baloon-890"><span class="linenos">890</span></a>    <span class="n">DeathMixin</span><span class="p">,</span>
+</span><span id="Baloon-891"><a href="#Baloon-891"><span class="linenos">891</span></a><span class="p">):</span>
+</span><span id="Baloon-892"><a href="#Baloon-892"><span class="linenos">892</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">health</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">speech</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="Baloon-893"><a href="#Baloon-893"><span class="linenos">893</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">)</span>
+</span><span id="Baloon-894"><a href="#Baloon-894"><span class="linenos">894</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">speech</span> <span class="o">=</span> <span class="n">speech</span>
+</span><span id="Baloon-895"><a href="#Baloon-895"><span class="linenos">895</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">z_level</span> <span class="o">=</span> <span class="mf">100.0</span>
+</span><span id="Baloon-896"><a href="#Baloon-896"><span class="linenos">896</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">actions_per_second</span> <span class="o">=</span> <span class="mi">3</span>
+</span><span id="Baloon-897"><a href="#Baloon-897"><span class="linenos">897</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">location_as_parent</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span id="Baloon-898"><a href="#Baloon-898"><span class="linenos">898</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">num_animations_standing</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="Baloon-899"><a href="#Baloon-899"><span class="linenos">899</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="Baloon-900"><a href="#Baloon-900"><span class="linenos">900</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sprite_size_y</span> <span class="o">=</span> <span class="mi">128</span>
+</span><span id="Baloon-901"><a href="#Baloon-901"><span class="linenos">901</span></a>        <span class="c1"># Load sprites</span>
+</span><span id="Baloon-902"><a href="#Baloon-902"><span class="linenos">902</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">__post_init__</span><span class="p">()</span>  <span class="c1"># do not forget</span>
+</span><span id="Baloon-903"><a href="#Baloon-903"><span class="linenos">903</span></a>
+</span><span id="Baloon-904"><a href="#Baloon-904"><span class="linenos">904</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">create_movement_sprites</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Baloon-905"><a href="#Baloon-905"><span class="linenos">905</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">movement_sprites</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="Baloon-906"><a href="#Baloon-906"><span class="linenos">906</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">UP</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">make_balloon_surface</span><span class="p">()],</span>
+</span><span id="Baloon-907"><a href="#Baloon-907"><span class="linenos">907</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">DOWN</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">make_balloon_surface</span><span class="p">()],</span>
+</span><span id="Baloon-908"><a href="#Baloon-908"><span class="linenos">908</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">LEFT</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">make_balloon_surface</span><span class="p">()],</span>
+</span><span id="Baloon-909"><a href="#Baloon-909"><span class="linenos">909</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">make_balloon_surface</span><span class="p">()],</span>
+</span><span id="Baloon-910"><a href="#Baloon-910"><span class="linenos">910</span></a>        <span class="p">}</span>
+</span><span id="Baloon-911"><a href="#Baloon-911"><span class="linenos">911</span></a>
+</span><span id="Baloon-912"><a href="#Baloon-912"><span class="linenos">912</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">create_standing_sprites</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Baloon-913"><a href="#Baloon-913"><span class="linenos">913</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">standing_sprites</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="Baloon-914"><a href="#Baloon-914"><span class="linenos">914</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">UP</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">make_balloon_surface</span><span class="p">()],</span>
+</span><span id="Baloon-915"><a href="#Baloon-915"><span class="linenos">915</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">DOWN</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">make_balloon_surface</span><span class="p">()],</span>
+</span><span id="Baloon-916"><a href="#Baloon-916"><span class="linenos">916</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">LEFT</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">make_balloon_surface</span><span class="p">()],</span>
+</span><span id="Baloon-917"><a href="#Baloon-917"><span class="linenos">917</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">make_balloon_surface</span><span class="p">()],</span>
+</span><span id="Baloon-918"><a href="#Baloon-918"><span class="linenos">918</span></a>        <span class="p">}</span>
+</span><span id="Baloon-919"><a href="#Baloon-919"><span class="linenos">919</span></a>
+</span><span id="Baloon-920"><a href="#Baloon-920"><span class="linenos">920</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">make_balloon_surface</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">:</span>
+</span><span id="Baloon-921"><a href="#Baloon-921"><span class="linenos">921</span></a>        <span class="n">font</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">SysFont</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">18</span><span class="p">)</span>
+</span><span id="Baloon-922"><a href="#Baloon-922"><span class="linenos">922</span></a>        <span class="n">text_surface</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">speech</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">BLACK</span><span class="p">)</span>
+</span><span id="Baloon-923"><a href="#Baloon-923"><span class="linenos">923</span></a>
+</span><span id="Baloon-924"><a href="#Baloon-924"><span class="linenos">924</span></a>        <span class="c1"># Padding around the text</span>
+</span><span id="Baloon-925"><a href="#Baloon-925"><span class="linenos">925</span></a>        <span class="n">padding</span> <span class="o">=</span> <span class="mi">10</span>
+</span><span id="Baloon-926"><a href="#Baloon-926"><span class="linenos">926</span></a>        <span class="n">text_rect</span> <span class="o">=</span> <span class="n">text_surface</span><span class="o">.</span><span class="n">get_rect</span><span class="p">()</span>
+</span><span id="Baloon-927"><a href="#Baloon-927"><span class="linenos">927</span></a>
+</span><span id="Baloon-928"><a href="#Baloon-928"><span class="linenos">928</span></a>        <span class="c1"># Create a surface for the balloon with per-pixel alpha for transparency</span>
+</span><span id="Baloon-929"><a href="#Baloon-929"><span class="linenos">929</span></a>        <span class="n">balloon_surface</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">(</span>
+</span><span id="Baloon-930"><a href="#Baloon-930"><span class="linenos">930</span></a>            <span class="p">(</span><span class="n">text_rect</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">padding</span><span class="p">,</span> <span class="n">text_rect</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">padding</span><span class="p">),</span>
+</span><span id="Baloon-931"><a href="#Baloon-931"><span class="linenos">931</span></a>            <span class="n">pygame</span><span class="o">.</span><span class="n">SRCALPHA</span><span class="p">,</span>
+</span><span id="Baloon-932"><a href="#Baloon-932"><span class="linenos">932</span></a>        <span class="p">)</span>
+</span><span id="Baloon-933"><a href="#Baloon-933"><span class="linenos">933</span></a>
+</span><span id="Baloon-934"><a href="#Baloon-934"><span class="linenos">934</span></a>        <span class="c1"># Draw balloon rectangle on this new surface</span>
+</span><span id="Baloon-935"><a href="#Baloon-935"><span class="linenos">935</span></a>        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">balloon_surface</span><span class="p">,</span> <span class="n">WHITE</span><span class="p">,</span> <span class="n">balloon_surface</span><span class="o">.</span><span class="n">get_rect</span><span class="p">(),</span> <span class="n">border_radius</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</span><span id="Baloon-936"><a href="#Baloon-936"><span class="linenos">936</span></a>
+</span><span id="Baloon-937"><a href="#Baloon-937"><span class="linenos">937</span></a>        <span class="c1"># Blit the text onto the balloon</span>
+</span><span id="Baloon-938"><a href="#Baloon-938"><span class="linenos">938</span></a>        <span class="n">balloon_surface</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">text_surface</span><span class="p">,</span> <span class="p">(</span><span class="n">padding</span><span class="p">,</span> <span class="n">padding</span><span class="p">))</span>
+</span><span id="Baloon-939"><a href="#Baloon-939"><span class="linenos">939</span></a>
+</span><span id="Baloon-940"><a href="#Baloon-940"><span class="linenos">940</span></a>        <span class="k">return</span> <span class="n">balloon_surface</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>This mixing decreases health as time goes by. Used to remove spawned objects like a baloon.</p>
+</div>
+
+
+                            <div id="Baloon.__init__" class="classattr">
+                                        <input id="Baloon.__init__-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="name">Baloon</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">x</span><span class="p">:</span> <span class="nb">int</span>, </span><span class="param"><span class="n">y</span><span class="p">:</span> <span class="nb">int</span>, </span><span class="param"><span class="n">name</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">health</span><span class="p">:</span> <span class="nb">float</span>, </span><span class="param"><span class="n">speech</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span></span>)</span>
+
+                <label class="view-source-button" for="Baloon.__init__-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#Baloon.__init__"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Baloon.__init__-892"><a href="#Baloon.__init__-892"><span class="linenos">892</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">health</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">speech</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+</span><span id="Baloon.__init__-893"><a href="#Baloon.__init__-893"><span class="linenos">893</span></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">health</span><span class="p">)</span>
+</span><span id="Baloon.__init__-894"><a href="#Baloon.__init__-894"><span class="linenos">894</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">speech</span> <span class="o">=</span> <span class="n">speech</span>
+</span><span id="Baloon.__init__-895"><a href="#Baloon.__init__-895"><span class="linenos">895</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">z_level</span> <span class="o">=</span> <span class="mf">100.0</span>
+</span><span id="Baloon.__init__-896"><a href="#Baloon.__init__-896"><span class="linenos">896</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">actions_per_second</span> <span class="o">=</span> <span class="mi">3</span>
+</span><span id="Baloon.__init__-897"><a href="#Baloon.__init__-897"><span class="linenos">897</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">location_as_parent</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span id="Baloon.__init__-898"><a href="#Baloon.__init__-898"><span class="linenos">898</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">num_animations_standing</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="Baloon.__init__-899"><a href="#Baloon.__init__-899"><span class="linenos">899</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">num_animations</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="Baloon.__init__-900"><a href="#Baloon.__init__-900"><span class="linenos">900</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sprite_size_y</span> <span class="o">=</span> <span class="mi">128</span>
+</span><span id="Baloon.__init__-901"><a href="#Baloon.__init__-901"><span class="linenos">901</span></a>        <span class="c1"># Load sprites</span>
+</span><span id="Baloon.__init__-902"><a href="#Baloon.__init__-902"><span class="linenos">902</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">__post_init__</span><span class="p">()</span>  <span class="c1"># do not forget</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>x, y are the positions</p>
+</div>
+
+
+                            </div>
+                            <div id="Baloon.speech" class="classattr">
+                                <div class="attr variable">
+            <span class="name">speech</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Baloon.speech"></a>
+    
+    
+
+                            </div>
+                            <div id="Baloon.z_level" class="classattr">
+                                <div class="attr variable">
+            <span class="name">z_level</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Baloon.z_level"></a>
+    
+    
+
+                            </div>
+                            <div id="Baloon.actions_per_second" class="classattr">
+                                <div class="attr variable">
+            <span class="name">actions_per_second</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Baloon.actions_per_second"></a>
+    
+    
+
+                            </div>
+                            <div id="Baloon.location_as_parent" class="classattr">
+                                <div class="attr variable">
+            <span class="name">location_as_parent</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Baloon.location_as_parent"></a>
+    
+    
+
+                            </div>
+                            <div id="Baloon.num_animations_standing" class="classattr">
+                                <div class="attr variable">
+            <span class="name">num_animations_standing</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Baloon.num_animations_standing"></a>
+    
+    
+
+                            </div>
+                            <div id="Baloon.num_animations" class="classattr">
+                                <div class="attr variable">
+            <span class="name">num_animations</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Baloon.num_animations"></a>
+    
+    
+
+                            </div>
+                            <div id="Baloon.sprite_size_y" class="classattr">
+                                <div class="attr variable">
+            <span class="name">sprite_size_y</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Baloon.sprite_size_y"></a>
+    
+    
+
+                            </div>
+                            <div id="Baloon.create_movement_sprites" class="classattr">
+                                        <input id="Baloon.create_movement_sprites-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">create_movement_sprites</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="kc">None</span>:</span></span>
+
+                <label class="view-source-button" for="Baloon.create_movement_sprites-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#Baloon.create_movement_sprites"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Baloon.create_movement_sprites-904"><a href="#Baloon.create_movement_sprites-904"><span class="linenos">904</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">create_movement_sprites</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Baloon.create_movement_sprites-905"><a href="#Baloon.create_movement_sprites-905"><span class="linenos">905</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">movement_sprites</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="Baloon.create_movement_sprites-906"><a href="#Baloon.create_movement_sprites-906"><span class="linenos">906</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">UP</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">make_balloon_surface</span><span class="p">()],</span>
+</span><span id="Baloon.create_movement_sprites-907"><a href="#Baloon.create_movement_sprites-907"><span class="linenos">907</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">DOWN</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">make_balloon_surface</span><span class="p">()],</span>
+</span><span id="Baloon.create_movement_sprites-908"><a href="#Baloon.create_movement_sprites-908"><span class="linenos">908</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">LEFT</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">make_balloon_surface</span><span class="p">()],</span>
+</span><span id="Baloon.create_movement_sprites-909"><a href="#Baloon.create_movement_sprites-909"><span class="linenos">909</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">make_balloon_surface</span><span class="p">()],</span>
+</span><span id="Baloon.create_movement_sprites-910"><a href="#Baloon.create_movement_sprites-910"><span class="linenos">910</span></a>        <span class="p">}</span>
+</span></pre></div>
+
+
+    
+
+                            </div>
+                            <div id="Baloon.create_standing_sprites" class="classattr">
+                                        <input id="Baloon.create_standing_sprites-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">create_standing_sprites</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="kc">None</span>:</span></span>
+
+                <label class="view-source-button" for="Baloon.create_standing_sprites-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#Baloon.create_standing_sprites"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Baloon.create_standing_sprites-912"><a href="#Baloon.create_standing_sprites-912"><span class="linenos">912</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">create_standing_sprites</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Baloon.create_standing_sprites-913"><a href="#Baloon.create_standing_sprites-913"><span class="linenos">913</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">standing_sprites</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="Baloon.create_standing_sprites-914"><a href="#Baloon.create_standing_sprites-914"><span class="linenos">914</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">UP</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">make_balloon_surface</span><span class="p">()],</span>
+</span><span id="Baloon.create_standing_sprites-915"><a href="#Baloon.create_standing_sprites-915"><span class="linenos">915</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">DOWN</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">make_balloon_surface</span><span class="p">()],</span>
+</span><span id="Baloon.create_standing_sprites-916"><a href="#Baloon.create_standing_sprites-916"><span class="linenos">916</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">LEFT</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">make_balloon_surface</span><span class="p">()],</span>
+</span><span id="Baloon.create_standing_sprites-917"><a href="#Baloon.create_standing_sprites-917"><span class="linenos">917</span></a>            <span class="n">Direction</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">make_balloon_surface</span><span class="p">()],</span>
+</span><span id="Baloon.create_standing_sprites-918"><a href="#Baloon.create_standing_sprites-918"><span class="linenos">918</span></a>        <span class="p">}</span>
+</span></pre></div>
+
+
+    
+
+                            </div>
+                            <div id="Baloon.make_balloon_surface" class="classattr">
+                                        <input id="Baloon.make_balloon_surface-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">make_balloon_surface</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="n">pygame</span><span class="o">.</span><span class="n">surface</span><span class="o">.</span><span class="n">Surface</span>:</span></span>
+
+                <label class="view-source-button" for="Baloon.make_balloon_surface-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#Baloon.make_balloon_surface"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Baloon.make_balloon_surface-920"><a href="#Baloon.make_balloon_surface-920"><span class="linenos">920</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">make_balloon_surface</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">:</span>
+</span><span id="Baloon.make_balloon_surface-921"><a href="#Baloon.make_balloon_surface-921"><span class="linenos">921</span></a>        <span class="n">font</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">SysFont</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">18</span><span class="p">)</span>
+</span><span id="Baloon.make_balloon_surface-922"><a href="#Baloon.make_balloon_surface-922"><span class="linenos">922</span></a>        <span class="n">text_surface</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">speech</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">BLACK</span><span class="p">)</span>
+</span><span id="Baloon.make_balloon_surface-923"><a href="#Baloon.make_balloon_surface-923"><span class="linenos">923</span></a>
+</span><span id="Baloon.make_balloon_surface-924"><a href="#Baloon.make_balloon_surface-924"><span class="linenos">924</span></a>        <span class="c1"># Padding around the text</span>
+</span><span id="Baloon.make_balloon_surface-925"><a href="#Baloon.make_balloon_surface-925"><span class="linenos">925</span></a>        <span class="n">padding</span> <span class="o">=</span> <span class="mi">10</span>
+</span><span id="Baloon.make_balloon_surface-926"><a href="#Baloon.make_balloon_surface-926"><span class="linenos">926</span></a>        <span class="n">text_rect</span> <span class="o">=</span> <span class="n">text_surface</span><span class="o">.</span><span class="n">get_rect</span><span class="p">()</span>
+</span><span id="Baloon.make_balloon_surface-927"><a href="#Baloon.make_balloon_surface-927"><span class="linenos">927</span></a>
+</span><span id="Baloon.make_balloon_surface-928"><a href="#Baloon.make_balloon_surface-928"><span class="linenos">928</span></a>        <span class="c1"># Create a surface for the balloon with per-pixel alpha for transparency</span>
+</span><span id="Baloon.make_balloon_surface-929"><a href="#Baloon.make_balloon_surface-929"><span class="linenos">929</span></a>        <span class="n">balloon_surface</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">(</span>
+</span><span id="Baloon.make_balloon_surface-930"><a href="#Baloon.make_balloon_surface-930"><span class="linenos">930</span></a>            <span class="p">(</span><span class="n">text_rect</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">padding</span><span class="p">,</span> <span class="n">text_rect</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">padding</span><span class="p">),</span>
+</span><span id="Baloon.make_balloon_surface-931"><a href="#Baloon.make_balloon_surface-931"><span class="linenos">931</span></a>            <span class="n">pygame</span><span class="o">.</span><span class="n">SRCALPHA</span><span class="p">,</span>
+</span><span id="Baloon.make_balloon_surface-932"><a href="#Baloon.make_balloon_surface-932"><span class="linenos">932</span></a>        <span class="p">)</span>
+</span><span id="Baloon.make_balloon_surface-933"><a href="#Baloon.make_balloon_surface-933"><span class="linenos">933</span></a>
+</span><span id="Baloon.make_balloon_surface-934"><a href="#Baloon.make_balloon_surface-934"><span class="linenos">934</span></a>        <span class="c1"># Draw balloon rectangle on this new surface</span>
+</span><span id="Baloon.make_balloon_surface-935"><a href="#Baloon.make_balloon_surface-935"><span class="linenos">935</span></a>        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">balloon_surface</span><span class="p">,</span> <span class="n">WHITE</span><span class="p">,</span> <span class="n">balloon_surface</span><span class="o">.</span><span class="n">get_rect</span><span class="p">(),</span> <span class="n">border_radius</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</span><span id="Baloon.make_balloon_surface-936"><a href="#Baloon.make_balloon_surface-936"><span class="linenos">936</span></a>
+</span><span id="Baloon.make_balloon_surface-937"><a href="#Baloon.make_balloon_surface-937"><span class="linenos">937</span></a>        <span class="c1"># Blit the text onto the balloon</span>
+</span><span id="Baloon.make_balloon_surface-938"><a href="#Baloon.make_balloon_surface-938"><span class="linenos">938</span></a>        <span class="n">balloon_surface</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">text_surface</span><span class="p">,</span> <span class="p">(</span><span class="n">padding</span><span class="p">,</span> <span class="n">padding</span><span class="p">))</span>
+</span><span id="Baloon.make_balloon_surface-939"><a href="#Baloon.make_balloon_surface-939"><span class="linenos">939</span></a>
+</span><span id="Baloon.make_balloon_surface-940"><a href="#Baloon.make_balloon_surface-940"><span class="linenos">940</span></a>        <span class="k">return</span> <span class="n">balloon_surface</span>
+</span></pre></div>
+
+
+    
+
+                            </div>
+                            <div class="inherited">
+                                <h5>Inherited Members</h5>
+                                <dl>
+                                    <div><dt><a href="base_objects.html#GameObject">flatland.objects.base_objects.GameObject</a></dt>
+                                <dd id="Baloon.id" class="variable"><a href="base_objects.html#GameObject.id">id</a></dd>
+                <dd id="Baloon.x" class="variable"><a href="base_objects.html#GameObject.x">x</a></dd>
+                <dd id="Baloon.y" class="variable"><a href="base_objects.html#GameObject.y">y</a></dd>
+                <dd id="Baloon.prev_x" class="variable"><a href="base_objects.html#GameObject.prev_x">prev_x</a></dd>
+                <dd id="Baloon.prev_y" class="variable"><a href="base_objects.html#GameObject.prev_y">prev_y</a></dd>
+                <dd id="Baloon.name" class="variable"><a href="base_objects.html#GameObject.name">name</a></dd>
+                <dd id="Baloon.health" class="variable"><a href="base_objects.html#GameObject.health">health</a></dd>
+                <dd id="Baloon.attack" class="variable"><a href="base_objects.html#GameObject.attack">attack</a></dd>
+                <dd id="Baloon.defence" class="variable"><a href="base_objects.html#GameObject.defence">defence</a></dd>
+                <dd id="Baloon.scheduler" class="variable"><a href="base_objects.html#GameObject.scheduler">scheduler</a></dd>
+                <dd id="Baloon.logger" class="variable"><a href="base_objects.html#GameObject.logger">logger</a></dd>
+                <dd id="Baloon.volition" class="variable"><a href="base_objects.html#GameObject.volition">volition</a></dd>
+                <dd id="Baloon.internal_state" class="variable"><a href="base_objects.html#GameObject.internal_state">internal_state</a></dd>
+                <dd id="Baloon.vision_range" class="variable"><a href="base_objects.html#GameObject.vision_range">vision_range</a></dd>
+                <dd id="Baloon.hearing_range" class="variable"><a href="base_objects.html#GameObject.hearing_range">hearing_range</a></dd>
+                <dd id="Baloon.direction" class="variable"><a href="base_objects.html#GameObject.direction">direction</a></dd>
+                <dd id="Baloon.inertia" class="variable"><a href="base_objects.html#GameObject.inertia">inertia</a></dd>
+                <dd id="Baloon.acceleration" class="variable"><a href="base_objects.html#GameObject.acceleration">acceleration</a></dd>
+                <dd id="Baloon.temperature" class="variable"><a href="base_objects.html#GameObject.temperature">temperature</a></dd>
+                <dd id="Baloon.charge" class="variable"><a href="base_objects.html#GameObject.charge">charge</a></dd>
+                <dd id="Baloon.render_on_top_of_parent" class="variable"><a href="base_objects.html#GameObject.render_on_top_of_parent">render_on_top_of_parent</a></dd>
+                <dd id="Baloon.wetness" class="variable"><a href="base_objects.html#GameObject.wetness">wetness</a></dd>
+                <dd id="Baloon.mass" class="variable"><a href="base_objects.html#GameObject.mass">mass</a></dd>
+                <dd id="Baloon.height" class="variable"><a href="base_objects.html#GameObject.height">height</a></dd>
+                <dd id="Baloon.friction_coefficient" class="variable"><a href="base_objects.html#GameObject.friction_coefficient">friction_coefficient</a></dd>
+                <dd id="Baloon.last_tick" class="variable"><a href="base_objects.html#GameObject.last_tick">last_tick</a></dd>
+                <dd id="Baloon.is_moving" class="variable"><a href="base_objects.html#GameObject.is_moving">is_moving</a></dd>
+                <dd id="Baloon.is_standing" class="variable"><a href="base_objects.html#GameObject.is_standing">is_standing</a></dd>
+                <dd id="Baloon.is_pushing" class="variable"><a href="base_objects.html#GameObject.is_pushing">is_pushing</a></dd>
+                <dd id="Baloon.is_casting" class="variable"><a href="base_objects.html#GameObject.is_casting">is_casting</a></dd>
+                <dd id="Baloon.is_slashing" class="variable"><a href="base_objects.html#GameObject.is_slashing">is_slashing</a></dd>
+                <dd id="Baloon.is_prepare_just_done" class="variable"><a href="base_objects.html#GameObject.is_prepare_just_done">is_prepare_just_done</a></dd>
+                <dd id="Baloon.parent_id" class="variable"><a href="base_objects.html#GameObject.parent_id">parent_id</a></dd>
+                <dd id="Baloon.children" class="variable"><a href="base_objects.html#GameObject.children">children</a></dd>
+                <dd id="Baloon.sprite_size_x" class="variable"><a href="base_objects.html#GameObject.sprite_size_x">sprite_size_x</a></dd>
+                <dd id="Baloon.is_grabbable" class="variable"><a href="base_objects.html#GameObject.is_grabbable">is_grabbable</a></dd>
+                <dd id="Baloon.inertia_threshold_to_hurt_upper" class="variable"><a href="base_objects.html#GameObject.inertia_threshold_to_hurt_upper">inertia_threshold_to_hurt_upper</a></dd>
+                <dd id="Baloon.inertia_threshold_to_hurt_lower" class="variable"><a href="base_objects.html#GameObject.inertia_threshold_to_hurt_lower">inertia_threshold_to_hurt_lower</a></dd>
+                <dd id="Baloon.temperature_threshold_to_hurt_upper" class="variable"><a href="base_objects.html#GameObject.temperature_threshold_to_hurt_upper">temperature_threshold_to_hurt_upper</a></dd>
+                <dd id="Baloon.temperature_threshold_to_hurt_lower" class="variable"><a href="base_objects.html#GameObject.temperature_threshold_to_hurt_lower">temperature_threshold_to_hurt_lower</a></dd>
+                <dd id="Baloon.equilibrium_temperature" class="variable"><a href="base_objects.html#GameObject.equilibrium_temperature">equilibrium_temperature</a></dd>
+                <dd id="Baloon.is_encumbrant" class="variable"><a href="base_objects.html#GameObject.is_encumbrant">is_encumbrant</a></dd>
+                <dd id="Baloon.ignore_walkable" class="variable"><a href="base_objects.html#GameObject.ignore_walkable">ignore_walkable</a></dd>
+                <dd id="Baloon.parent" class="variable"><a href="base_objects.html#GameObject.parent">parent</a></dd>
+                <dd id="Baloon.update" class="function"><a href="base_objects.html#GameObject.update">update</a></dd>
+                <dd id="Baloon.prepare" class="function"><a href="base_objects.html#GameObject.prepare">prepare</a></dd>
+                <dd id="Baloon.distance" class="function"><a href="base_objects.html#GameObject.distance">distance</a></dd>
+
+            </div>
+            <div><dt><a href="../interactions/evolution.html#HealthDecreasesEvolution">flatland.interactions.evolution.HealthDecreasesEvolution</a></dt>
+                                <dd id="Baloon.keep_on_decreasing" class="function"><a href="../interactions/evolution.html#HealthDecreasesEvolution.keep_on_decreasing">keep_on_decreasing</a></dd>
+                <dd id="Baloon.get_interaction_callables" class="function"><a href="../interactions/evolution.html#HealthDecreasesEvolution.get_interaction_callables">get_interaction_callables</a></dd>
+
+            </div>
+            <div><dt><a href="../animations/animations.html#StandingAnimationMixin">flatland.animations.animations.StandingAnimationMixin</a></dt>
+                                <dd id="Baloon.standing_sprites_locations" class="variable"><a href="../animations/animations.html#StandingAnimationMixin.standing_sprites_locations">standing_sprites_locations</a></dd>
+                <dd id="Baloon.standing_animation_index" class="variable"><a href="../animations/animations.html#StandingAnimationMixin.standing_animation_index">standing_animation_index</a></dd>
+                <dd id="Baloon.standing_sprites" class="variable"><a href="../animations/animations.html#StandingAnimationMixin.standing_sprites">standing_sprites</a></dd>
+                <dd id="Baloon.update_standing_animation" class="function"><a href="../animations/animations.html#StandingAnimationMixin.update_standing_animation">update_standing_animation</a></dd>
+                <dd id="Baloon.render_standing" class="function"><a href="../animations/animations.html#StandingAnimationMixin.render_standing">render_standing</a></dd>
+
+            </div>
+            <div><dt><a href="../animations/animations.html#MovementAnimationMixin">flatland.animations.animations.MovementAnimationMixin</a></dt>
+                                <dd id="Baloon.movement_sprites_locations" class="variable"><a href="../animations/animations.html#MovementAnimationMixin.movement_sprites_locations">movement_sprites_locations</a></dd>
+                <dd id="Baloon.animation_index" class="variable"><a href="../animations/animations.html#MovementAnimationMixin.animation_index">animation_index</a></dd>
+                <dd id="Baloon.movement_sprites" class="variable"><a href="../animations/animations.html#MovementAnimationMixin.movement_sprites">movement_sprites</a></dd>
+                <dd id="Baloon.alpha" class="variable"><a href="../animations/animations.html#MovementAnimationMixin.alpha">alpha</a></dd>
+                <dd id="Baloon.last_x" class="variable"><a href="../animations/animations.html#MovementAnimationMixin.last_x">last_x</a></dd>
+                <dd id="Baloon.last_y" class="variable"><a href="../animations/animations.html#MovementAnimationMixin.last_y">last_y</a></dd>
+                <dd id="Baloon.is_parent_animated_before" class="variable"><a href="../animations/animations.html#MovementAnimationMixin.is_parent_animated_before">is_parent_animated_before</a></dd>
+                <dd id="Baloon.update_movement_animation" class="function"><a href="../animations/animations.html#MovementAnimationMixin.update_movement_animation">update_movement_animation</a></dd>
+                <dd id="Baloon.render_movement" class="function"><a href="../animations/animations.html#MovementAnimationMixin.render_movement">render_movement</a></dd>
+
+            </div>
+            <div><dt><a href="../animations/render.html#RenderMixin">flatland.animations.render.RenderMixin</a></dt>
+                                <dd id="Baloon.render" class="function"><a href="../animations/render.html#RenderMixin.render">render</a></dd>
+
+            </div>
+            <div><dt><a href="../interactions/evolution.html#DeathMixin">flatland.interactions.evolution.DeathMixin</a></dt>
+                                <dd id="Baloon.check_death" class="function"><a href="../interactions/evolution.html#DeathMixin.check_death">check_death</a></dd>
+
+            </div>
+            <div><dt><a href="../interactions/interactions.html#InteractionMixin">flatland.interactions.interactions.InteractionMixin</a></dt>
+                                <dd id="Baloon.reverse_direction" class="function"><a href="../interactions/interactions.html#InteractionMixin.reverse_direction">reverse_direction</a></dd>
 
             </div>
                                 </dl>
