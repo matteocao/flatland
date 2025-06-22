@@ -108,7 +108,7 @@ class GameObject:
             self.is_prepare_just_done = False
             self.logger.info(f"Update for {self.__class__.__name__}")
             self.volition.update()
-            self.scheduler.update()  # this runs all teh interaction callables
+            self.scheduler.update()  # this runs all the interaction callables
             # animation flags:
             if self.prev_x != self.x or self.prev_y != self.y:
                 self.is_pushing = False
