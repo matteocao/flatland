@@ -38,6 +38,7 @@ class MovementMixin:
 class SpeechMixin:
     volume: float
     balloon_rect: pygame.Rect
+    messages: list[str] = [""]
 
     def set_volume(self, player: "GameObject") -> None:
         self.volume = 1 / (1 + player.distance(self) ** 2)

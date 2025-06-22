@@ -549,6 +549,7 @@ class Goblin(
         self.num_animations_standing = 1
         self.inertia_threshold_to_hurt_upper = 2.0
         self.inertia_threshold_to_hurt_lower = -1.0
+        self.messages = ["Hello!!", "I am going\nto trick you!"]
 
         # Load sprites
         self.movement_sprites_locations = {
@@ -640,6 +641,7 @@ class Cow(
         self.z_level = 2.0
         self.sprite_size_x: int = 128
         self.sprite_size_y: int = 128
+        self.messages = ["Mooo"]
 
         # Load sprites
         self.movement_sprites_locations = {
