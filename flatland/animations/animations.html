@@ -315,10 +315,10 @@
 </span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a><span class="k">class</span><span class="w"> </span><span class="nc">MovementAnimationMixin</span><span class="p">:</span>
 </span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a><span class="sd">    This is a very complex function, as it has to work properly online and on single player.</span>
-</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a><span class="sd">    The logic is to get the least amount of items from teh server, that may make the animation lag.</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a><span class="sd">    The logic is to get the least amount of items from the server, that may make the animation lag.</span>
 </span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a><span class="sd">    The idea is to check if the last time this function was called, the target positions are the same or changed.</span>
 </span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a><span class="sd">    This is the reason for the variables `last_x, last_y` and `x, y`.</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a><span class="sd">    However, an additional complexity comes from all teh objects that should be bounded to stay attached to an object.</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a><span class="sd">    However, an additional complexity comes from all the objects that should be bounded to stay attached to an object.</span>
 </span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a><span class="sd">    Especially in multiplayer, we cannot rely on the server: hence, we propose here to overwrite the parameters of the</span>
 </span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a><span class="sd">    children with those of the parent.</span>
 </span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a><span class="sd">    A final complexity comes from the fact that the parent may have entered the movement mixin before or after the children,</span>
@@ -843,10 +843,10 @@ Protocol classes can be generic, they are defined as::</p>
             <div class="pdoc-code codehilite"><pre><span></span><span id="MovementAnimationMixin-47"><a href="#MovementAnimationMixin-47"><span class="linenos"> 47</span></a><span class="k">class</span><span class="w"> </span><span class="nc">MovementAnimationMixin</span><span class="p">:</span>
 </span><span id="MovementAnimationMixin-48"><a href="#MovementAnimationMixin-48"><span class="linenos"> 48</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="MovementAnimationMixin-49"><a href="#MovementAnimationMixin-49"><span class="linenos"> 49</span></a><span class="sd">    This is a very complex function, as it has to work properly online and on single player.</span>
-</span><span id="MovementAnimationMixin-50"><a href="#MovementAnimationMixin-50"><span class="linenos"> 50</span></a><span class="sd">    The logic is to get the least amount of items from teh server, that may make the animation lag.</span>
+</span><span id="MovementAnimationMixin-50"><a href="#MovementAnimationMixin-50"><span class="linenos"> 50</span></a><span class="sd">    The logic is to get the least amount of items from the server, that may make the animation lag.</span>
 </span><span id="MovementAnimationMixin-51"><a href="#MovementAnimationMixin-51"><span class="linenos"> 51</span></a><span class="sd">    The idea is to check if the last time this function was called, the target positions are the same or changed.</span>
 </span><span id="MovementAnimationMixin-52"><a href="#MovementAnimationMixin-52"><span class="linenos"> 52</span></a><span class="sd">    This is the reason for the variables `last_x, last_y` and `x, y`.</span>
-</span><span id="MovementAnimationMixin-53"><a href="#MovementAnimationMixin-53"><span class="linenos"> 53</span></a><span class="sd">    However, an additional complexity comes from all teh objects that should be bounded to stay attached to an object.</span>
+</span><span id="MovementAnimationMixin-53"><a href="#MovementAnimationMixin-53"><span class="linenos"> 53</span></a><span class="sd">    However, an additional complexity comes from all the objects that should be bounded to stay attached to an object.</span>
 </span><span id="MovementAnimationMixin-54"><a href="#MovementAnimationMixin-54"><span class="linenos"> 54</span></a><span class="sd">    Especially in multiplayer, we cannot rely on the server: hence, we propose here to overwrite the parameters of the</span>
 </span><span id="MovementAnimationMixin-55"><a href="#MovementAnimationMixin-55"><span class="linenos"> 55</span></a><span class="sd">    children with those of the parent.</span>
 </span><span id="MovementAnimationMixin-56"><a href="#MovementAnimationMixin-56"><span class="linenos"> 56</span></a><span class="sd">    A final complexity comes from the fact that the parent may have entered the movement mixin before or after the children,</span>
@@ -926,10 +926,10 @@ Protocol classes can be generic, they are defined as::</p>
 
 
             <div class="docstring"><p>This is a very complex function, as it has to work properly online and on single player.
-The logic is to get the least amount of items from teh server, that may make the animation lag.
+The logic is to get the least amount of items from the server, that may make the animation lag.
 The idea is to check if the last time this function was called, the target positions are the same or changed.
 This is the reason for the variables <code>last_x, last_y</code> and <code>x, y</code>.
-However, an additional complexity comes from all teh objects that should be bounded to stay attached to an object.
+However, an additional complexity comes from all the objects that should be bounded to stay attached to an object.
 Especially in multiplayer, we cannot rely on the server: hence, we propose here to overwrite the parameters of the
 children with those of the parent.
 A final complexity comes from the fact that the parent may have entered the movement mixin before or after the children,

@@ -342,12 +342,12 @@ The the evolutioners take care of evolving the system till a stable configuratio
 </span><span id="L-178"><a href="#L-178"><span class="linenos">178</span></a><span class="k">class</span><span class="w"> </span><span class="nc">ExtendedObjectMixin</span><span class="p">(</span><span class="n">InteractionMixin</span><span class="p">):</span>
 </span><span id="L-179"><a href="#L-179"><span class="linenos">179</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-180"><a href="#L-180"><span class="linenos">180</span></a><span class="sd">    This class is useful to handle extended objects. The `schema` describes which other game tiles are affected.</span>
-</span><span id="L-181"><a href="#L-181"><span class="linenos">181</span></a><span class="sd">    The schema is a dict, where teh key is the direction of teh object, and the value is the list of (dx, dy, True/False)</span>
-</span><span id="L-182"><a href="#L-182"><span class="linenos">182</span></a><span class="sd">    indicating the objects that are part of the extended object, starting from the main one and whether they are encumbrant or not.</span>
+</span><span id="L-181"><a href="#L-181"><span class="linenos">181</span></a><span class="sd">    The schema is a dict, where the key is the direction of the object, and the value is the list of (dx, dy, True/False)</span>
+</span><span id="L-182"><a href="#L-182"><span class="linenos">182</span></a><span class="sd">    indicating the objects that are part of the extended object, starting from the main one, and whether they are encumbrant or not.</span>
 </span><span id="L-183"><a href="#L-183"><span class="linenos">183</span></a><span class="sd">    The behaviour of the schema is:</span>
-</span><span id="L-184"><a href="#L-184"><span class="linenos">184</span></a><span class="sd">        - damaged and health are shared</span>
+</span><span id="L-184"><a href="#L-184"><span class="linenos">184</span></a><span class="sd">        - damage and health are shared</span>
 </span><span id="L-185"><a href="#L-185"><span class="linenos">185</span></a><span class="sd">        - encumbrance is shared</span>
-</span><span id="L-186"><a href="#L-186"><span class="linenos">186</span></a><span class="sd">        - the schema may vary according to directions</span>
+</span><span id="L-186"><a href="#L-186"><span class="linenos">186</span></a><span class="sd">        - the schema may vary according to direction</span>
 </span><span id="L-187"><a href="#L-187"><span class="linenos">187</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="L-188"><a href="#L-188"><span class="linenos">188</span></a>
 </span><span id="L-189"><a href="#L-189"><span class="linenos">189</span></a>    <span class="n">schema</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Direction</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]]]</span>
@@ -1128,12 +1128,12 @@ inheritance.</p>
             <div class="pdoc-code codehilite"><pre><span></span><span id="ExtendedObjectMixin-179"><a href="#ExtendedObjectMixin-179"><span class="linenos">179</span></a><span class="k">class</span><span class="w"> </span><span class="nc">ExtendedObjectMixin</span><span class="p">(</span><span class="n">InteractionMixin</span><span class="p">):</span>
 </span><span id="ExtendedObjectMixin-180"><a href="#ExtendedObjectMixin-180"><span class="linenos">180</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="ExtendedObjectMixin-181"><a href="#ExtendedObjectMixin-181"><span class="linenos">181</span></a><span class="sd">    This class is useful to handle extended objects. The `schema` describes which other game tiles are affected.</span>
-</span><span id="ExtendedObjectMixin-182"><a href="#ExtendedObjectMixin-182"><span class="linenos">182</span></a><span class="sd">    The schema is a dict, where teh key is the direction of teh object, and the value is the list of (dx, dy, True/False)</span>
-</span><span id="ExtendedObjectMixin-183"><a href="#ExtendedObjectMixin-183"><span class="linenos">183</span></a><span class="sd">    indicating the objects that are part of the extended object, starting from the main one and whether they are encumbrant or not.</span>
+</span><span id="ExtendedObjectMixin-182"><a href="#ExtendedObjectMixin-182"><span class="linenos">182</span></a><span class="sd">    The schema is a dict, where the key is the direction of the object, and the value is the list of (dx, dy, True/False)</span>
+</span><span id="ExtendedObjectMixin-183"><a href="#ExtendedObjectMixin-183"><span class="linenos">183</span></a><span class="sd">    indicating the objects that are part of the extended object, starting from the main one, and whether they are encumbrant or not.</span>
 </span><span id="ExtendedObjectMixin-184"><a href="#ExtendedObjectMixin-184"><span class="linenos">184</span></a><span class="sd">    The behaviour of the schema is:</span>
-</span><span id="ExtendedObjectMixin-185"><a href="#ExtendedObjectMixin-185"><span class="linenos">185</span></a><span class="sd">        - damaged and health are shared</span>
+</span><span id="ExtendedObjectMixin-185"><a href="#ExtendedObjectMixin-185"><span class="linenos">185</span></a><span class="sd">        - damage and health are shared</span>
 </span><span id="ExtendedObjectMixin-186"><a href="#ExtendedObjectMixin-186"><span class="linenos">186</span></a><span class="sd">        - encumbrance is shared</span>
-</span><span id="ExtendedObjectMixin-187"><a href="#ExtendedObjectMixin-187"><span class="linenos">187</span></a><span class="sd">        - the schema may vary according to directions</span>
+</span><span id="ExtendedObjectMixin-187"><a href="#ExtendedObjectMixin-187"><span class="linenos">187</span></a><span class="sd">        - the schema may vary according to direction</span>
 </span><span id="ExtendedObjectMixin-188"><a href="#ExtendedObjectMixin-188"><span class="linenos">188</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="ExtendedObjectMixin-189"><a href="#ExtendedObjectMixin-189"><span class="linenos">189</span></a>
 </span><span id="ExtendedObjectMixin-190"><a href="#ExtendedObjectMixin-190"><span class="linenos">190</span></a>    <span class="n">schema</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Direction</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]]]</span>
@@ -1160,12 +1160,12 @@ inheritance.</p>
 
 
             <div class="docstring"><p>This class is useful to handle extended objects. The <code><a href="#ExtendedObjectMixin.schema">schema</a></code> describes which other game tiles are affected.
-The schema is a dict, where teh key is the direction of teh object, and the value is the list of (dx, dy, True/False)
-indicating the objects that are part of the extended object, starting from the main one and whether they are encumbrant or not.
+The schema is a dict, where the key is the direction of the object, and the value is the list of (dx, dy, True/False)
+indicating the objects that are part of the extended object, starting from the main one, and whether they are encumbrant or not.
 The behaviour of the schema is:
-    - damaged and health are shared
+    - damage and health are shared
     - encumbrance is shared
-    - the schema may vary according to directions</p>
+    - the schema may vary according to direction</p>
 </div>
 
 
