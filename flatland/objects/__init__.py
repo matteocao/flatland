@@ -8,7 +8,7 @@ Extended objects need to have children objects that participate in sharing encum
 
 The best approach to learn is to try build new ones, register them to level_0 and test them.
 
-Reading how the exising objects are made is also extremely useful to avoid forgetting some interactions or
+Reading how the existing objects are made is also extremely useful to avoid forgetting some interactions or
 characteristics.
 """
 
