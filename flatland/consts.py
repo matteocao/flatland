@@ -1,5 +1,5 @@
 """
-This file contains the main game constans
+This file contains the main game constants
 """
 
 from dataclasses import dataclass
