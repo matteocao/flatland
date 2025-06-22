@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 
 def build_tile_map(tile_objects: list["Ground"], width: int, height: int) -> list[list["Ground"]]:
     """
-    Dynamically build a tile map by glueing together only tiles with mathcing interafaces
+    Dynamically build a tile map by gluing together only tiles with matching interfaces.
     """
     # tile_objects: list of Ground instances, each with .tile_name and .nswe_neigh
     tile_map: list[list["Ground"]] = [[None for _ in range(width)] for _ in range(height)]  # type: ignore

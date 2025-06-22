@@ -46,10 +46,10 @@ class HasMovementAttributes(Protocol):
 class MovementAnimationMixin:
     """
     This is a very complex function, as it has to work properly online and on single player.
-    The logic is to get the least amount of items from teh server, that may make the animation lag.
+    The logic is to get the least amount of items from the server, that may make the animation lag.
     The idea is to check if the last time this function was called, the target positions are the same or changed.
     This is the reason for the variables `last_x, last_y` and `x, y`.
-    However, an additional complexity comes from all teh objects that should be bounded to stay attached to an object.
+    However, an additional complexity comes from all the objects that should be bounded to stay attached to an object.
     Especially in multiplayer, we cannot rely on the server: hence, we propose here to overwrite the parameters of the
     children with those of the parent.
     A final complexity comes from the fact that the parent may have entered the movement mixin before or after the children,

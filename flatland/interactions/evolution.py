@@ -126,7 +126,7 @@ class DeathMixin(InteractionMixin):
         if hasattr(self, "health"):
             if self.health < 0.001:
                 self.logger.info(f"{self.__class__.__name__} and children die")
-                # for obj in self.children:  # this is implemeted by the ParentDeathIDie mixin
+                # for obj in self.children:  # this is implemented by the ParentDeathIDie mixin
                 #    game.current_level.schedule_to_unregister(obj)
                 game.current_level.schedule_to_unregister(self)
 
