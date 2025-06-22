@@ -180,7 +180,6 @@ class ExtendedObjectMixin(InteractionMixin):
     This class is useful to handle extended objects. The `schema` describes which other game tiles are affected.
     The schema is a dict, where the key is the direction of the object, and the value is the list of (dx, dy, True/False)
     indicating the objects that are part of the extended object, starting from the main one, and whether they are encumbrant or not.
-    
     The behaviour of the schema is:
         - damage and health are shared
         - encumbrance is shared
